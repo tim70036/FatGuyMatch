@@ -59,7 +59,7 @@ public class Server {
 				
 			} catch (IOException e) {e.printStackTrace();}
 		}
-		System.out.println("Server stops waiting for client.\nStarting game.");
+		System.out.println("Server stops waiting for client.");
 		
 		// Start GameThread
 		isRunning = true;
@@ -84,10 +84,12 @@ public class Server {
 		
 		public void run()
 		{
+			System.out.println("Server is starting game thread.");
 			while(isRunning)
 			{
 				
 			}
+			System.out.println("Server stops game thread");
 		}
 	}
 	
