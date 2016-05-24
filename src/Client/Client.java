@@ -25,6 +25,12 @@ public class Client extends PApplet{
 	private BufferedReader reader;
 	private ClientThread clientThread;
 	
+	public Client(String IP, int port)
+	{
+		this.IP = IP;
+		this.port = port;
+	}
+	
 	public void setup() {
 
 		size(width, height);
@@ -52,7 +58,8 @@ public class Client extends PApplet{
 		//else if(game play){....}
 		
 	}
-// ----------------------------------------------------------------------- //
+	
+// ------------------------NetWork Part ----------------------------------- //
 // ----------------------------------------------------------------------- //
 	public void sendMessage(String message)
 	{
@@ -87,25 +94,21 @@ public class Client extends PApplet{
 		{
 			while(true)
 			{
-				try {
+				try 
+				{
 					String command = reader.readLine();
 					
-					if(command.equals(?????))
+					if(command.equals("StartGame"))
 					{
 						
 					}
-					else if(command.equals(????))
+					else if(command.equals("MoveCharacter"))
 					{
 						
 					}
 					
 					
-					
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} catch (IOException e) {e.printStackTrace();}
 			}
 		}
 	}
