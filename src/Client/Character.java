@@ -2,35 +2,22 @@ package Client;
 
 import java.awt.image.BufferedImage;
 
-public class Character {
-	
-	private int x,y;
-	private int which_role;
+import Server.Type;
+import SuperClass.Entity;
+import SuperClass.Handler;
+import processing.core.PApplet;
 
-	public Character(int x,int y,int which_role){
-		this.setX(x);
-		this.setY(y);
-		this.setWhich_role(which_role);
-	}
+public class Character extends Entity{
 
-	public int getX() {
-		return x;
-	}
-	public void setX(int x) {
-		this.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
+	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler)
+	{
+		super(x, y, width, height, type, solid, handler);
 	}
 
-	public int getWhich_role() {
-		return which_role;
-	}
-
-	public void setWhich_role(int which_role) {
-		this.which_role = which_role;
+	public void display(PApplet parent) 
+	{
+		parent.fill(0);
+		parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
+		parent.fill(255);
 	}
 }

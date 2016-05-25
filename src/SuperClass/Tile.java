@@ -1,7 +1,9 @@
-package Server;
+package SuperClass;
 
-public class Entity {
-	
+import Server.Type;
+import processing.core.PApplet;
+
+public abstract class Tile {
 	private int x,y;
 	private int width, height;
 	private int velX, velY;
@@ -9,12 +11,20 @@ public class Entity {
 	private boolean solid;
 	private Handler handler;
 	
-	public Entity(int x, int y, int width, int height,Type type, boolean solid, Handler handler)
+	public Tile(int x, int y, int width, int height,Type type, boolean solid, Handler handler)
 	{
 		this.x = x; this.y = y; this.width = width; this.height = height;
 		this.type = type; this.solid = solid; this.handler = handler;
 	}
 	
+	public abstract void display(PApplet parent);
+	
+	//public abstract void update();
+	
+	public void die()
+	{
+		handler.removeTile(this);
+	}
 	
 	public int getX() {return x;}
 	public void setX(int x) {this.x = x;}

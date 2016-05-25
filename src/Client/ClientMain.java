@@ -9,7 +9,7 @@ public class ClientMain extends JFrame{
 	
 	public static void main(String [] args){
 		
-		Client applet = new Client("127.0.0.1", 6666);
+		Client applet = new Client("127.0.0.1", 6667);
 		applet.init();
 		applet.start();
 		applet.setFocusable(true);

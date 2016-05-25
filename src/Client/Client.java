@@ -9,12 +9,17 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-
+import Server.Character;
+import Server.Type;
+import SuperClass.Handler;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 public class Client extends PApplet{
 	
-	private ArrayList<Character> character = new ArrayList<Character>();
+	private boolean isRunning;
+	private boolean isWaiting;
+	private int playerNum;
+	private Handler characters;
 	private final static int width = 1200, height = 650;
 	
 	// Attributes for Network
@@ -29,6 +34,11 @@ public class Client extends PApplet{
 	{
 		this.IP = IP;
 		this.port = port;
+		this.isWaiting = true;
+		this.isRunning = false;
+		
+		playerNum = 0;
+		characters = new Handler();
 	}
 	
 	public void setup() {
@@ -47,16 +57,15 @@ public class Client extends PApplet{
 
 	
 	public void draw() {
-		/*if(game wait){
-		 *		
-		 *	if(choose character)....
-		 *
-		 *  if(ready to play){
-		 * 		loaddata();
-		 *  }
-		*/
-		//else if(game play){....}
-		
+		if(isWaiting)
+		{
+			this.background(0);
+		}
+		else if(isRunning)
+		{
+			this.background(255);
+			characters.display(this);
+		}
 	}
 	
 // ------------------------NetWork Part ----------------------------------- //
@@ -100,11 +109,24 @@ public class Client extends PApplet{
 					
 					if(command.equals("StartGame"))
 					{
-						
+						isRunning = true;
+						isWaiting = false;
 					}
 					else if(command.equals("MoveCharacter"))
 					{
 						
+					}
+					else if(command.equals("Init"))
+					{
+						command = reader.readLine();
+
+						if(command.equals("Characters"))
+						{
+							command = reader.readLine();
+							playerNum = Integer.parseInt(command);
+							for(int i=0 ; i < playerNum ; i++)
+								characters.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,characters));
+						}
 					}
 					
 					

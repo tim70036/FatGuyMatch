@@ -8,10 +8,14 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.*;
 
+import SuperClass.Handler;
+
 public class Server {
 	
-	ArrayList<Character> characters;//(依據playerID放入Character)
+	//ArrayList<Character> characters;//(依據playerID放入Character)
 	ArrayList<ServerThread> threadPool;//(存放ServerThread, broadCast時可用)
+	
+	Handler characters;
 	
 	// Game Part
 	GameThread gameThread;
@@ -24,8 +28,9 @@ public class Server {
 	
 	public Server(int port, int playerNum)
 	{
-		characters = new ArrayList<Character>();
+		//characters = new ArrayList<Character>();
 		threadPool = new ArrayList<ServerThread>();
+		characters = new Handler();
 		
 		try 
 		{
@@ -49,9 +54,9 @@ public class Server {
 			try 
 			{
 				Socket client = serverSocket.accept();
-				System.out.println("\nAccpet player " + threadPool.size()+1 + "\nFrom address: " + client.getInetAddress() + "\n");
+				System.out.println("\nAccpet player " + threadPool.size() + "\nFrom address: " + client.getInetAddress() + "\n");
 				
-				ServerThread connection = new ServerThread(client); // Make a ServerThread
+				ServerThread connection = new ServerThread(client, threadPool.size()); // Make a ServerThread
 				threadPool.add(connection); // Add into threadPool
 				
 				// Everyone is connected ?
@@ -61,10 +66,24 @@ public class Server {
 		}
 		System.out.println("Server stops waiting for client.");
 		
+		// Tell all Client to start
+		broadCast("StartGame"); 
+		
+		// Init Data
+		init();
+		
 		// Start GameThread
 		isRunning = true;
 		gameThread = new GameThread();
 		gameThread.start();
+	}
+	
+	public synchronized void init()
+	{
+		// Character
+		for(int i=0 ; i < playerNum ; i++)
+			characters.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,characters));
+		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 	}
 	
 	public synchronized void stop()
@@ -114,10 +133,11 @@ public class Server {
 		public void setSocket(Socket socket) {this.socket = socket;}
 		public void setPlayerID(int id) {this.playerID = id;}
 
-		public ServerThread(Socket client)
+		public ServerThread(Socket client, int ID)
 		{
 			try 
 			{
+				playerID = ID;
 				socket = client;
 				writer = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
 				reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
