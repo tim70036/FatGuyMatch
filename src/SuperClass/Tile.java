@@ -19,7 +19,7 @@ public abstract class Tile {
 	
 	public abstract void display(PApplet parent);
 	
-	//public abstract void update();
+	public abstract void update();
 	
 	public void die()
 	{

@@ -9,18 +9,20 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import Server.Character;
 import Server.Type;
+import SuperClass.Character;
+import SuperClass.Entity;
 import SuperClass.Handler;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 public class Client extends PApplet{
 	
+	public static int width , height;
+	
 	private boolean isRunning;
 	private boolean isWaiting;
 	private int playerNum;
 	private Handler characters;
-	private final static int width = 1200, height = 650;
 	
 	// Attributes for Network
 	private String IP;
@@ -30,10 +32,15 @@ public class Client extends PApplet{
 	private BufferedReader reader;
 	private ClientThread clientThread;
 	
-	public Client(String IP, int port)
+	public Client(String IP, int port, int width, int height)
 	{
 		this.IP = IP;
 		this.port = port;
+		Client.width = width;
+		Client.height = height;
+		System.out.println(Client.width);
+		System.out.println(Client.height);
+		
 		this.isWaiting = true;
 		this.isRunning = false;
 		
@@ -74,6 +81,7 @@ public class Client extends PApplet{
 	{
 		writer.println(message);
 		writer.flush();
+		System.out.println("Send message: " + message);
 	}
 	
 	public void connect()
@@ -112,9 +120,17 @@ public class Client extends PApplet{
 						isRunning = true;
 						isWaiting = false;
 					}
-					else if(command.equals("MoveCharacter"))
+					else if(command.equals("GameData"))
 					{
 						
+						// Character's Data
+						for(Entity ch : characters.getEntity())
+						{
+							String x = reader.readLine();
+							String y = reader.readLine();
+							ch.setX(Float.parseFloat(x));
+							ch.setY(Float.parseFloat(y));
+						}
 					}
 					else if(command.equals("Init"))
 					{
@@ -123,6 +139,7 @@ public class Client extends PApplet{
 						if(command.equals("Characters"))
 						{
 							command = reader.readLine();
+							
 							playerNum = Integer.parseInt(command);
 							for(int i=0 ; i < playerNum ; i++)
 								characters.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,characters));
@@ -134,4 +151,32 @@ public class Client extends PApplet{
 			}
 		}
 	}
+// ----------------------Key Input Part ----------------------------------- //
+// ----------------------------------------------------------------------- //
+    public void keyPressed() 
+	{
+    	if(key == 'w' || key == 'a' || key == 's' || key == 'd')
+    	{
+    		sendMessage("PlayerInput");
+    		sendMessage("Press");
+    	}
+    	if(key == 'w')	sendMessage("W");
+    	else if(key == 'a')	sendMessage("A");
+    	else if(key == 's')	sendMessage("S");
+    	else if(key == 'd')	sendMessage("D");
+	}
+    
+    public void keyReleased()
+    {
+    	if(key == 'w' || key == 'a' || key == 's' || key == 'd')
+    	{
+    		sendMessage("PlayerInput");
+    		sendMessage("Release");
+    	}
+    	
+    	if(key == 'w')	sendMessage("W");
+    	else if(key == 'a')	sendMessage("A");
+    	else if(key == 's')	sendMessage("S");
+    	else if(key == 'd')	sendMessage("D");
+    }
 }

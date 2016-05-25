@@ -24,7 +24,10 @@ public class Handler {
 	
 	public void update()
 	{
-		
+		for(Entity en : entity)
+			en.update();
+		for(Tile t : tile)
+			t.update();
 	}
 	
 	public void addEntity(Entity en)	{	entity.add(en); }

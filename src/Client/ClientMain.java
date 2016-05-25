@@ -5,11 +5,12 @@ import javax.swing.JFrame;
 public class ClientMain extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	private final static int windowWidth = 1200, windowHeight = 670;
+	// 14 : 10
+	public final static int windowWidth = 1000, windowHeight = windowWidth/14*10; 
 	
 	public static void main(String [] args){
 		
-		Client applet = new Client("127.0.0.1", 6667);
+		Client applet = new Client("127.0.0.1", 6667, windowWidth, windowHeight);
 		applet.init();
 		applet.start();
 		applet.setFocusable(true);

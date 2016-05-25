@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.*;
 
+import SuperClass.Character;
+import SuperClass.Entity;
 import SuperClass.Handler;
 
 public class Server {
@@ -57,6 +59,7 @@ public class Server {
 				System.out.println("\nAccpet player " + threadPool.size() + "\nFrom address: " + client.getInetAddress() + "\n");
 				
 				ServerThread connection = new ServerThread(client, threadPool.size()); // Make a ServerThread
+				connection.start(); // Start it
 				threadPool.add(connection); // Add into threadPool
 				
 				// Everyone is connected ?
@@ -104,14 +107,39 @@ public class Server {
 		public void run()
 		{
 			System.out.println("Server is starting game thread.");
+			
+			// Sever too overload ?? Need FPS 60 ???? 
+			//long lastTime = System.nanoTime();
+			
 			while(isRunning)
 			{
-				
+				update();
+				sendData();
 			}
+			
+			
 			System.out.println("Server stops game thread");
 		}
 	}
 	
+	public void update()
+	{
+		characters.update();
+	}
+	
+	public void sendData()
+	{
+		broadCast("GameData");
+		
+		// Character's Data
+		for(Entity ch : characters.getEntity())
+		{
+			String x = Float.toString(ch.getX());
+			String y = Float.toString(ch.getY());
+			broadCast(x);
+			broadCast(y);
+		}
+	}
 // -------------------------NetWork Part ---------------------------------- //
 // ----------------------------------------------------------------------- //
 
@@ -151,6 +179,10 @@ public class Server {
 				try 
 				{
 					String command = reader.readLine();
+					System.out.println("\nFrom client " + playerID);
+					System.out.println(command);
+					
+					
 					
 					if(command.equals("Connect"))
 					{
@@ -158,7 +190,38 @@ public class Server {
 					}
 					else if(command.equals("PlayerInput"))
 					{
+						command = reader.readLine();
+						System.out.println(command);
 						
+						if(command.equals("Press"))
+						{
+							command = reader.readLine();
+							System.out.println(command);
+							
+							if(command.equals("W"))
+								characters.getEntity().get(playerID).setVelY(-0.1f);
+							else if(command.equals("A"))
+								characters.getEntity().get(playerID).setVelX(-0.1f);
+							else if(command.equals("S"))
+								characters.getEntity().get(playerID).setVelY(0.1f);
+							else if(command.equals("D"))
+								characters.getEntity().get(playerID).setVelX(0.1f);
+							
+						}
+						else if(command.equals("Release"))
+						{
+							command = reader.readLine();
+							System.out.println(command);
+							
+							if(command.equals("W"))
+								characters.getEntity().get(playerID).setVelY(0);
+							else if(command.equals("A"))
+								characters.getEntity().get(playerID).setVelX(0);
+							else if(command.equals("S"))
+								characters.getEntity().get(playerID).setVelY(0);
+							else if(command.equals("D"))
+								characters.getEntity().get(playerID).setVelX(0);
+						}
 					}
 					
 				} catch (IOException e) {e.printStackTrace();}
