@@ -1,6 +1,7 @@
 package SuperClass;
 
-import Server.Type;
+import java.awt.Rectangle;
+
 import processing.core.PApplet;
 
 public abstract class Tile {
@@ -24,6 +25,12 @@ public abstract class Tile {
 	public void die()
 	{
 		handler.removeTile(this);
+	}
+	
+	// For Collision Detection
+	public Rectangle getBound()
+	{
+		return new Rectangle((int)x , (int)y , width , height);
 	}
 	
 	public int getX() {return x;}

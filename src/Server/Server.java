@@ -11,17 +11,20 @@ import java.util.*;
 import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.Handler;
+import SuperClass.Type;
+import SuperClass.Wall;
 
 public class Server {
 	
-	//ArrayList<Character> characters;
+	//ArrayList<Character> handler;
 	ArrayList<ServerThread> threadPool;// Store the connection to all Client
 	
-	Handler characters;
+	Handler handler;
 	
 	// Game Part
 	GameThread gameThread;
 	public boolean isRunning = false;
+	public int wallNum;
 	
 	// Network Part
 	public int port;
@@ -30,9 +33,9 @@ public class Server {
 	
 	public Server(int port, int playerNum)
 	{
-		//characters = new ArrayList<Character>();
+		//handler = new ArrayList<Character>();
 		threadPool = new ArrayList<ServerThread>();
-		characters = new Handler();
+		handler = new Handler();
 		
 		try 
 		{
@@ -81,12 +84,18 @@ public class Server {
 		gameThread.start();
 	}
 	
-	public synchronized void init()
+	public synchronized void init() // Init all object , and tell Clients to init the same thing
 	{
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
-			characters.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,characters));
+			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
+		
+		// Tile
+		wallNum = 1;
+		for(int i=0 ; i < wallNum ; i++)
+			handler.addTile(new Wall(500,300,100,100,Type.WALL,true,handler));
+		broadCast("Init");	broadCast("Wall");	broadCast(Integer.toString(playerNum));
 	}
 	
 	public synchronized void stop()
@@ -124,7 +133,7 @@ public class Server {
 	
 	public void update()
 	{
-		characters.update();
+		handler.update();
 	}
 	
 	public void sendData()
@@ -132,7 +141,7 @@ public class Server {
 		broadCast("GameData");
 		
 		// Character's Data
-		for(Entity ch : characters.getEntity())
+		for(Entity ch : handler.getEntity())
 		{
 			String x = Float.toString(ch.getX());
 			String y = Float.toString(ch.getY());
@@ -199,13 +208,13 @@ public class Server {
 							System.out.println(command);
 							
 							if(command.equals("W"))
-								characters.getEntity().get(playerID).setVelY(-0.1f);
+								handler.getEntity().get(playerID).setVelY(-0.1f);
 							else if(command.equals("A"))
-								characters.getEntity().get(playerID).setVelX(-0.1f);
+								handler.getEntity().get(playerID).setVelX(-0.1f);
 							else if(command.equals("S"))
-								characters.getEntity().get(playerID).setVelY(0.1f);
+								handler.getEntity().get(playerID).setVelY(0.1f);
 							else if(command.equals("D"))
-								characters.getEntity().get(playerID).setVelX(0.1f);
+								handler.getEntity().get(playerID).setVelX(0.1f);
 							
 						}
 						else if(command.equals("Release"))
@@ -214,13 +223,13 @@ public class Server {
 							System.out.println(command);
 							
 							if(command.equals("W"))
-								characters.getEntity().get(playerID).setVelY(0);
+								handler.getEntity().get(playerID).setVelY(0);
 							else if(command.equals("A"))
-								characters.getEntity().get(playerID).setVelX(0);
+								handler.getEntity().get(playerID).setVelX(0);
 							else if(command.equals("S"))
-								characters.getEntity().get(playerID).setVelY(0);
+								handler.getEntity().get(playerID).setVelY(0);
 							else if(command.equals("D"))
-								characters.getEntity().get(playerID).setVelX(0);
+								handler.getEntity().get(playerID).setVelX(0);
 						}
 					}
 					

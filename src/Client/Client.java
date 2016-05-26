@@ -9,10 +9,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import Server.Type;
 import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.Handler;
+import SuperClass.Type;
+import SuperClass.Wall;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 public class Client extends PApplet{
@@ -22,7 +23,8 @@ public class Client extends PApplet{
 	private boolean isRunning;
 	private boolean isWaiting;
 	private int playerNum;
-	private Handler characters;
+	private int wallNum;
+	private Handler handler;
 	
 	// Attributes for Network
 	private String IP;
@@ -45,7 +47,7 @@ public class Client extends PApplet{
 		this.isRunning = false;
 		
 		playerNum = 0;
-		characters = new Handler();
+		handler = new Handler();
 	}
 	
 	public void setup() {
@@ -71,7 +73,7 @@ public class Client extends PApplet{
 		else if(isRunning)
 		{
 			this.background(255);
-			characters.display(this);
+			handler.display(this);
 		}
 	}
 	
@@ -124,7 +126,7 @@ public class Client extends PApplet{
 					{
 						
 						// Character's Data
-						for(Entity ch : characters.getEntity())
+						for(Entity ch : handler.getEntity())
 						{
 							String x = reader.readLine();
 							String y = reader.readLine();
@@ -142,7 +144,15 @@ public class Client extends PApplet{
 							
 							playerNum = Integer.parseInt(command);
 							for(int i=0 ; i < playerNum ; i++)
-								characters.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,characters));
+								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
+						}
+						else if(command.equals("Wall"))
+						{
+							command = reader.readLine();
+							
+							wallNum = Integer.parseInt(command);
+							for(int i=0 ; i < wallNum ; i++)
+								handler.addTile(new Wall(500,300,100,100,Type.WALL,true,handler));
 						}
 					}
 					

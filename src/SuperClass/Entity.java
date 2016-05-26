@@ -1,6 +1,7 @@
 package SuperClass;
 
-import Server.Type;
+import java.awt.Rectangle;
+
 import processing.core.PApplet;
 
 public abstract class Entity {
@@ -26,6 +27,33 @@ public abstract class Entity {
 	{
 		handler.removeEntity(this);
 	}
+	
+	// For Collision Detection
+	public Rectangle getBound()
+	{
+		return new Rectangle((int)x , (int)y , width , height);
+	}
+	
+	public Rectangle getBoundTop()
+	{
+		return new Rectangle((int)x + 10 , (int)y , width - 20 , 5);
+	}
+	
+	public Rectangle getBoundBottom()
+	{
+		return new Rectangle((int)x + 10 , (int)y + height - 5 , width - 20 , 5);
+	}
+	
+	public Rectangle getBoundLeft()
+	{
+		return new Rectangle((int)x , (int)y + 10, 5 , height - 20);
+	}
+	
+	public Rectangle getBoundRight()
+	{
+		return new Rectangle((int)x + width - 5 , (int)y + 10, 5 , height - 20);
+	}
+	
 	
 	public float getX() {return x;}
 	public void setX(float x) {this.x = x;}
