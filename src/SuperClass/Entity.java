@@ -10,7 +10,11 @@ public abstract class Entity {
 	private float velX, velY;
 	private Type type;
 	private boolean solid;
+	public boolean jumping = false;
+	public boolean falling = true;
 	private Handler handler;
+	
+	public double gravity = 0.0;
 	
 	public Entity(int x, int y, int width, int height,Type type, boolean solid, Handler handler)
 	{

@@ -198,12 +198,18 @@ public class Server {
 							command = reader.readLine();
 							System.out.println(command);
 							
-							if(command.equals("W"))
-								characters.getEntity().get(playerID).setVelY(-0.1f);
-							else if(command.equals("A"))
+							if(command.equals("W")){
+								//characters.getEntity().get(playerID).setVelY(-0.1f);
+							    if(!characters.getEntity().get(playerID).jumping){
+									characters.getEntity().get(playerID).jumping = true;
+									characters.getEntity().get(playerID).falling = false;
+									characters.getEntity().get(playerID).gravity = 5.0;
+								}
+							}
+								else if(command.equals("A"))
 								characters.getEntity().get(playerID).setVelX(-0.1f);
-							else if(command.equals("S"))
-								characters.getEntity().get(playerID).setVelY(0.1f);
+							/*else if(command.equals("S"))
+								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							else if(command.equals("D"))
 								characters.getEntity().get(playerID).setVelX(0.1f);
 							
@@ -213,12 +219,13 @@ public class Server {
 							command = reader.readLine();
 							System.out.println(command);
 							
-							if(command.equals("W"))
+							/*if(command.equals("W"))
 								characters.getEntity().get(playerID).setVelY(0);
-							else if(command.equals("A"))
+							else*/
+							if(command.equals("A"))
 								characters.getEntity().get(playerID).setVelX(0);
-							else if(command.equals("S"))
-								characters.getEntity().get(playerID).setVelY(0);
+							/*else if(command.equals("S"))
+								characters.getEntity().get(playerID).setVelY(0);*/
 							else if(command.equals("D"))
 								characters.getEntity().get(playerID).setVelX(0);
 						}
