@@ -3,7 +3,8 @@ package SuperClass;
 import Client.*;
 import processing.core.PApplet;
 
-public class Character extends Entity{
+public class Character extends Entity
+{
 
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler)
 	{
@@ -13,7 +14,7 @@ public class Character extends Entity{
 	public void display(PApplet parent) 
 	{
 		parent.fill(0);
-		parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight(),80);
+		parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
 		parent.fill(255);
 	}
 
@@ -23,10 +24,23 @@ public class Character extends Entity{
 		setY(getY() + getVelY());
 		
 		if(getX() <= 0)	setX(0);
-		if(getY() <= 0)	setY(0);
+		if(getY() <= 0)	
+		{
+			setY(0);
+		    if(falling) falling = false;
+		}
 		if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(ClientMain.windowWidth - getWidth());
-		if(getY() + getHeight() >= ClientMain.windowHeight)	setY(ClientMain.windowHeight - getHeight());
+		if(getY() + getHeight() >= ClientMain.windowHeight)
+		{
+			if(jumping)
+			{
+				jumping = false;
+				gravity = 0.0;
+				falling = true;
+			}
+		}
 		
+
 		// Collision Detection
 		for(Tile t : this.getHandler().getTile())
 		{
@@ -37,18 +51,38 @@ public class Character extends Entity{
 				if(this.getBoundTop().intersects(t.getBound())) // Character's top collide
 				{
 					this.setVelY(0);
-					this.setY(t.getY() + t.getHeight()); // Right on the bottom of t
+					/*this.setY(t.getY() + t.getHeight()); // Right on the bottom of t*/
+					if(jumping)
+					{
+						jumping = false;
+						gravity = 0.0;
+						falling = true;
+					}
 				}
+				
 				if(this.getBoundBottom().intersects(t.getBound())) // Character's bottom collide
 				{
 					this.setVelY(0);
-					this.setY(t.getY() - this.getHeight()); // Right On the top of t
+					if(falling) 
+						falling = false;
+					
+					/*this.setY(t.getY() - this.getHeight()); // Right On the top of t*/
 				}
+//				else // Fall down if get out of platform ---> Bottom not collide
+//				{
+//				    if(!falling && !jumping) 
+//					{
+//						gravity = 0.0;
+//						falling = true;
+//					}
+//				}
+				
 				if(this.getBoundLeft().intersects(t.getBound())) // Character's left collide
 				{
 					this.setVelX(0);
 					this.setX(t.getX() + t.getWidth()); // Right on the right of t
 				}
+				
 				if(this.getBoundRight().intersects(t.getBound())) // Character's right collide
 				{
 					this.setVelX(0);
@@ -56,6 +90,22 @@ public class Character extends Entity{
 				}
 			}
 		}
-	}
 
+		// Jumping Falling
+		if(jumping)
+		{
+			gravity-=0.02;
+			setVelY((float)-gravity);
+			if(gravity<=0.0)
+			{
+				jumping = false;
+				falling = true;
+			}
+		}
+		if(falling)
+		{
+			gravity+=0.001;
+			setVelY((float)gravity);			
+		}
+	}
 }

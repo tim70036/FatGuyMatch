@@ -118,10 +118,18 @@ public class Server {
 			System.out.println("Server is starting game thread.");
 			
 			// Sever too overload ?? Need FPS 60 ???? 
-			//long lastTime = System.nanoTime();
-			
+			long lastTime = System.nanoTime();
+			double delta = 0.0;
+			double ns = 1000000000.0/60.0;
 			while(isRunning)
 			{
+				long nowTime = System.nanoTime();
+				delta += (nowTime - lastTime) / ns;
+				lastTime = nowTime;
+				while(delta >= 1)
+				{
+					delta--;
+				}
 				update();
 				sendData();
 			}
@@ -208,11 +216,19 @@ public class Server {
 							System.out.println(command);
 							
 							if(command.equals("W"))
-								handler.getEntity().get(playerID).setVelY(-0.1f);
+							{
+								//characters.getEntity().get(playerID).setVelY(-0.1f);
+							    if(!handler.getEntity().get(playerID).jumping)
+							    {
+									handler.getEntity().get(playerID).jumping = true;
+									handler.getEntity().get(playerID).falling = false;
+									handler.getEntity().get(playerID).gravity = 3.5;
+								}
+							}
 							else if(command.equals("A"))
 								handler.getEntity().get(playerID).setVelX(-0.1f);
-							else if(command.equals("S"))
-								handler.getEntity().get(playerID).setVelY(0.1f);
+							/*else if(command.equals("S"))
+								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							else if(command.equals("D"))
 								handler.getEntity().get(playerID).setVelX(0.1f);
 							
@@ -222,12 +238,13 @@ public class Server {
 							command = reader.readLine();
 							System.out.println(command);
 							
-							if(command.equals("W"))
-								handler.getEntity().get(playerID).setVelY(0);
-							else if(command.equals("A"))
+							/*if(command.equals("W"))
+								characters.getEntity().get(playerID).setVelY(0);
+							else*/
+							if(command.equals("A"))
 								handler.getEntity().get(playerID).setVelX(0);
-							else if(command.equals("S"))
-								handler.getEntity().get(playerID).setVelY(0);
+							/*else if(command.equals("S"))
+								characters.getEntity().get(playerID).setVelY(0);*/
 							else if(command.equals("D"))
 								handler.getEntity().get(playerID).setVelX(0);
 						}

@@ -2,6 +2,7 @@ package SuperClass;
 
 import java.util.ArrayList;
 
+import Client.ClientMain;
 import processing.core.PApplet;
 
 public class Handler {
@@ -12,6 +13,12 @@ public class Handler {
 	{
 		entity = new ArrayList<Entity>();
 		tile = new ArrayList<Tile>();
+		
+		// Create floor 
+		for(int i=0 ; i < ClientMain.windowWidth/64 + 1 ; i++)
+		{
+			this.addTile(new Wall(i*64, ClientMain.windowHeight-64,64,64,Type.WALL,true,this));
+		}
 	}
 	
 	public void display(PApplet parent)
