@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class ClientMain extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	// 14 : 10
+	// Screen ----> 14 : 10
 	public final static int windowWidth = 1000, windowHeight = windowWidth/14*10; 
 	
 	public static void main(String [] args){

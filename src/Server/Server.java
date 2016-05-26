@@ -14,8 +14,8 @@ import SuperClass.Handler;
 
 public class Server {
 	
-	//ArrayList<Character> characters;//(依據playerID放入Character)
-	ArrayList<ServerThread> threadPool;//(存放ServerThread, broadCast時可用)
+	//ArrayList<Character> characters;
+	ArrayList<ServerThread> threadPool;// Store the connection to all Client
 	
 	Handler characters;
 	
@@ -102,7 +102,7 @@ public class Server {
 // -------------------------Game Thread ----------------------------------- //
 // ----------------------------------------------------------------------- //
 	
-	class GameThread extends Thread{ // 遊戲運行的Thread
+	class GameThread extends Thread{ // The Main Game Thread
 		
 		public void run()
 		{
@@ -149,7 +149,7 @@ public class Server {
 			i.sendMessage(message);
 	}
 	
-	class ServerThread extends Thread{  // 處理跟各個Client的訊息溝通
+	class ServerThread extends Thread{  // Deal with the message from Client
 		
 		private Socket socket;
 		private PrintWriter writer;
@@ -172,7 +172,7 @@ public class Server {
 			} catch (IOException e) {e.printStackTrace();}
 		}
 		
-		public void run() // 持續接收來自client的訊息,  並根據訊息做該做的動作
+		public void run() // Receiving Message from Client , player input
 		{
 			while(true) // isRunning?
 			{
@@ -228,7 +228,7 @@ public class Server {
 			}
 		}
 		
-		public void sendMessage(String message) // 送訊息給Client
+		public void sendMessage(String message) // Send Message to Client
 		{
 			writer.println(message);
 			writer.flush();

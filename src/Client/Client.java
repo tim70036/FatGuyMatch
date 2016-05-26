@@ -105,7 +105,7 @@ public class Client extends PApplet{
 	
 // ----------------------------------------------------------------------- //
 // ----------------------------------------------------------------------- //
-	class ClientThread extends Thread //持續接收來自server的訊息,根據訊息更新gui
+	class ClientThread extends Thread //Receiving Message from Server
 	{
 		public void run()
 		{
