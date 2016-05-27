@@ -55,6 +55,8 @@ public class Client extends PApplet{
 		size(width, height);
 		smooth();
 		Ani.init(this);
+		// Fps 120 is good , 60 is too low
+		this.frameRate(120);
 		
 		// Connect to Server
 		this.connect();
@@ -152,7 +154,7 @@ public class Client extends PApplet{
 							
 							wallNum = Integer.parseInt(command);
 							for(int i=0 ; i < wallNum ; i++)
-								handler.addTile(new Wall(500,300,100,100,Type.WALL,true,handler));
+								handler.addTile(new Wall(500,300,500,50,Type.WALL,true,handler));
 						}
 					}
 					

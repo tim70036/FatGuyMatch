@@ -26,18 +26,19 @@ public class Character extends Entity
 		if(getX() <= 0)	setX(0);
 		if(getY() <= 0)	
 		{
-			setY(0);
-		    if(falling) falling = false;
+			if(jumping)
+			{
+				jumping = false;
+				setVelY(0);
+				gravity = 0.0;
+				falling = true;
+			}
 		}
 		if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(ClientMain.windowWidth - getWidth());
 		if(getY() + getHeight() >= ClientMain.windowHeight)
 		{
-			if(jumping)
-			{
-				jumping = false;
-				gravity = 0.0;
-				falling = true;
-			}
+			setY(0);
+		    if(falling) falling = false;
 		}
 		
 
@@ -55,6 +56,7 @@ public class Character extends Entity
 					if(jumping)
 					{
 						jumping = false;
+						setVelY(0);
 						gravity = 0.0;
 						falling = true;
 					}
@@ -66,16 +68,16 @@ public class Character extends Entity
 					if(falling) 
 						falling = false;
 					
-					/*this.setY(t.getY() - this.getHeight()); // Right On the top of t*/
+					this.setY(t.getY() - this.getHeight()); // Right On the top of t*/
 				}
-//				else // Fall down if get out of platform ---> Bottom not collide
-//				{
-//				    if(!falling && !jumping) 
-//					{
-//						gravity = 0.0;
-//						falling = true;
-//					}
-//				}
+				else // Fall down if get out of platform ---> Bottom not collide
+				{
+				    if(!falling && !jumping) 
+					{
+						gravity = 0.0;
+						falling = true;
+					}
+				}
 				
 				if(this.getBoundLeft().intersects(t.getBound())) // Character's left collide
 				{
@@ -94,7 +96,7 @@ public class Character extends Entity
 		// Jumping Falling
 		if(jumping)
 		{
-			gravity-=0.02;
+			gravity-=0.00003;
 			setVelY((float)-gravity);
 			if(gravity<=0.0)
 			{
@@ -104,7 +106,7 @@ public class Character extends Entity
 		}
 		if(falling)
 		{
-			gravity+=0.001;
+			gravity+=0.00015;
 			setVelY((float)gravity);			
 		}
 	}

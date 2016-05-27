@@ -30,7 +30,7 @@ public abstract class Tile {
 	// For Collision Detection
 	public Rectangle getBound()
 	{
-		return new Rectangle((int)x , (int)y , width , height);
+		return new Rectangle((int)x , (int)y, width, height);
 	}
 	
 	public int getX() {return x;}

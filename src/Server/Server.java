@@ -94,8 +94,8 @@ public class Server {
 		// Tile
 		wallNum = 1;
 		for(int i=0 ; i < wallNum ; i++)
-			handler.addTile(new Wall(500,300,100,100,Type.WALL,true,handler));
-		broadCast("Init");	broadCast("Wall");	broadCast(Integer.toString(playerNum));
+			handler.addTile(new Wall(500,300,500,50,Type.WALL,true,handler));
+		broadCast("Init");	broadCast("Wall");	broadCast(Integer.toString(wallNum));
 	}
 	
 	public synchronized void stop()
@@ -117,10 +117,10 @@ public class Server {
 		{
 			System.out.println("Server is starting game thread.");
 			
-			// Sever too overload ?? Need FPS 60 ???? 
+			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 1000000000.0/60.0;
+			double ns = 1000000000.0/120.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
@@ -222,7 +222,7 @@ public class Server {
 							    {
 									handler.getEntity().get(playerID).jumping = true;
 									handler.getEntity().get(playerID).falling = false;
-									handler.getEntity().get(playerID).gravity = 3.5;
+									handler.getEntity().get(playerID).gravity = 0.15;
 								}
 							}
 							else if(command.equals("A"))
