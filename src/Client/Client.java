@@ -69,7 +69,7 @@ public class Client extends PApplet{
 		smooth();
 		Ani.init(this);
 		// Fps 120 is good , 60 is too low
-		this.frameRate(120);
+		this.frameRate(60);
 		
 		// Connect to Server
 		this.connect();

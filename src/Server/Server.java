@@ -123,7 +123,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 1000000000.0/120.0;
+			double ns = 1000000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
