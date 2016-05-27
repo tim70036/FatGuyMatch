@@ -74,7 +74,7 @@ public class Server {
 		
 		// Tell all Client to start
 		broadCast("StartGame"); 
-		setAllID();
+		
 		// Init Data
 		init();
 		
@@ -86,6 +86,9 @@ public class Server {
 	
 	public synchronized void init() // Init all object , and tell Clients to init the same thing
 	{
+		// Id
+		setAllID();
+		
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
 			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
@@ -205,7 +208,6 @@ public class Server {
 					String command = reader.readLine();
 					System.out.println("\nFrom client " + playerID);
 					System.out.println(command);
-					
 					
 					
 					if(command.equals("Connect"))

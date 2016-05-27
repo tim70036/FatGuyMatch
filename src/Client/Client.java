@@ -35,8 +35,10 @@ public class Client extends PApplet{
 	private PrintWriter writer;
 	private BufferedReader reader;
 	private ClientThread clientThread;
+	
 	/// cam
 	public static Camera cam;
+	
 	/// pic data
 	public static Picture player;
 	
@@ -46,8 +48,6 @@ public class Client extends PApplet{
 		this.port = port;
 		Client.width = width;
 		Client.height = height;
-		System.out.println(Client.width);
-		System.out.println(Client.height);
 		
 		this.isWaiting = true;
 		this.isRunning = false;
@@ -61,8 +61,8 @@ public class Client extends PApplet{
 	public void setup() {
 		
 		// init picture
-		player = new Picture(loadImage("../src/pic/fat.png"));
-		player.reSize(100, 100);
+		player = new Picture(loadImage("fat.png"));
+		player.reSize(100, 100);// Change be careful server init
 
 		
 		size(width, height);
@@ -110,7 +110,7 @@ public class Client extends PApplet{
 	{
 		writer.println(message);
 		writer.flush();
-		System.out.println("Send message: " + message);
+		//System.out.println("Send message: " + message);
 	}
 	
 	public void connect()
@@ -149,6 +149,8 @@ public class Client extends PApplet{
 					{
 						isRunning = true;
 						isWaiting = false;
+						
+						// Client ID
 						command  = reader.readLine();
 						ID = Integer.parseInt(command);
 					}
