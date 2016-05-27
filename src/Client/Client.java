@@ -61,7 +61,7 @@ public class Client extends PApplet{
 	public void setup() {
 		
 		// init picture
-		player = new Picture(loadImage("fat.png"));
+		player = new Picture(loadImage("match.png"));
 		player.reSize(100, 100);// Change be careful server init
 
 		
