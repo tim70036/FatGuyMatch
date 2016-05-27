@@ -35,8 +35,10 @@ public class Client extends PApplet{
 	private PrintWriter writer;
 	private BufferedReader reader;
 	private ClientThread clientThread;
-	
+	/// cam
 	public static Camera cam;
+	/// pic data
+	public static Picture player;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -57,7 +59,12 @@ public class Client extends PApplet{
 	}
 	
 	public void setup() {
+		
+		// init picture
+		player = new Picture(loadImage("../src/pic/fat.png"));
+		player.reSize(100, 100);
 
+		
 		size(width, height);
 		smooth();
 		Ani.init(this);
