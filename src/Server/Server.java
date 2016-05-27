@@ -74,7 +74,7 @@ public class Server {
 		
 		// Tell all Client to start
 		broadCast("StartGame"); 
-		
+		setAllID();
 		// Init Data
 		init();
 		
@@ -165,7 +165,14 @@ public class Server {
 		for(ServerThread i : threadPool)
 			i.sendMessage(message);
 	}
-	
+	public void setAllID()
+	{
+		int ID = 0;
+		for(ServerThread i : threadPool){
+			i.sendMessage(Integer.toString(ID));
+			ID++;
+		}
+	}
 	class ServerThread extends Thread{  // Deal with the message from Client
 		
 		private Socket socket;

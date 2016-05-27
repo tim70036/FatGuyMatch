@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+
 import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.Handler;
@@ -27,12 +28,15 @@ public class Client extends PApplet{
 	private Handler handler;
 	
 	// Attributes for Network
+	public int ID;
 	private String IP;
 	private int port;
 	private Socket socket;
 	private PrintWriter writer;
 	private BufferedReader reader;
 	private ClientThread clientThread;
+	
+	public static Camera cam;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -48,6 +52,8 @@ public class Client extends PApplet{
 		
 		playerNum = 0;
 		handler = new Handler();
+
+		cam = new Camera();
 	}
 	
 	public void setup() {
@@ -68,6 +74,9 @@ public class Client extends PApplet{
 
 	
 	public void draw() {
+		
+		this.translate(cam.getX(), cam.getY());
+		
 		if(isWaiting)
 		{
 			this.background(0);
@@ -76,6 +85,15 @@ public class Client extends PApplet{
 		{
 			this.background(255);
 			handler.display(this);
+			int tag=0;
+			
+			for(Entity en:handler.getEntity()){
+				if(en.getType() == Type.CHARACTER){
+					
+					cam.tick(en);
+					if(tag==ID)break;tag++;
+				}
+			}
 		}
 	}
 	
@@ -111,6 +129,7 @@ public class Client extends PApplet{
 // ----------------------------------------------------------------------- //
 	class ClientThread extends Thread //Receiving Message from Server
 	{
+
 		public void run()
 		{
 			while(true)
@@ -123,6 +142,8 @@ public class Client extends PApplet{
 					{
 						isRunning = true;
 						isWaiting = false;
+						command  = reader.readLine();
+						ID = Integer.parseInt(command);
 					}
 					else if(command.equals("GameData"))
 					{
@@ -192,3 +213,7 @@ public class Client extends PApplet{
     	else if(key == 'd')	sendMessage("D");
     }
 }
+
+
+//------------------------------------------
+
