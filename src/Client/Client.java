@@ -40,6 +40,7 @@ public class Client extends PApplet{
 	public static Camera cam;
 	
 	/// pic data
+	public static PictureSheet sheet;
 	public static Picture player;
 	
 	public Client(String IP, int port, int width, int height)
@@ -61,9 +62,11 @@ public class Client extends PApplet{
 	public void setup() {
 		
 		// init picture
-		player = new Picture(loadImage("match.png"));
-		player.reSize(100, 100);// Change be careful server init
-
+		//player = new Picture(loadImage("match.png"));
+		//player.reSize(100, 100);// Change be careful server init
+		sheet = new PictureSheet(loadImage("test.png"));
+		player = new Picture(sheet,0,0);
+		player.reSize(100, 100);
 		
 		size(width, height);
 		smooth();
@@ -82,7 +85,9 @@ public class Client extends PApplet{
 	
 	public void draw() {
 		
+		
 		this.translate(cam.getX(), cam.getY());
+		//this.scale((float)2.0);
 		
 		if(isWaiting)
 		{
