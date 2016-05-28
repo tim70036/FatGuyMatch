@@ -1,4 +1,5 @@
 package Client;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 
 import SuperClass.Character;
 import SuperClass.Entity;
@@ -17,6 +19,7 @@ import SuperClass.Type;
 import SuperClass.Wall;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import processing.core.PImage;
 public class Client extends PApplet{
 	
 	public static int width , height;
@@ -38,6 +41,9 @@ public class Client extends PApplet{
 	
 	/// cam
 	public static Camera cam;
+	
+	// Level
+	public BufferedImage levelImage;
 	
 	/// pic data
 	public static PictureSheet sheet;
@@ -64,9 +70,22 @@ public class Client extends PApplet{
 		// init picture
 		//player = new Picture(loadImage("match.png"));
 		//player.reSize(100, 100);// Change be careful server init
+		
+		//	Sprite
 		sheet = new PictureSheet(loadImage("test.png"));
+		
+		// Player
 		player = new Picture(sheet,0,0);
 		player.reSize(100, 100);
+		
+		// Level
+		try 
+		{
+			levelImage = ImageIO.read(getClass().getResource("level.png"));
+			handler.createLevel(levelImage);
+		} catch (IOException e) {}
+		
+		
 		
 		size(width, height);
 		smooth();

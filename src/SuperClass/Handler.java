@@ -1,9 +1,11 @@
 package SuperClass;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import Client.ClientMain;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Handler {
 	private ArrayList<Entity>	entity;
@@ -15,10 +17,7 @@ public class Handler {
 		tile = new ArrayList<Tile>();
 		
 		// Create floor 
-		for(int i=0 ; i < ClientMain.windowWidth/64 + 100 ; i++)
-		{
-			this.addTile(new Wall(i*64, ClientMain.windowHeight-64,64,64,Type.WALL,true,this));
-		}
+		//createLevel();
 	}
 	
 	public void display(PApplet parent)
@@ -35,6 +34,28 @@ public class Handler {
 			en.update();
 		for(Tile t : tile)
 			t.update();
+	}
+	
+	public void createLevel(BufferedImage level)
+	{
+		
+		int width = level.getWidth();
+		int height = level.getHeight();
+		
+		for(int y = 0 ; y < width ; y++)
+		{
+			for(int x = 0 ; x < height ; x++)
+			{
+				int pixel = level.getRGB(x, y);
+				
+				int red = (pixel >> 16) & 0xff;
+				int green = (pixel >> 8) & 0xff;
+				int blue = (pixel ) & 0xff;
+				
+				if(red == 0 && green == 0 && blue == 0)
+					addTile(new Wall(x*64, y*64, 64, 64, Type.WALL, true , this));
+			}
+		}
 	}
 	
 	public void addEntity(Entity en)	{	entity.add(en); }

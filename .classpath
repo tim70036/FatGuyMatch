@@ -2,14 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/Ani.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/controlP5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/core.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/jl1.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/jsminim.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/minim.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/mp3spi1.9.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="C:/Users/stitch/Desktop/software final project/lib/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/Ani.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/controlP5.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/core.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/jsminim.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/minim.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/mp3spi1.9.5.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="/Users/lazy_shout/Documents/Java/FatGuyMatch/lib/tritonus_share.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
