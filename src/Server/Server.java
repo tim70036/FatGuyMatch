@@ -132,10 +132,10 @@ public class Server {
 				while(delta >= 1)
 				{
 					delta--;
-					update();
+					update();sendData();
 				}
 				
-				sendData();
+				
 			}
 			
 			

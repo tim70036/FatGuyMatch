@@ -15,7 +15,7 @@ public class Handler {
 		tile = new ArrayList<Tile>();
 		
 		// Create floor 
-		for(int i=0 ; i < ClientMain.windowWidth/64 + 1 ; i++)
+		for(int i=0 ; i < ClientMain.windowWidth/64 + 100 ; i++)
 		{
 			this.addTile(new Wall(i*64, ClientMain.windowHeight-64,64,64,Type.WALL,true,this));
 		}

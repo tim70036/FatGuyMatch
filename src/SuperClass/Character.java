@@ -35,7 +35,7 @@ public class Character extends Entity
 				falling = true;
 			}
 		}
-		if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(ClientMain.windowWidth - getWidth());
+		if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(getX() + getVelX());
 		if(getY() + getHeight() >= ClientMain.windowHeight)
 		{
 			setY(0);

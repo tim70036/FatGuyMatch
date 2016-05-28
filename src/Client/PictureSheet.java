@@ -14,6 +14,6 @@ public class PictureSheet {
 	}
 	
 	public PImage getPicture(int x,int y){
-		return img.get(x*32,y*32 , 32, 32);
+		return img.get(x*64,y*64 , 64, 64);
 	}
 }
