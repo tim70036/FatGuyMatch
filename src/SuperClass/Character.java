@@ -97,7 +97,7 @@ public class Character extends Entity
 		// Jumping Falling
 		if(jumping)
 		{
-			gravity-=0.00003;
+			gravity-=0.00002;
 			setVelY((float)-gravity);
 			if(gravity<=0.0)
 			{
