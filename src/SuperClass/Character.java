@@ -5,16 +5,19 @@ import processing.core.PApplet;
 
 public class Character extends Entity
 {
-
+	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler)
 	{
 		super(x, y, width, height, type, solid, handler);
+		frame = 0;
+		delay = 0;
+		frameNum = 4-1;
 	}
 
 	public void display(PApplet parent) 
 	{
 		parent.fill(0);
-		parent.image(Client.player.getImage(), this.getX(), this.getY());
+		parent.image(Client.player[frame].getImage(), this.getX(), this.getY());
 		//parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
 		parent.fill(255);
 	}
@@ -110,5 +113,20 @@ public class Character extends Entity
 			gravity+=0.00015;
 			setVelY((float)gravity);			
 		}
+		
+		///------animate--------------
+		if(move==true){
+			delay++;
+			if(delay>2000){
+				if(frame==frameNum)frame=0;
+				else frame++;
+				delay = 0;
+			}
+		}
+		else{
+			delay = 0;
+			frame = 0;
+		}
+		//////
 	}
 }

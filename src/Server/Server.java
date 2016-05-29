@@ -145,9 +145,9 @@ public class Server {
 				{
 					delta--;
 					update();
-					
+					sendData();
 				}
-				sendData();
+				
 			}
 			
 			
@@ -169,8 +169,10 @@ public class Server {
 		{
 			String x = Float.toString(ch.getX());
 			String y = Float.toString(ch.getY());
+			String frame = Integer.toString(ch.getFrame());
 			broadCast(x);
 			broadCast(y);
+			broadCast(frame);
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //
@@ -247,13 +249,16 @@ public class Server {
 									handler.getEntity().get(playerID).gravity = 0.10;
 								}
 							}
-							else if(command.equals("A"))
+							else if(command.equals("A")){
 								handler.getEntity().get(playerID).setVelX(-0.05f);
+								handler.getEntity().get(playerID).move = true;
+							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
-							else if(command.equals("D"))
+							else if(command.equals("D")){
 								handler.getEntity().get(playerID).setVelX(0.05f);
-							
+								handler.getEntity().get(playerID).move = true;
+							}
 						}
 						else if(command.equals("Release"))
 						{
@@ -263,12 +268,16 @@ public class Server {
 							/*if(command.equals("W"))
 								characters.getEntity().get(playerID).setVelY(0);
 							else*/
-							if(command.equals("A"))
+							if(command.equals("A")){
 								handler.getEntity().get(playerID).setVelX(0);
+								handler.getEntity().get(playerID).move = false;
+							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0);*/
-							else if(command.equals("D"))
+							else if(command.equals("D")){
 								handler.getEntity().get(playerID).setVelX(0);
+								handler.getEntity().get(playerID).move = false;
+								}
 						}
 					}
 					

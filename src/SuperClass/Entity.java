@@ -16,11 +16,16 @@ public abstract class Entity {
 	private Handler handler;
 	
 	public double gravity = 0.0;
+	//animate
+	public int frame,delay,frameNum;
+	public boolean move;
+	
 	
 	public Entity(int x, int y, int width, int height,Type type, boolean solid, Handler handler)
 	{
 		this.x = x; this.y = y; this.width = width; this.height = height;
 		this.type = type; this.solid = solid; this.handler = handler;
+		frame = 0; delay = 0; move = false;
 	}
 	
 	public abstract void display(PApplet parent);
@@ -77,4 +82,6 @@ public abstract class Entity {
 	public void setSolid(boolean solid) {this.solid = solid;}
 	public Handler getHandler() {return handler;}
 	public void setHandler(Handler handler) {this.handler = handler;}
+	public int getFrame(){ return this.frame;}
+	public void setFrame(int frame){ this.frame = frame;}
 }

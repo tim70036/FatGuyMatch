@@ -48,7 +48,7 @@ public class Client extends PApplet{
 	
 	/// pic data
 	public static PictureSheet sheet;
-	public static Picture player;
+	public static Picture player[];
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -76,8 +76,11 @@ public class Client extends PApplet{
 		sheet = new PictureSheet(loadImage("test.png"));
 		
 		// Player
-		player = new Picture(sheet,0,0);
-		player.reSize(100, 100);
+		player = new Picture[4];
+		for(int tmp=0;tmp<4;tmp++){
+			player[tmp] = new Picture(sheet,tmp,0);
+			player[tmp].reSize(100, 100);
+		}
 		
 		// Level,map floor  picture should be 16*16 32*32....
 		try 
@@ -187,8 +190,10 @@ public class Client extends PApplet{
 						{
 							String x = reader.readLine();
 							String y = reader.readLine();
+							String frame = reader.readLine();
 							ch.setX(Float.parseFloat(x));
 							ch.setY(Float.parseFloat(y));
+							ch.setFrame(Integer.parseInt(frame));
 						}
 					}
 					else if(command.equals("Init"))
