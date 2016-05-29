@@ -1,6 +1,7 @@
 package Client;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -78,10 +79,10 @@ public class Client extends PApplet{
 		player = new Picture(sheet,0,0);
 		player.reSize(100, 100);
 		
-		// Level
+		// Level,map floor  picture should be 16*16 32*32....
 		try 
 		{
-			levelImage = ImageIO.read(getClass().getResource("level.png"));
+			levelImage = ImageIO.read(new File("level.png"));
 			handler.createLevel(levelImage);
 		} catch (IOException e) {}
 		

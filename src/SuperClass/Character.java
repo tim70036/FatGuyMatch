@@ -35,12 +35,12 @@ public class Character extends Entity
 				falling = true;
 			}
 		}
-		if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(getX() + getVelX());
+		/*if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(getX() + getVelX());
 		if(getY() + getHeight() >= ClientMain.windowHeight)
 		{
 			setY(0);
 		    if(falling) falling = false;
-		}
+		}*/
 		
 
 		// Collision Detection

@@ -1,12 +1,15 @@
 package Server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.*;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 
 import SuperClass.Character;
 import SuperClass.Entity;
@@ -94,11 +97,20 @@ public class Server {
 			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 		
-		// Tile
+		
+		// Tile  /// need or not?
 		wallNum = 1;
 		for(int i=0 ; i < wallNum ; i++)
 			handler.addTile(new Wall(500,300,500,50,Type.WALL,true,handler));
 		broadCast("Init");	broadCast("Wall");	broadCast(Integer.toString(wallNum));
+		//////////////
+		
+		
+		//init map,floor.   picture should be 16*16 32*32....
+		try 
+		{
+			handler.createLevel(ImageIO.read(new File("level.png")));
+		} catch (IOException e) {}
 	}
 	
 	public synchronized void stop()
@@ -123,7 +135,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 4000000.0/60.0;
+			double ns = 6000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
@@ -132,10 +144,10 @@ public class Server {
 				while(delta >= 1)
 				{
 					delta--;
-					update();sendData();
+					update();
+					
 				}
-				
-				
+				sendData();
 			}
 			
 			
