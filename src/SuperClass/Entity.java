@@ -19,13 +19,16 @@ public abstract class Entity {
 	//animate
 	public int frame,delay,frameNum;
 	public boolean move;
+	public int face;
 	
+	public int life;
 	
 	public Entity(int x, int y, int width, int height,Type type, boolean solid, Handler handler)
 	{
 		this.x = x; this.y = y; this.width = width; this.height = height;
 		this.type = type; this.solid = solid; this.handler = handler;
-		frame = 0; delay = 0; move = false;
+		frame = 0; delay = 0; move = false; face = 0;
+		life = 500;
 	}
 	
 	public abstract void display(PApplet parent);

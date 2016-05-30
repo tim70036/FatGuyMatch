@@ -11,7 +11,7 @@ public class Character extends Entity
 		super(x, y, width, height, type, solid, handler);
 		frame = 0;
 		delay = 0;
-		frameNum = 4-1;
+		frameNum = 5-1;
 	}
 
 	public void display(PApplet parent) 
@@ -118,8 +118,15 @@ public class Character extends Entity
 		if(move==true){
 			delay++;
 			if(delay>2000){
-				if(frame==frameNum)frame=0;
-				else frame++;
+				if(face==0){
+					if(frame==frameNum||frame>=5)frame=0;
+					else if(frame>=5)frame=0;
+					else frame++;
+				}
+				else if(face==1){
+					if(frame==frameNum+5||frame<5)frame=5;
+					else frame++;
+				}
 				delay = 0;
 			}
 		}

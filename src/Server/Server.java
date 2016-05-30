@@ -145,9 +145,8 @@ public class Server {
 				{
 					delta--;
 					update();
-					sendData();
 				}
-				
+				sendData();			
 			}
 			
 			
@@ -173,6 +172,7 @@ public class Server {
 			broadCast(x);
 			broadCast(y);
 			broadCast(frame);
+			
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //
@@ -252,12 +252,14 @@ public class Server {
 							else if(command.equals("A")){
 								handler.getEntity().get(playerID).setVelX(-0.05f);
 								handler.getEntity().get(playerID).move = true;
+								handler.getEntity().get(playerID).face = 1;
 							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							else if(command.equals("D")){
 								handler.getEntity().get(playerID).setVelX(0.05f);
 								handler.getEntity().get(playerID).move = true;
+								handler.getEntity().get(playerID).face = 0;
 							}
 						}
 						else if(command.equals("Release"))
