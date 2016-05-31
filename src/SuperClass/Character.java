@@ -16,10 +16,16 @@ public class Character extends Entity
 
 	public void display(PApplet parent) 
 	{
+		//draw character
 		parent.fill(0);
 		parent.image(Client.player[frame].getImage(), this.getX(), this.getY());
-		//parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		parent.fill(255);
+		
+		//draw life bar
+		parent.fill(123,15,3);
+		parent.rect(this.getX(),this.getY()-20,this.getWidth(),10);
+		parent.fill(13,155,23);
+		parent.rect(this.getX(),this.getY()-20,this.getWidth()-(life*this.getWidth()/500),10);
+	
 	}
 
 	public void update() 
