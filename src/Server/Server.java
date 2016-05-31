@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.Handler;
+import SuperClass.Skill;
 import SuperClass.Type;
 import SuperClass.Wall;
 import SuperClass.FireSkill;
@@ -109,7 +110,6 @@ public class Server {
 		for(int i=0 ; i < wallNum ; i++)
 			handler.addTile(new Wall(500,300,500,50,Type.WALL,true,handler));
 		broadCast("Init");	broadCast("Wall");	broadCast(Integer.toString(wallNum));
-		//////////////
 		
 		
 		//init map,floor.   picture should be 16*16 32*32....
@@ -180,6 +180,15 @@ public class Server {
 			broadCast(y);
 			broadCast(frame);
 			
+		}
+		
+		// Skill Data
+		for(Skill s : handler.getSkill())
+		{
+			String x = Float.toString(s.getX());
+			String y = Float.toString(s.getY());
+			broadCast(x);
+			broadCast(y);
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //
@@ -256,24 +265,39 @@ public class Server {
 									handler.getEntity().get(playerID).gravity = 0.10;
 								}
 							}
-							if(command.equals("A")){
+							if(command.equals("A"))
+							{
 								handler.getEntity().get(playerID).setVelX(-0.05f);
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 1;
 							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
-							if(command.equals("D")){
+							if(command.equals("D"))
+							{
 								handler.getEntity().get(playerID).setVelX(0.05f);
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 0;
 							}
-							if(command.equals("C")){
-								command = reader.readLine();
-								if(handler.getEntity().get(playerID+playerNum).move == false){
-									handler.getEntity().get(playerID+playerNum).setX(handler.getEntity().get(playerID).getX());
-									handler.getEntity().get(playerID+playerNum).setY(handler.getEntity().get(playerID).getY());
-									handler.getEntity().get(playerID+playerNum).move = true ;////8789798
+							if(command.equals("C"))
+							{
+								// Find an unused FireSkill
+								FireSkill fire = null;
+								for(Skill s : handler.getSkill())
+								{
+									if(s.getType() == Type.FIRESKILL && s.used == false)
+									{
+										fire = (FireSkill) s;
+										break;
+									}
+								}
+								
+								// Launch fire
+								if(fire != null)
+								{
+									fire.setX(handler.getEntity().get(playerID).getX());
+									fire.setY(handler.getEntity().get(playerID).getY());;
+									fire.used = true;
 								}
 							}
 							else;

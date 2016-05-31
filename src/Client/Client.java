@@ -17,6 +17,7 @@ import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.FireSkill;
 import SuperClass.Handler;
+import SuperClass.Skill;
 import SuperClass.Type;
 import SuperClass.Wall;
 import de.looksgood.ani.Ani;
@@ -74,7 +75,7 @@ public class Client extends PApplet{
 		//player.reSize(100, 100);// Change be careful server init
 		
 		//	Sprite
-		sheet = new PictureSheet(loadImage("test.png"));
+		sheet = new PictureSheet(loadImage("match.png"));
 		
 		// Player
 		player = new Picture[10];
@@ -124,7 +125,6 @@ public class Client extends PApplet{
 			handler.display(this);
 			
 			int tag=0;
-			
 			for(Entity en:handler.getEntity()){
 				if(en.getType() == Type.CHARACTER){
 					
@@ -198,6 +198,15 @@ public class Client extends PApplet{
 							ch.setY(Float.parseFloat(y));
 							ch.setFrame(Integer.parseInt(frame));
 						}
+						
+						// Skill Data
+						for(Skill s : handler.getSkill())
+						{
+							String x = reader.readLine();
+							String y = reader.readLine();
+							s.setX(Float.parseFloat(x));
+							s.setY(Float.parseFloat(y));
+						}
 					}
 					else if(command.equals("Init"))
 					{
@@ -245,10 +254,7 @@ public class Client extends PApplet{
     	else if(key == 'a')	sendMessage("A");
     	else if(key == 's')	sendMessage("S");
     	else if(key == 'd')	sendMessage("D");
-    	else if(key == 'c') {
-    		sendMessage("C");
-    		sendMessage(Integer.toString(ID));
-    	}
+    	else if(key == 'c') sendMessage("C");
 	}
     
     public void keyReleased()

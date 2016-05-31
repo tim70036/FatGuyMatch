@@ -56,7 +56,7 @@ public class Handler {
 				int blue = (pixel ) & 0xff;
 				
 				if(red == 0 && green == 0 && blue == 0)
-					addTile(new Wall(x*64, y*64, 64, 64, Type.WALL, true , this));
+					addTile(new Wall(x*32, y*32, 32, 32, Type.WALL, true , this));
 			}
 		}
 	}
