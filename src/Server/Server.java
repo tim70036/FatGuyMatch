@@ -125,7 +125,7 @@ public class Server {
 		// Lazer Skill
 		lazerSkillNum = 50;
 		for(int i=0 ; i<lazerSkillNum ; i++)
-			handler.addSkill(new LazerSkill(100,0,50,50,Type.LAZERSKILL, true, handler));
+			handler.addSkill(new LazerSkill(3000,3000,50,50,Type.LAZERSKILL, true, handler));
 		broadCast("Init");	broadCast("LazerSkill"); broadCast(Integer.toString(lazerSkillNum));
 	}
 	

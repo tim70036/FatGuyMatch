@@ -248,7 +248,7 @@ public class Client extends PApplet{
 							
 							lazerSkillNum = Integer.parseInt(command);
 							for(int i=0 ; i<lazerSkillNum ; i++)
-								handler.addSkill(new LazerSkill(100,0,50,50,Type.LAZERSKILL, true, handler));
+								handler.addSkill(new LazerSkill(3000,3000,50,50,Type.LAZERSKILL, true, handler));
 						}
 					}
 					
