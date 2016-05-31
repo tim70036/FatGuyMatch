@@ -107,9 +107,9 @@ public class Character extends Entity
 		// Jumping Falling
 		if(jumping)
 		{
-			gravity-=0.00002;
+			gravity-=0.0002;
 			setVelY((float)-gravity);
-			if(gravity<=0.0)
+			if(gravity<=0.94)
 			{
 				jumping = false;
 				falling = true;
@@ -117,14 +117,14 @@ public class Character extends Entity
 		}
 		if(falling)
 		{
-			gravity+=0.00015;
+			gravity+=0.0015;
 			setVelY((float)gravity);			
 		}
 		
 		///------animate--------------
 		if(move==true){
 			delay++;
-			if(delay>2000){
+			if(delay>20){
 				if(face==0){
 					if(frame==frameNum||frame>=5)frame=0;
 					else if(frame>=5)frame=0;
