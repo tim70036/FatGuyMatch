@@ -13,11 +13,8 @@ public class FireSkill extends Skill{
 	@Override
 	public void display(PApplet parent) {
 		// TODO Auto-generated method stub
-		if(used == true)
-		{
-			parent.fill(12,63,45);
-			parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		}
+		parent.fill(12,63,45);
+		parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
 		
 	}
 
@@ -45,9 +42,8 @@ public class FireSkill extends Skill{
 		else
 		{
 			setVelX(0);
-			setVelY(0);
-			setX(100);
-			setY(0);
+			//setX();
+			//setY();
 		}
 		
 	}

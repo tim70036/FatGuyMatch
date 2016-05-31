@@ -17,9 +17,7 @@ import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.FireSkill;
 import SuperClass.Handler;
-import SuperClass.LazerSkill;
 import SuperClass.Skill;
-import SuperClass.Tower;
 import SuperClass.Type;
 import SuperClass.Wall;
 import de.looksgood.ani.Ani;
@@ -53,10 +51,6 @@ public class Client extends PApplet{
 	/// pic data
 	public static PictureSheet sheet;
 	public static Picture player[];
-	
-	// SKill
-	private int fireSkillNum;
-	private int lazerSkillNum;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -210,10 +204,8 @@ public class Client extends PApplet{
 						{
 							String x = reader.readLine();
 							String y = reader.readLine();
-							String used = reader.readLine();
 							s.setX(Float.parseFloat(x));
 							s.setY(Float.parseFloat(y));
-							s.used = (used.equals("True")) ? true : false;
 						}
 					}
 					else if(command.equals("Init"))
@@ -228,25 +220,19 @@ public class Client extends PApplet{
 							for(int i=0 ; i < playerNum ; i++)
 								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
 						}
-						else if(command.equals("FireSkill"))
-						{
+						else if(command.equals("FireSkill")){
 							command = reader.readLine();
-							
-							fireSkillNum = Integer.parseInt(command);
-							for(int i=0 ; i < fireSkillNum ; i++)
+							for(int i=0 ; i < 20 ; i++)
 								handler.addSkill(new FireSkill(0,0,50,50,Type.FIRESKILL,true,handler));
 						}
-						else if(command.equals("Tower"))
-						{
-							handler.addEntity(new Tower(500 ,500,100,100, Type.TOWER, true, handler));
-						}
-						else if(command.equals("LazerSkill"))
+						
+						else if(command.equals("Wall"))
 						{
 							command = reader.readLine();
 							
-							lazerSkillNum = Integer.parseInt(command);
-							for(int i=0 ; i<lazerSkillNum ; i++)
-								handler.addSkill(new LazerSkill(100,0,50,50,Type.LAZERSKILL, true, handler));
+							wallNum = Integer.parseInt(command);
+							for(int i=0 ; i < wallNum ; i++)
+								handler.addTile(new Wall(500,300,500,50,Type.WALL,true,handler));
 						}
 					}
 					
