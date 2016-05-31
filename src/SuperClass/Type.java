@@ -1,5 +1,5 @@
 package SuperClass;
 
 public enum Type {
-	CHARACTER, WALL , FIRESKILL
+	CHARACTER, WALL , FIRESKILL, LAZERSKILL
 }

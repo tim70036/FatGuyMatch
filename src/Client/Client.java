@@ -213,8 +213,8 @@ public class Client extends PApplet{
 						}
 						else if(command.equals("FireSkill")){
 							command = reader.readLine();
-							for(int i=0 ; i < 3 ; i++)
-								handler.addEntity(new FireSkill(0,0,50,50,Type.FIRESKILL,true,handler));
+							for(int i=0 ; i < 20 ; i++)
+								handler.addSkill(new FireSkill(0,0,50,50,Type.FIRESKILL,true,handler));
 						}
 						
 						else if(command.equals("Wall"))

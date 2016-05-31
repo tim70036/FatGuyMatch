@@ -3,7 +3,7 @@ package SuperClass;
 import Client.Client;
 import processing.core.PApplet;
 
-public class FireSkill extends Entity{
+public class FireSkill extends Skill{
 
 	public FireSkill(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
@@ -20,9 +20,10 @@ public class FireSkill extends Entity{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		
-		if(move==true){////fire or not
+		//Being used, fire or not
+		if(used == true)
+		{
 			delay++;
 			if(delay>500){
 				frame++;
@@ -33,10 +34,16 @@ public class FireSkill extends Entity{
 					frame=0;
 					setX(100);
 					setY(0);
-					move = false;
+					used = false;
 				}
 			}
-			else setVelX(0);
+		}
+		// Skill done, back to origin x , y
+		else
+		{
+			setVelX(0);
+			//setX();
+			//setY();
 		}
 		
 	}

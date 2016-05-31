@@ -100,8 +100,8 @@ public class Server {
 		
 		
 		///SKILL BALL
-		for(int i=0 ; i < 3 ; i++)
-			handler.addEntity(new FireSkill(100,0,50,50,Type.FIRESKILL,true,handler));
+		for(int i=0 ; i < 20 ; i++)
+			handler.addSkill(new FireSkill(100,0,50,50,Type.FIRESKILL,true,handler));
 		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(playerNum));
 		
 		// Tile  /// need or not?

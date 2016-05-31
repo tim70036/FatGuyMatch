@@ -16,10 +16,7 @@ public class Character extends Entity
 
 	public void display(PApplet parent) 
 	{
-		parent.fill(0);
 		parent.image(Client.player[frame].getImage(), this.getX(), this.getY());
-		//parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		parent.fill(255);
 	}
 
 	public void update() 
