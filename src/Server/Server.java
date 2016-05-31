@@ -270,10 +270,10 @@ public class Server {
 							}
 							if(command.equals("C")){
 								command = reader.readLine();
-								if(handler.getEntity().get(1).move == false){
-									handler.getEntity().get(1).setX(handler.getEntity().get(playerID).getX());
-									handler.getEntity().get(1).setY(handler.getEntity().get(playerID).getY());
-									handler.getEntity().get(1).move = true ;////8789798
+								if(handler.getEntity().get(playerID+playerNum).move == false){
+									handler.getEntity().get(playerID+playerNum).setX(handler.getEntity().get(playerID).getX());
+									handler.getEntity().get(playerID+playerNum).setY(handler.getEntity().get(playerID).getY());
+									handler.getEntity().get(playerID+playerNum).move = true ;////8789798
 								}
 							}
 							else;
