@@ -19,7 +19,8 @@ public class Tower extends Entity {
 		parent.fill(192,192,192);
 		parent.rect(getX(), getY(), getWidth(), getHeight());
 	}
-
+	
+	
 	public void update() 
 	{
 		// Character Detection
