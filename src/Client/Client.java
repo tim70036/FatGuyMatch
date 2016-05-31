@@ -200,9 +200,11 @@ public class Client extends PApplet{
 							String x = reader.readLine();
 							String y = reader.readLine();
 							String frame = reader.readLine();
+							String life = reader.readLine();
 							ch.setX(Float.parseFloat(x));
 							ch.setY(Float.parseFloat(y));
 							ch.setFrame(Integer.parseInt(frame));
+							ch.life = Integer.parseInt(life);
 						}
 						
 						// Skill Data
@@ -226,7 +228,7 @@ public class Client extends PApplet{
 							
 							playerNum = Integer.parseInt(command);
 							for(int i=0 ; i < playerNum ; i++)
-								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
+								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
 						}
 						else if(command.equals("FireSkill"))
 						{

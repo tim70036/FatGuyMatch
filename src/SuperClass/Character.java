@@ -6,12 +6,15 @@ import processing.core.PApplet;
 public class Character extends Entity
 {
 	
-	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler)
+	public int playerID;
+	
+	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
 	{
 		super(x, y, width, height, type, solid, handler);
 		frame = 0;
 		delay = 0;
 		frameNum = 5-1;
+		playerID = ID;
 	}
 
 	public void display(PApplet parent) 
@@ -100,6 +103,19 @@ public class Character extends Entity
 				{
 					this.setVelX(0);
 					this.setX(t.getX() - this.getWidth()); // Right on the left of t
+				}
+			}
+		}
+		
+		// Skill
+		for(Skill s : this.getHandler().getSkill())
+		{
+			if(s.getType() == Type.FIRESKILL && s.playerID != this.playerID)
+			{
+				if(this.getBound().intersects(s.getBound()))
+				{
+					s.used = false;
+					this.life -= 100;
 				}
 			}
 		}

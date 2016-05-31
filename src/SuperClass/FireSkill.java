@@ -4,7 +4,8 @@ import Client.Client;
 import processing.core.PApplet;
 
 public class FireSkill extends Skill{
-
+	
+	
 	public FireSkill(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
 		// TODO Auto-generated constructor stub
@@ -44,6 +45,7 @@ public class FireSkill extends Skill{
 		// Skill done, back to origin x , y
 		else
 		{
+			playerID = -1;
 			setVelX(0);
 			setVelY(0);
 			setX(100);

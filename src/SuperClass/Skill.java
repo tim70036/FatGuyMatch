@@ -15,6 +15,8 @@ public abstract class Skill {
 	public boolean falling = true;
 	private Handler handler;
 	
+	public int playerID = -1;
+	
 	public double gravity = 0.0;
 	
 	//animate

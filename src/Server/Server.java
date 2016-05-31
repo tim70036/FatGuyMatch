@@ -102,7 +102,7 @@ public class Server {
 		
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
-			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
+			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 		
 		
@@ -186,9 +186,11 @@ public class Server {
 			String x = Float.toString(ch.getX());
 			String y = Float.toString(ch.getY());
 			String frame = Integer.toString(ch.getFrame());
+			String life = Integer.toString(ch.life);
 			broadCast(x);
 			broadCast(y);
 			broadCast(frame);
+			broadCast(life);
 			
 		}
 		
@@ -308,7 +310,8 @@ public class Server {
 								if(fire != null)
 								{
 									fire.setX(handler.getEntity().get(playerID).getX());
-									fire.setY(handler.getEntity().get(playerID).getY());;
+									fire.setY(handler.getEntity().get(playerID).getY());
+									fire.playerID  = playerID;
 									fire.used = true;
 								}
 							}
