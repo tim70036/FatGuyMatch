@@ -14,7 +14,9 @@ import javax.imageio.ImageIO;
 import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.Handler;
+import SuperClass.LazerSkill;
 import SuperClass.Skill;
+import SuperClass.Tower;
 import SuperClass.Type;
 import SuperClass.Wall;
 import SuperClass.FireSkill;
@@ -35,6 +37,10 @@ public class Server {
 	public int port;
 	public int playerNum;
 	ServerSocket serverSocket;
+	
+	// Skill
+	public int fireSkillNum;
+	public int lazerSkillNum;
 	
 	public Server(int port, int playerNum)
 	{
@@ -101,22 +107,26 @@ public class Server {
 		
 		
 		///SKILL BALL
-		for(int i=0 ; i < 20 ; i++)
+		fireSkillNum = 50;
+		for(int i=0 ; i < fireSkillNum ; i++)
 			handler.addSkill(new FireSkill(100,0,50,50,Type.FIRESKILL,true,handler));
-		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(playerNum));
-		
-		// Tile  /// need or not?
-		wallNum = 1;
-		for(int i=0 ; i < wallNum ; i++)
-			handler.addTile(new Wall(500,300,500,50,Type.WALL,true,handler));
-		broadCast("Init");	broadCast("Wall");	broadCast(Integer.toString(wallNum));
-		
+		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(fireSkillNum));
 		
 		//init map,floor.   picture should be 16*16 32*32....
 		try 
 		{
 			handler.createLevel(ImageIO.read(new File("level.png")));
 		} catch (IOException e) {}
+		
+		// Tower
+		handler.addEntity(new Tower(500 ,500,100,100, Type.TOWER, true, handler));
+		broadCast("Init");	broadCast("Tower");	//broadCast();
+		
+		// Lazer Skill
+		lazerSkillNum = 50;
+		for(int i=0 ; i<lazerSkillNum ; i++)
+			handler.addSkill(new LazerSkill(100,0,50,50,Type.LAZERSKILL, true, handler));
+		broadCast("Init");	broadCast("LazerSkill"); broadCast(Integer.toString(lazerSkillNum));
 	}
 	
 	public synchronized void stop()
@@ -187,8 +197,10 @@ public class Server {
 		{
 			String x = Float.toString(s.getX());
 			String y = Float.toString(s.getY());
+			String u = (s.used == true) ? "True" : "False";
 			broadCast(x);
 			broadCast(y);
+			broadCast(u);
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //

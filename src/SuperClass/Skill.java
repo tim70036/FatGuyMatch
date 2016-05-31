@@ -19,7 +19,7 @@ public abstract class Skill {
 	
 	//animate
 	public int frame,delay,frameNum;
-	public boolean used;
+	public boolean used = false;
 	public int face;
 	
 	public int life;
