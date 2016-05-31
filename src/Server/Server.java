@@ -109,7 +109,7 @@ public class Server {
 		///SKILL BALL
 		fireSkillNum = 50;
 		for(int i=0 ; i < fireSkillNum ; i++)
-			handler.addSkill(new FireSkill(100,0,50,50,Type.FIRESKILL,true,handler));
+			handler.addSkill(new FireSkill(3000,3000,50,50,Type.FIRESKILL,true,handler));
 		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(fireSkillNum));
 		
 		//init map,floor.   picture should be 16*16 32*32....

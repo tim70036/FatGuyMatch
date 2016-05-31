@@ -28,7 +28,7 @@ public class Character extends Entity
 		parent.fill(123,15,3);
 		parent.rect(this.getX(),this.getY()-20,this.getWidth(),10);
 		parent.fill(13,155,23);
-		parent.rect(this.getX(),this.getY()-20,this.getWidth()-(life*this.getWidth()/500),10);
+		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/500),10);
 	
 	}
 
@@ -115,7 +115,7 @@ public class Character extends Entity
 				if(this.getBound().intersects(s.getBound()))
 				{
 					s.used = false;
-					this.life -= 100;
+					this.life -= 50;
 				}
 			}
 		}

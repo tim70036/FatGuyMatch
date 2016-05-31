@@ -236,7 +236,7 @@ public class Client extends PApplet{
 							
 							fireSkillNum = Integer.parseInt(command);
 							for(int i=0 ; i < fireSkillNum ; i++)
-								handler.addSkill(new FireSkill(0,0,50,50,Type.FIRESKILL,true,handler));
+								handler.addSkill(new FireSkill(3000,3000,50,50,Type.FIRESKILL,true,handler));
 						}
 						else if(command.equals("Tower"))
 						{
