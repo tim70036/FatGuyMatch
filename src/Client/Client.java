@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import SuperClass.Character;
 import SuperClass.Entity;
+import SuperClass.FireSkill;
 import SuperClass.Handler;
 import SuperClass.Type;
 import SuperClass.Wall;
@@ -92,7 +93,6 @@ public class Client extends PApplet{
 		} catch (IOException e) {}
 		
 		
-		
 		size(width, height);
 		smooth();
 		Ani.init(this);
@@ -122,6 +122,7 @@ public class Client extends PApplet{
 		{
 			this.background(255);
 			handler.display(this);
+			
 			int tag=0;
 			
 			for(Entity en:handler.getEntity()){
@@ -177,12 +178,12 @@ public class Client extends PApplet{
 					
 					if(command.equals("StartGame"))
 					{
-						isRunning = true;
-						isWaiting = false;
 						
 						// Client ID
 						command  = reader.readLine();
 						ID = Integer.parseInt(command);
+						isRunning = true;
+						isWaiting = false;
 					}
 					else if(command.equals("GameData"))
 					{
@@ -210,6 +211,12 @@ public class Client extends PApplet{
 							for(int i=0 ; i < playerNum ; i++)
 								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler));
 						}
+						else if(command.equals("FireSkill")){
+							command = reader.readLine();
+							for(int i=0 ; i < 3 ; i++)
+								handler.addEntity(new FireSkill(0,0,50,50,Type.FIRESKILL,true,handler));
+						}
+						
 						else if(command.equals("Wall"))
 						{
 							command = reader.readLine();
@@ -229,7 +236,7 @@ public class Client extends PApplet{
 // ----------------------------------------------------------------------- //
     public void keyPressed() 
 	{
-    	if(key == 'w' || key == 'a' || key == 's' || key == 'd')
+    	if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'c')
     	{
     		sendMessage("PlayerInput");
     		sendMessage("Press");
@@ -238,6 +245,10 @@ public class Client extends PApplet{
     	else if(key == 'a')	sendMessage("A");
     	else if(key == 's')	sendMessage("S");
     	else if(key == 'd')	sendMessage("D");
+    	else if(key == 'c') {
+    		sendMessage("C");
+    		sendMessage(Integer.toString(ID));
+    	}
 	}
     
     public void keyReleased()

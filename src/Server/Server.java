@@ -16,6 +16,7 @@ import SuperClass.Entity;
 import SuperClass.Handler;
 import SuperClass.Type;
 import SuperClass.Wall;
+import SuperClass.FireSkill;
 
 public class Server {
 	
@@ -98,6 +99,11 @@ public class Server {
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 		
 		
+		///SKILL BALL
+		for(int i=0 ; i < 3 ; i++)
+			handler.addEntity(new FireSkill(100,0,50,50,Type.FIRESKILL,true,handler));
+		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(playerNum));
+		
 		// Tile  /// need or not?
 		wallNum = 1;
 		for(int i=0 ; i < wallNum ; i++)
@@ -135,7 +141,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 6000000.0/60.0;
+			double ns = 10000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
@@ -144,9 +150,10 @@ public class Server {
 				while(delta >= 1)
 				{
 					delta--;
-					update();
+					update();	
+					sendData();	
 				}
-				sendData();			
+					
 			}
 			
 			
@@ -221,8 +228,8 @@ public class Server {
 				try 
 				{
 					String command = reader.readLine();
-					System.out.println("\nFrom client " + playerID);
-					System.out.println(command);
+					//System.out.println("\nFrom client " + playerID);
+					//System.out.println(command);
 					
 					
 					if(command.equals("Connect"))
@@ -232,7 +239,7 @@ public class Server {
 					else if(command.equals("PlayerInput"))
 					{
 						command = reader.readLine();
-						System.out.println(command);
+						//System.out.println(command);
 						
 						if(command.equals("Press"))
 						{
@@ -249,27 +256,33 @@ public class Server {
 									handler.getEntity().get(playerID).gravity = 0.10;
 								}
 							}
-							else if(command.equals("A")){
+							if(command.equals("A")){
 								handler.getEntity().get(playerID).setVelX(-0.05f);
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 1;
 							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
-							else if(command.equals("D")){
+							if(command.equals("D")){
 								handler.getEntity().get(playerID).setVelX(0.05f);
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 0;
 							}
+							if(command.equals("C")){
+								command = reader.readLine();
+								if(handler.getEntity().get(1).move == false){
+									handler.getEntity().get(1).setX(handler.getEntity().get(playerID).getX());
+									handler.getEntity().get(1).setY(handler.getEntity().get(playerID).getY());
+									handler.getEntity().get(1).move = true ;////8789798
+								}
+							}
+							else;
 						}
-						else if(command.equals("Release"))
+						if(command.equals("Release"))
 						{
 							command = reader.readLine();
 							System.out.println(command);
 							
-							/*if(command.equals("W"))
-								characters.getEntity().get(playerID).setVelY(0);
-							else*/
 							if(command.equals("A")){
 								handler.getEntity().get(playerID).setVelX(0);
 								handler.getEntity().get(playerID).move = false;
@@ -279,7 +292,8 @@ public class Server {
 							else if(command.equals("D")){
 								handler.getEntity().get(playerID).setVelX(0);
 								handler.getEntity().get(playerID).move = false;
-								}
+							}
+							else;
 						}
 					}
 					
