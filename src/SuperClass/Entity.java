@@ -28,7 +28,7 @@ public abstract class Entity {
 		this.x = x; this.y = y; this.width = width; this.height = height;
 		this.type = type; this.solid = solid; this.handler = handler;
 		frame = 0; delay = 0; move = false; face = 0;
-		life = 500;
+		life = 300;
 	}
 	
 	public abstract void display(PApplet parent);
