@@ -10,6 +10,8 @@ import java.io.Writer;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -41,13 +43,19 @@ public class Client extends PApplet{
 	private boolean isOnStartBtn;
 	private boolean isOnInfoBtn;
 	private boolean isOnBackBtn;
+	private boolean isOnMute;
+	private int muteWidth = 90;
+	private int muteHeight = 40;
 	private int btnWidth = 250;
 	private int btnHeight = 80; 
 	
 	// Menu Picture
 	private PImage titleImg;
-	private int titleX = 200;
-	private int titleY = -200;
+	private PImage[] menu_bg = new PImage[3];
+	private int titleX = 210, titleY = -200;
+	private int menu_bgX = -200, menu_bgY = 300;
+	private int delay = 0, index = 0;
+	
 	
 	private int playerNum;
 	private int wallNum;
@@ -81,6 +89,7 @@ public class Client extends PApplet{
 	private Minim minim;
 	private AudioPlayer bgm;
 	private AudioPlayer fire;
+	private boolean isPlay;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -97,6 +106,8 @@ public class Client extends PApplet{
 		this.isOnStartBtn = false;
 		this.isOnInfoBtn = false;
 		this.isOnBackBtn = false;
+		this.isOnMute = false;
+		this.isPlay = true;
 		
 		playerNum = 0;
 		handler = new Handler();
@@ -139,11 +150,18 @@ public class Client extends PApplet{
 		// BGM
 		minim = new Minim(this);
 		bgm = minim.loadFile("battle.mp3");
+		bgm.setGain((float)-20.0);
 		bgm.loop();
 		bgm.play();
 		
-		// Menu animation
+		// Menu picture & animation
+		this.titleImg = this.loadImage("title.png");
+		for (int i = 0; i < 3; i++) {
+			this.menu_bg[i] = this.loadImage("menu_bg"+i+".png");
+		}
 		Ani.to(this, (float)2, "titleY", 100);
+		Ani.to(this, (float)2, "menu_bgX", 50);
+		
 	}
 	public void loaddata(){
 		
@@ -159,10 +177,20 @@ public void draw() {
 		if (this.isMainMenu) {
 			this.background(255);
 			
-			// Title
-			titleImg = this.loadImage("title.png");
+			// MainMenu Picture
 			this.image(this.titleImg, this.titleX, this.titleY);
-			
+	
+			if (delay < 10) {
+				this.image(this.menu_bg[index], this.menu_bgX, this.menu_bgY, 250, 300);
+				delay++;
+				if (delay == 10) {
+					delay = 0;
+					index = (index+1) % 3;
+				}
+			}
+			/*this.image(this.bg1, this.bg1X, this.bg1Y, 250, 300);
+			this.image(this.bg2, this.bg1X, this.bg1Y, 250, 300);
+			this.image(this.bg3, this.bg1X, this.bg1Y, 250, 300);*/
 			
 			// StartBtn
 			if (this.isOnStartBtn) {
@@ -186,6 +214,16 @@ public void draw() {
 			this.fill(0);
 			this.textSize(30);
 			this.text("Information", 405, 550);
+			
+			// MuteBtn
+			if(this.isOnMute) 
+				this.fill(0, 255, 0);
+			else
+				this.fill(30, 144, 255);
+			this.rect(830, 590, this.muteWidth, this.muteHeight);
+			this.fill(0);
+			this.textSize(30);
+			this.text("mute", 840, 621);
 		}
 		else if (this.isInformation) {
 			this.background(255);
@@ -203,7 +241,10 @@ public void draw() {
 		}
 		else if(isWaiting)
 		{
-			this.background(0);
+			this.background(255);
+			this.fill(0);
+			this.textSize(30);
+			this.text("Waiting Other Players...", 300, 300);
 		}
 		else if(isRunning)
 		{
@@ -219,6 +260,7 @@ public void draw() {
 				}
 			}
 		}
+		
 	}
 	
 // ------------------------NetWork Part ----------------------------------- //
@@ -384,6 +426,7 @@ public void draw() {
     // -------------------------------------------------------------------------- //
     public void  mouseClicked() {
   	  if (this.isMainMenu) { 
+  		  // StartBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
   				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
   			  this.isMainMenu = false;
@@ -392,16 +435,25 @@ public void draw() {
   			  // Connect to Server
   			  this.connect();
   		  } 
+  		  // InfoBtn
   		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isMainMenu = false;
   			  this.isInformation = true;
   		  }
-  		  else {
-  			  //Ani.to(this, (float)1, "titleY", 100);
+  		  else if(this.isOnMute){
+  			  if(this.isPlay){
+  				  bgm.pause();
+  				  this.isPlay = false;
+  			  }
+  			  else{
+  				  bgm.play();
+  				  this.isPlay = true;
+  			  }
   		  }
   	  } 
   	  else if (this.isInformation) {
+  		  // BackBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isMainMenu = true;
@@ -412,28 +464,43 @@ public void draw() {
     
     public void mouseMoved() {
   	  if (this.isMainMenu) {
+  		  // StartBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
   				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
   			  this.isOnStartBtn = true;
   		  }
+  		  // InfoBtn
   		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isOnInfoBtn = true;
   		  }
+  		  // MuteBtn
+  		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
+  				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
+  			  this.isOnMute = true;
+  		  }
   		  else {
   			  this.isOnStartBtn = false;
   			  this.isOnInfoBtn = false;
   			  this.isOnBackBtn = false;
+  			  this.isOnMute = false;
   		  }
   	  } else if (this.isInformation) {
+  		  // BackBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isOnBackBtn = true;
-  		  } 
+  		  }
+  		  // MuteBtn
+  		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
+				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
+			  this.isOnMute = true;
+		  }
   		  else {
   			  this.isOnStartBtn = false;
   			  this.isOnInfoBtn = false;
   			  this.isOnBackBtn = false;
+  			this.isOnMute = false;
   		  }
   	  }
     }
