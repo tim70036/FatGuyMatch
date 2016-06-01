@@ -43,7 +43,8 @@ public class Client extends PApplet{
 	private boolean isOnStartBtn;
 	private boolean isOnInfoBtn;
 	private boolean isOnBackBtn;
-	private boolean isOnMute;
+	private boolean isOnMuteBtn;
+	
 	private int muteWidth = 90;
 	private int muteHeight = 40;
 	private int btnWidth = 250;
@@ -106,7 +107,7 @@ public class Client extends PApplet{
 		this.isOnStartBtn = false;
 		this.isOnInfoBtn = false;
 		this.isOnBackBtn = false;
-		this.isOnMute = false;
+		this.isOnMuteBtn = false;
 		this.isPlay = true;
 		
 		playerNum = 0;
@@ -174,6 +175,7 @@ public void draw() {
 		this.translate(cam.getX(), cam.getY());
 		//this.scale((float)2.0);
 		
+		
 		if (this.isMainMenu) {
 			this.background(255);
 			
@@ -216,11 +218,15 @@ public void draw() {
 			this.text("Information", 405, 550);
 			
 			// MuteBtn
-			if(this.isOnMute) 
+			if(this.isOnMuteBtn) {
 				this.fill(0, 255, 0, 70);
-			else
+			} else {
 				this.fill(30, 144, 255, 70);
+			}
 			this.rect(830, 590, this.muteWidth, this.muteHeight);
+			if (!this.isPlay) {
+				this.line(830, 590, 830+this.muteWidth, 590+this.muteHeight);
+			} 
 			this.fill(0);
 			this.textSize(30);
 			this.text("mute", 840, 621);
@@ -238,12 +244,17 @@ public void draw() {
 			this.fill(0);
 			this.textSize(30);
 			this.text("BackToMainMenu", 365, 550);
+			
 			// MuteBtn
-			if(this.isOnMute) 
+			if(this.isOnMuteBtn) {
 				this.fill(0, 255, 0, 70);
-			else
+			} else {
 				this.fill(30, 144, 255, 70);
+			}
 			this.rect(830, 590, this.muteWidth, this.muteHeight);
+			if (!this.isPlay) {
+				this.line(830, 590, 830+this.muteWidth, 590+this.muteHeight);
+			} 
 			this.fill(0);
 			this.textSize(30);
 			this.text("mute", 840, 621);
@@ -436,8 +447,7 @@ public void draw() {
     public void  mouseClicked() {
   	  if (this.isMainMenu) { 
   		  // StartBtn
-  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
-  				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
+  		  if (this.isOnStartBtn) {
   			  this.isMainMenu = false;
   			  this.isWaiting = true;
   			  
@@ -445,12 +455,12 @@ public void draw() {
   			  this.connect();
   		  } 
   		  // InfoBtn
-  		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
-  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
+  		  else if (this.isOnInfoBtn) {
   			  this.isMainMenu = false;
   			  this.isInformation = true;
   		  }
-  		  else if(this.isOnMute){
+  		  // MuteBtn
+  		  else if(this.isOnMuteBtn){
   			  if(this.isPlay){
   				  bgm.pause();
   				  this.isPlay = false;
@@ -463,11 +473,21 @@ public void draw() {
   	  } 
   	  else if (this.isInformation) {
   		  // BackBtn
-  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
-  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
+  		  if (this.isOnBackBtn) {
   			  this.isMainMenu = true;
   			  this.isInformation = false;
   		  } 
+  		  // MuteBtn
+  		  else if(this.isOnMuteBtn){
+			  if(this.isPlay){
+				  bgm.pause();
+				  this.isPlay = false;
+			  }
+			  else{
+				  bgm.play();
+				  this.isPlay = true;
+			  }
+		  }
   	  }
     }
     
@@ -486,13 +506,13 @@ public void draw() {
   		  // MuteBtn
   		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
   				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
-  			  this.isOnMute = true;
+  			  this.isOnMuteBtn = true;
   		  }
   		  else {
   			  this.isOnStartBtn = false;
   			  this.isOnInfoBtn = false;
   			  this.isOnBackBtn = false;
-  			  this.isOnMute = false;
+  			  this.isOnMuteBtn = false;
   		  }
   	  } else if (this.isInformation) {
   		  // BackBtn
@@ -503,13 +523,13 @@ public void draw() {
   		  // MuteBtn
   		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
 				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
-			  this.isOnMute = true;
+			  this.isOnMuteBtn = true;
 		  }
   		  else {
   			  this.isOnStartBtn = false;
   			  this.isOnInfoBtn = false;
   			  this.isOnBackBtn = false;
-  			this.isOnMute = false;
+  			this.isOnMuteBtn = false;
   		  }
   	  }
     }
