@@ -128,7 +128,7 @@ public class Character extends Entity
 						this.life -= 50;
 					}
 				}
-				else if(s.getType() == Type.MISSILE)///ID?ZZZZZZZZZZZZZZZ
+				else if(s.getType() == Type.MISSILE && s.playerID != this.playerID)
 				{
 					if(this.getBound().intersects(s.getBound()))
 					{

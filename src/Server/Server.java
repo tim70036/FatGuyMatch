@@ -343,7 +343,7 @@ public class Server {
 									if(playerNum==1)
 										fire.en = (Character) handler.getEntity().get(0);
 									else
-										fire.en = (Character) handler.getEntity().get((playerID+2)%(playerID+1)-1);
+										fire.en = (Character) handler.getEntity().get((playerID+1)%(playerNum));
 									fire.playerID  = playerID;
 									fire.used = true;
 								}
