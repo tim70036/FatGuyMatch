@@ -10,6 +10,8 @@ import java.io.Writer;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -46,8 +48,11 @@ public class Client extends PApplet{
 	
 	// Menu Picture
 	private PImage titleImg;
-	private int titleX = 200;
-	private int titleY = -200;
+	private PImage[] menu_bg = new PImage[3];
+	private int titleX = 210, titleY = -200;
+	private int menu_bgX = -200, menu_bgY = 300;
+	private int delay = 0, index = 0;
+	
 	
 	private int playerNum;
 	private int wallNum;
@@ -142,8 +147,14 @@ public class Client extends PApplet{
 		bgm.loop();
 		bgm.play();
 		
-		// Menu animation
+		// Menu picture & animation
+		this.titleImg = this.loadImage("title.png");
+		for (int i = 0; i < 3; i++) {
+			this.menu_bg[i] = this.loadImage("menu_bg"+i+".png");
+		}
 		Ani.to(this, (float)2, "titleY", 100);
+		Ani.to(this, (float)2, "menu_bgX", 50);
+		
 	}
 	public void loaddata(){
 		
@@ -159,10 +170,20 @@ public void draw() {
 		if (this.isMainMenu) {
 			this.background(255);
 			
-			// Title
-			titleImg = this.loadImage("title.png");
+			// MainMenu Picture
 			this.image(this.titleImg, this.titleX, this.titleY);
-			
+	
+			if (delay < 10) {
+				this.image(this.menu_bg[index], this.menu_bgX, this.menu_bgY, 250, 300);
+				delay++;
+				if (delay == 10) {
+					delay = 0;
+					index = (index+1) % 3;
+				}
+			}
+			/*this.image(this.bg1, this.bg1X, this.bg1Y, 250, 300);
+			this.image(this.bg2, this.bg1X, this.bg1Y, 250, 300);
+			this.image(this.bg3, this.bg1X, this.bg1Y, 250, 300);*/
 			
 			// StartBtn
 			if (this.isOnStartBtn) {
@@ -203,7 +224,10 @@ public void draw() {
 		}
 		else if(isWaiting)
 		{
-			this.background(0);
+			this.background(255);
+			this.fill(0);
+			this.textSize(30);
+			this.text("Waiting Other Players...", 300, 300);
 		}
 		else if(isRunning)
 		{
@@ -384,6 +408,7 @@ public void draw() {
     // -------------------------------------------------------------------------- //
     public void  mouseClicked() {
   	  if (this.isMainMenu) { 
+  		  // StartBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
   				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
   			  this.isMainMenu = false;
@@ -392,16 +417,15 @@ public void draw() {
   			  // Connect to Server
   			  this.connect();
   		  } 
+  		  // InfoBtn
   		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isMainMenu = false;
   			  this.isInformation = true;
   		  }
-  		  else {
-  			  //Ani.to(this, (float)1, "titleY", 100);
-  		  }
   	  } 
   	  else if (this.isInformation) {
+  		  // BackBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isMainMenu = true;
@@ -412,10 +436,12 @@ public void draw() {
     
     public void mouseMoved() {
   	  if (this.isMainMenu) {
+  		  // StartBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
   				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
   			  this.isOnStartBtn = true;
   		  }
+  		  // InfoBtn
   		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isOnInfoBtn = true;
@@ -426,6 +452,7 @@ public void draw() {
   			  this.isOnBackBtn = false;
   		  }
   	  } else if (this.isInformation) {
+  		  // BackBtn
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isOnBackBtn = true;
