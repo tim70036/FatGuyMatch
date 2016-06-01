@@ -173,10 +173,10 @@ public void draw() {
 			// MainMenu Picture
 			this.image(this.titleImg, this.titleX, this.titleY);
 	
-			if (delay < 10) {
+			if (delay < 15) {
 				this.image(this.menu_bg[index], this.menu_bgX, this.menu_bgY, 250, 300);
 				delay++;
-				if (delay == 10) {
+				if (delay == 15) {
 					delay = 0;
 					index = (index+1) % 3;
 				}
