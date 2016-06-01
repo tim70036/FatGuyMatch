@@ -126,6 +126,14 @@ public class Character extends Entity
 					this.life -= 50;
 				}
 			}
+			else if(s.getType() == Type.MISSILE && s.playerID != this.playerID)
+			{
+				if(this.getBound().intersects(s.getBound()))
+				{
+					s.used = false;
+					this.life -= 50;
+				}
+			}
 		}
 
 		// Jumping Falling

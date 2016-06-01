@@ -15,6 +15,7 @@ import SuperClass.Character;
 import SuperClass.Entity;
 import SuperClass.Handler;
 import SuperClass.LazerSkill;
+import SuperClass.Missile;
 import SuperClass.Skill;
 import SuperClass.Tower;
 import SuperClass.Type;
@@ -41,6 +42,7 @@ public class Server {
 	// Skill
 	public int fireSkillNum;
 	public int lazerSkillNum;
+	public int missileNum;
 	
 	public Server(int port, int playerNum)
 	{
@@ -127,6 +129,13 @@ public class Server {
 		for(int i=0 ; i<lazerSkillNum ; i++)
 			handler.addSkill(new LazerSkill(3000,3000,50,50,Type.LAZERSKILL, true, handler));
 		broadCast("Init");	broadCast("LazerSkill"); broadCast(Integer.toString(lazerSkillNum));
+	
+		//Missile Skill
+		missileNum = 20;
+		for(int i=0 ; i<missileNum; i++)
+			handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
+		broadCast("Init");	broadCast("MissileSkill"); broadCast(Integer.toString(missileNum));
+	
 	}
 	
 	public synchronized void stop()
@@ -311,6 +320,30 @@ public class Server {
 								{
 									fire.setX(handler.getEntity().get(playerID).getX());
 									fire.setY(handler.getEntity().get(playerID).getY());
+									fire.playerID  = playerID;
+									fire.used = true;
+								}
+							}
+							///// Missile Skill
+							else if(command.equals("F"))
+							{
+								// Find an unused FireSkill
+								Missile fire = null;
+								for(Skill s : handler.getSkill())
+								{
+									if(s.getType() == Type.MISSILE && s.used == false)
+									{
+										fire = (Missile) s;
+										break;
+									}
+								}
+								
+								// Launch fire
+								if(fire != null)
+								{
+									fire.setX(handler.getEntity().get(playerID).getX());
+									fire.setY(handler.getEntity().get(playerID).getY());
+									fire.en = (Character) handler.getEntity().get((playerID+2)%(playerID+1)-1);
 									fire.playerID  = playerID;
 									fire.used = true;
 								}

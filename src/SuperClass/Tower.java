@@ -43,8 +43,8 @@ public class Tower extends Entity {
 								lazer.used = true;
 								lazer.setX(this.getX());
 								lazer.setY(this.getY());
-								lazer.setVelX( (e.getX() - this.getX()) / 15 );
-								lazer.setVelY( (e.getY() - this.getY()) / 15 );
+								lazer.setVelX( (e.getX() - this.getX()) / 5 );
+								lazer.setVelY( (e.getY() - this.getY()) / 5 );
 								lastTime = nowTime;
 								break;
 							}

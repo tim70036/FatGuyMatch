@@ -18,6 +18,7 @@ import SuperClass.Entity;
 import SuperClass.FireSkill;
 import SuperClass.Handler;
 import SuperClass.LazerSkill;
+import SuperClass.Missile;
 import SuperClass.Skill;
 import SuperClass.Tower;
 import SuperClass.Type;
@@ -57,6 +58,7 @@ public class Client extends PApplet{
 	// SKill
 	private int fireSkillNum;
 	private int lazerSkillNum;
+	private int missileNum;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -250,6 +252,15 @@ public class Client extends PApplet{
 							for(int i=0 ; i<lazerSkillNum ; i++)
 								handler.addSkill(new LazerSkill(3000,3000,50,50,Type.LAZERSKILL, true, handler));
 						}
+						else if(command.equals("MissileSkill"))
+						{
+							command = reader.readLine();
+							
+							missileNum = Integer.parseInt(command);
+							for(int i=0 ; i<missileNum; i++)
+								handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
+							
+						}
 					}
 					
 					
@@ -261,7 +272,7 @@ public class Client extends PApplet{
 // ----------------------------------------------------------------------- //
     public void keyPressed() 
 	{
-    	if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'c')
+    	if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'c' || key == 'f')
     	{
     		sendMessage("PlayerInput");
     		sendMessage("Press");
@@ -271,7 +282,8 @@ public class Client extends PApplet{
     	else if(key == 's')	sendMessage("S");
     	else if(key == 'd')	sendMessage("D");
     	else if(key == 'c') sendMessage("C");
-	}
+    	else if(key == 'f') sendMessage("F");
+ 	}
     
     public void keyReleased()
     {

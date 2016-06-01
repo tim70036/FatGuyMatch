@@ -30,7 +30,7 @@ public class LazerSkill extends Skill {
 		if(used == true)
 		{
 			delay++;
-			if(delay>500){
+			if(delay>100){
 				frame++;
 				delay=0;
 				setX(getX()+getVelX());
