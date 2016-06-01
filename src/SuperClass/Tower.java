@@ -1,14 +1,17 @@
 package SuperClass;
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Tower extends Entity {
 
 	Character target;
 	long lastTime ;
 	long nowTime;
+	PImage img;
 	
 	public Tower(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
@@ -16,8 +19,10 @@ public class Tower extends Entity {
 
 	public void display(PApplet parent) 
 	{
-		parent.fill(192,192,192);
-		parent.rect(getX(), getY(), getWidth(), getHeight());
+		/*parent.fill(192,192,192);
+		parent.rect(getX(), getY(), getWidth(), getHeight());*/
+		img = parent.loadImage("tower.png");
+		parent.image(img, getX(), getY(),getWidth(),getHeight());
 	}
 	
 	
