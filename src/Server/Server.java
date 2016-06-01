@@ -114,16 +114,6 @@ public class Server {
 			handler.addSkill(new FireSkill(3000,3000,50,50,Type.FIRESKILL,true,handler));
 		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(fireSkillNum));
 		
-		//init map,floor.   picture should be 16*16 32*32....
-		try 
-		{
-			handler.createLevel(ImageIO.read(new File("level.png")));
-		} catch (IOException e) {}
-		
-		// Tower
-		handler.addEntity(new Tower(500 ,500,100,100, Type.TOWER, true, handler));
-		broadCast("Init");	broadCast("Tower");	//broadCast();
-		
 		// Lazer Skill
 		lazerSkillNum = 50;
 		for(int i=0 ; i<lazerSkillNum ; i++)
@@ -136,6 +126,12 @@ public class Server {
 			handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 		broadCast("Init");	broadCast("MissileSkill"); broadCast(Integer.toString(missileNum));
 	
+		//init map,floor.   picture should be 16*16 32*32....
+		try 
+		{
+			handler.createLevel(ImageIO.read(new File("level.png")));
+		} catch (IOException e) {}
+		broadCast("Init");	broadCast("Map"); 
 	}
 	
 	public synchronized void stop()

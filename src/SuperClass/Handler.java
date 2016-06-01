@@ -57,6 +57,8 @@ public class Handler {
 				
 				if(red == 0 && green == 0 && blue == 0)
 					addTile(new Wall(x*32, y*32, 32, 32, Type.WALL, true , this));
+				if(red == 0 && green == 0 && blue == 255)
+					addEntity(new Tower(x*32,y*32-303+31,303,303,Type.TOWER,true,this));
 			}
 		}
 	}

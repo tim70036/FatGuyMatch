@@ -143,13 +143,6 @@ public class Client extends PApplet{
 			player[tmp+5].reSize(100, 100);
 		}
 		
-		// Level,map floor  picture should be 16*16 32*32....
-		try 
-		{
-			levelImage = ImageIO.read(new File("level.png"));
-			handler.createLevel(levelImage);
-		} catch (IOException e) {}
-		
 		
 		size(width, height);
 		smooth();
@@ -495,10 +488,10 @@ public void draw() {
 							for(int i=0 ; i < fireSkillNum ; i++)
 								handler.addSkill(new FireSkill(3000,3000,50,50,Type.FIRESKILL,true,handler));
 						}
-						else if(command.equals("Tower"))
+						/*else if(command.equals("Tower"))
 						{
 							handler.addEntity(new Tower(250 ,250,303,303, Type.TOWER, true, handler));
-						}
+						}*/
 						else if(command.equals("LazerSkill"))
 						{
 							command = reader.readLine();
@@ -515,6 +508,15 @@ public void draw() {
 							for(int i=0 ; i<missileNum; i++)
 								handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 							
+						}
+						else if(command.equals("Map"))
+						{
+							// Level,map floor  picture should be 16*16 32*32....
+							try 
+							{
+								levelImage = ImageIO.read(new File("level.png"));
+								handler.createLevel(levelImage);
+							} catch (IOException e) {}
 						}
 					}
 					
