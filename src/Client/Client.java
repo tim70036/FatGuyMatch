@@ -217,9 +217,9 @@ public void draw() {
 			
 			// MuteBtn
 			if(this.isOnMute) 
-				this.fill(0, 255, 0);
+				this.fill(0, 255, 0, 70);
 			else
-				this.fill(30, 144, 255);
+				this.fill(30, 144, 255, 70);
 			this.rect(830, 590, this.muteWidth, this.muteHeight);
 			this.fill(0);
 			this.textSize(30);
@@ -238,6 +238,15 @@ public void draw() {
 			this.fill(0);
 			this.textSize(30);
 			this.text("BackToMainMenu", 365, 550);
+			// MuteBtn
+			if(this.isOnMute) 
+				this.fill(0, 255, 0, 70);
+			else
+				this.fill(30, 144, 255, 70);
+			this.rect(830, 590, this.muteWidth, this.muteHeight);
+			this.fill(0);
+			this.textSize(30);
+			this.text("mute", 840, 621);
 		}
 		else if(isWaiting)
 		{
