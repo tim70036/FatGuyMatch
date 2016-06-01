@@ -23,6 +23,8 @@ import SuperClass.Skill;
 import SuperClass.Tower;
 import SuperClass.Type;
 import SuperClass.Wall;
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -59,6 +61,11 @@ public class Client extends PApplet{
 	private int fireSkillNum;
 	private int lazerSkillNum;
 	private int missileNum;
+	
+	// music
+	private Minim minim;
+	private AudioPlayer bgm;
+	private AudioPlayer fire;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -110,6 +117,10 @@ public class Client extends PApplet{
 		
 		// Connect to Server
 		this.connect();
+		minim = new Minim(this);
+		bgm = minim.loadFile("battle.mp3");
+		bgm.loop();
+		bgm.play();
 	}
 	public void loaddata(){
 		
@@ -195,7 +206,6 @@ public class Client extends PApplet{
 					}
 					else if(command.equals("GameData"))
 					{
-						
 						// Character's Data
 						for(Entity ch : handler.getEntity())
 						{
@@ -281,7 +291,11 @@ public class Client extends PApplet{
     	else if(key == 'a')	sendMessage("A");
     	else if(key == 's')	sendMessage("S");
     	else if(key == 'd')	sendMessage("D");
-    	else if(key == 'c') sendMessage("C");
+    	else if(key == 'c') {
+    		sendMessage("C");
+    		fire = minim.loadFile("bomb.mp3");
+    		fire.play();
+    	}
     	else if(key == 'f') sendMessage("F");
  	}
     
