@@ -5,6 +5,7 @@ import processing.core.PApplet;
 
 public class FireSkill extends Skill{
 	
+	public int face=0;
 	
 	public FireSkill(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
@@ -29,16 +30,32 @@ public class FireSkill extends Skill{
 		if(used == true)
 		{
 			delay++;
-			if(delay>500){
-				frame++;
-				delay=0;
-				setVelX(15);
-				setX(getX()+getVelX());
-				if(frame>50){
-					frame=0;
-					setX(100);
-					setY(0);
-					used = false;
+			if(face==0){
+				if(delay>8){
+					frame++;
+					delay=0;
+					setVelX(20);
+					setX(getX()+getVelX());
+					if(frame>40){
+						frame=0;
+						setX(100);
+						setY(0);
+						used = false;
+					}
+				}
+			}
+			else{
+				if(delay>8){
+					frame++;
+					delay=0;
+					setVelX(-20);
+					setX(getX()+getVelX());
+					if(frame>40){
+						frame=0;
+						setX(100);
+						setY(0);
+						used = false;
+					}
 				}
 			}
 		}

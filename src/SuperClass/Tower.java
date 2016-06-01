@@ -15,6 +15,7 @@ public class Tower extends Entity {
 	
 	public Tower(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
+		life = 5000;
 	}
 
 	public void display(PApplet parent) 
@@ -23,6 +24,10 @@ public class Tower extends Entity {
 		parent.rect(getX(), getY(), getWidth(), getHeight());*/
 		img = parent.loadImage("tower.png");
 		parent.image(img, getX(), getY(),getWidth(),getHeight());
+		parent.fill(123,15,3);
+		parent.rect(this.getX(),this.getY()-20,this.getWidth(),20);
+		parent.fill(13,155,23);
+		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/5000),20);
 	}
 	
 	
@@ -55,17 +60,25 @@ public class Tower extends Entity {
 							}
 						}
 					}
-					}
+				}
 					
-//					if(lazer != null)
-//					{
-//						
-//						lazer = null;
-//						System.out.println("shoot");
-//					}
+//					if(lazer != null){lazer = null;System.out.println("shoot");}
+			}
+			
+			for(Skill s : this.getHandler().getSkill())
+			{
+				if(s.getType() == Type.FIRESKILL )
+				{
+					///need to reset the bound size
+					if(super.getBound().intersects(s.getBound()))
+					{
+						s.used = false;
+						this.life -= 100;
+					}
 				}
 			}
 		}
+	}
 		
 		// Remove the skill, if it's target is out of Tower's area
 //		if(lazer != null && target != null)

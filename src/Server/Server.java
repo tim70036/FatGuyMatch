@@ -290,7 +290,7 @@ public class Server {
 							}
 							if(command.equals("A"))
 							{
-								handler.getEntity().get(playerID).setVelX(-0.2f);
+								handler.getEntity().get(playerID).setVelX(-0.4f);
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 1;
 							}
@@ -298,7 +298,7 @@ public class Server {
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							if(command.equals("D"))
 							{
-								handler.getEntity().get(playerID).setVelX(0.2f);
+								handler.getEntity().get(playerID).setVelX(0.4f);
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 0;
 							}
@@ -320,6 +320,7 @@ public class Server {
 								{
 									fire.setX(handler.getEntity().get(playerID).getX());
 									fire.setY(handler.getEntity().get(playerID).getY());
+									fire.face = handler.getEntity().get(playerID).face;
 									fire.playerID  = playerID;
 									fire.used = true;
 								}
