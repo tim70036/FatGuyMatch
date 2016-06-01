@@ -32,8 +32,17 @@ public class Client extends PApplet{
 	
 	public static int width , height;
 	
-	private boolean isRunning;
+	private boolean isMainMenu;
+	private boolean isInformation;
 	private boolean isWaiting;
+	private boolean isRunning;
+	
+	private boolean isOnStartBtn;
+	private boolean isOnInfoBtn;
+	private boolean isOnBackBtn;
+	private int btnWidth = 250;
+	private int btnHeight = 80; 
+	
 	private int playerNum;
 	private int wallNum;
 	private Handler handler;
@@ -74,8 +83,14 @@ public class Client extends PApplet{
 		Client.width = width;
 		Client.height = height;
 		
-		this.isWaiting = true;
+		this.isMainMenu = true;
+		this.isInformation = false;
+		this.isWaiting = false;
 		this.isRunning = false;
+		
+		this.isOnStartBtn = false;
+		this.isOnInfoBtn = false;
+		this.isOnBackBtn = false;
 		
 		playerNum = 0;
 		handler = new Handler();
@@ -115,8 +130,6 @@ public class Client extends PApplet{
 		// Fps 120 is good , 60 is too low
 		this.frameRate(60);
 		
-		// Connect to Server
-		this.connect();
 		minim = new Minim(this);
 		bgm = minim.loadFile("battle.mp3");
 		bgm.loop();
@@ -128,13 +141,52 @@ public class Client extends PApplet{
 	}
 
 	
-	public void draw() {
-		
+public void draw() {
 		
 		this.translate(cam.getX(), cam.getY());
 		//this.scale((float)2.0);
 		
-		if(isWaiting)
+		if (this.isMainMenu) {
+			this.background(255);
+			
+			// StartBtn
+			if (this.isOnStartBtn) {
+				this.fill(255, 255, 0);
+			} else {
+				this.fill(255, 0, 0);
+			}
+			this.rect(365, 400, this.btnWidth, this.btnHeight);
+			this.fill(0);
+			this.textSize(30);
+			this.text("Let's Start Game!", 370, 450);
+			
+			
+			// InfoBtn
+			if (this.isOnInfoBtn) {
+				this.fill(255, 255, 0);
+			} else {
+				this.fill(255, 0, 0);
+			}
+			this.rect(365, 500, this.btnWidth, this.btnHeight);
+			this.fill(0);
+			this.textSize(30);
+			this.text("Information", 405, 550);
+		}
+		else if (this.isInformation) {
+			this.background(255);
+			
+			// BackBtn
+			if (this.isOnBackBtn) {
+				this.fill(255, 255, 0);
+			} else {
+				this.fill(255, 0, 0);
+			}
+			this.rect(365, 500, this.btnWidth, this.btnHeight);
+			this.fill(0);
+			this.textSize(30);
+			this.text("BackToMainMenu", 365, 550);
+		}
+		else if(isWaiting)
 		{
 			this.background(0);
 		}
@@ -311,6 +363,61 @@ public class Client extends PApplet{
     	else if(key == 'a')	sendMessage("A");
     	else if(key == 's')	sendMessage("S");
     	else if(key == 'd')	sendMessage("D");
+    }
+    
+    // ------------------------- Mouse Input Part ------------------------------- //
+    // -------------------------------------------------------------------------- //
+    public void  mouseClicked() {
+  	  if (this.isMainMenu) {
+  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
+  				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
+  			  this.isMainMenu = false;
+  			  this.isWaiting = true;
+  			  
+  			  // Connect to Server
+  			  this.connect();
+  		  } 
+  		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
+  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
+  			  this.isMainMenu = false;
+  			  this.isInformation = true;
+  		  }
+  	  } 
+  	  else if (this.isInformation) {
+  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
+  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
+  			  this.isMainMenu = true;
+  			  this.isInformation = false;
+  		  } 
+  	  }
+    }
+    
+    public void mouseMoved() {
+  	  if (this.isMainMenu) {
+  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
+  				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
+  			  this.isOnStartBtn = true;
+  		  }
+  		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
+  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
+  			  this.isOnInfoBtn = true;
+  		  }
+  		  else {
+  			  this.isOnStartBtn = false;
+  			  this.isOnInfoBtn = false;
+  			  this.isOnBackBtn = false;
+  		  }
+  	  } else if (this.isInformation) {
+  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
+  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
+  			  this.isOnBackBtn = true;
+  		  } 
+  		  else {
+  			  this.isOnStartBtn = false;
+  			  this.isOnInfoBtn = false;
+  			  this.isOnBackBtn = false;
+  		  }
+  	  }
     }
 }
 
