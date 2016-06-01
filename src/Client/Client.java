@@ -32,6 +32,7 @@ public class Client extends PApplet{
 	
 	public static int width , height;
 	
+	// Status
 	private boolean isMainMenu;
 	private boolean isInformation;
 	private boolean isWaiting;
@@ -42,6 +43,11 @@ public class Client extends PApplet{
 	private boolean isOnBackBtn;
 	private int btnWidth = 250;
 	private int btnHeight = 80; 
+	
+	// Menu Picture
+	private PImage titleImg;
+	private int titleX = 200;
+	private int titleY = -200;
 	
 	private int playerNum;
 	private int wallNum;
@@ -130,10 +136,14 @@ public class Client extends PApplet{
 		// Fps 120 is good , 60 is too low
 		this.frameRate(60);
 		
+		// BGM
 		minim = new Minim(this);
 		bgm = minim.loadFile("battle.mp3");
 		bgm.loop();
 		bgm.play();
+		
+		// Menu animation
+		Ani.to(this, (float)2, "titleY", 100);
 	}
 	public void loaddata(){
 		
@@ -149,11 +159,16 @@ public void draw() {
 		if (this.isMainMenu) {
 			this.background(255);
 			
+			// Title
+			titleImg = this.loadImage("title.png");
+			this.image(this.titleImg, this.titleX, this.titleY);
+			
+			
 			// StartBtn
 			if (this.isOnStartBtn) {
-				this.fill(255, 255, 0);
+				this.fill(0, 255, 0);
 			} else {
-				this.fill(255, 0, 0);
+				this.fill(30, 144, 255);
 			}
 			this.rect(365, 400, this.btnWidth, this.btnHeight);
 			this.fill(0);
@@ -163,9 +178,9 @@ public void draw() {
 			
 			// InfoBtn
 			if (this.isOnInfoBtn) {
-				this.fill(255, 255, 0);
+				this.fill(0, 255, 0);
 			} else {
-				this.fill(255, 0, 0);
+				this.fill(30, 144, 255);
 			}
 			this.rect(365, 500, this.btnWidth, this.btnHeight);
 			this.fill(0);
@@ -177,9 +192,9 @@ public void draw() {
 			
 			// BackBtn
 			if (this.isOnBackBtn) {
-				this.fill(255, 255, 0);
+				this.fill(0, 255, 0);
 			} else {
-				this.fill(255, 0, 0);
+				this.fill(30, 144, 255);
 			}
 			this.rect(365, 500, this.btnWidth, this.btnHeight);
 			this.fill(0);
@@ -368,7 +383,7 @@ public void draw() {
     // ------------------------- Mouse Input Part ------------------------------- //
     // -------------------------------------------------------------------------- //
     public void  mouseClicked() {
-  	  if (this.isMainMenu) {
+  	  if (this.isMainMenu) { 
   		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
   				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
   			  this.isMainMenu = false;
@@ -381,6 +396,9 @@ public void draw() {
   				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
   			  this.isMainMenu = false;
   			  this.isInformation = true;
+  		  }
+  		  else {
+  			  //Ani.to(this, (float)1, "titleY", 100);
   		  }
   	  } 
   	  else if (this.isInformation) {
