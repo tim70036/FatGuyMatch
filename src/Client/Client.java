@@ -252,7 +252,7 @@ public class Client extends PApplet{
 						}
 						else if(command.equals("Tower"))
 						{
-							handler.addEntity(new Tower(500 ,500,100,100, Type.TOWER, true, handler));
+							handler.addEntity(new Tower(250 ,250,303,303, Type.TOWER, true, handler));
 						}
 						else if(command.equals("LazerSkill"))
 						{
