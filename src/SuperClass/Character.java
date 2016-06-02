@@ -1,5 +1,7 @@
 package SuperClass;
 
+import java.util.Random;
+
 import Client.*;
 import processing.core.PApplet;
 
@@ -8,7 +10,7 @@ public class Character extends Entity
 	
 	public int playerID;
 	public long dieTime = 0;
-	
+	private Random rand=new Random();
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
 	{
 		super(x, y, width, height, type, solid, handler);
@@ -106,6 +108,56 @@ public class Character extends Entity
 						this.setVelX(0);
 						this.setX(t.getX() - this.getWidth()); // Right on the left of t
 					}
+				}
+			}
+			for(Entity e : this.getHandler().getEntity())
+			{
+				if(e.isSolid() == false)	continue;
+				
+				if(e.getType() == Type.PIPE)
+				{
+					if(this.getBoundTop().intersects(e.getBound())) // Character's top collide
+					{
+						this.setVelY(0);
+						/*this.setY(t.getY() + t.getHeight()); // Right on the bottom of t*/
+						if(jumping)
+						{
+							jumping =false;
+							this.setX(rand.nextInt(3010));
+							this.setY(rand.nextInt(3010));
+							gravity = 0.0;
+							falling = true;
+						}
+					}
+					
+					/*if(this.getBoundBottom().intersects(e.getBound())) // Character's bottom collide
+					{
+						this.setVelY(0);
+						if(falling) 
+							falling = false;
+						
+						this.setY(e.getY() - this.getHeight()); // Right On the top of t
+					}
+					else // Fall down if get out of platform ---> Bottom not collide
+					{
+					    if(!falling && !jumping) 
+						{
+							gravity = 0.0;
+							falling = true;
+						}
+					}*/
+					
+					/*if(this.getBoundLeft().intersects(e.getBound())) // Character's left collide
+					{
+						this.setVelX(0);
+						this.setX(e.getX() + e.getWidth()); // Right on the right of t
+					}
+					
+					if(this.getBoundRight().intersects(e.getBound())) // Character's right collide
+					{
+						this.setVelX(0);
+						this.setX(e.getX() - this.getWidth()); // Right on the left of t
+					}*/
 				}
 			}
 			

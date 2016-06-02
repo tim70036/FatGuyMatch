@@ -48,7 +48,7 @@ public class Handler {
 		int height = level.getHeight();
 		
 		int index = 0;
-		
+		int index2=0;
 		for(int y = 0 ; y < width ; y++)
 		{
 			for(int x = 0 ; x < height ; x++)
@@ -57,12 +57,16 @@ public class Handler {
 				int red = (pixel >> 16) & 0xff;
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel ) & 0xff;
-				
+				if(red==100&&green==50&&blue==0){
+					Pipe.initPlace(x*32, y*32-300+31 , index2);
+					index2++;
+				}
 				if(red == 0 && green == 0 && blue == 0)
 					addTile(new Wall(x*32, y*32, 32, 32, Type.WALL, true , this));
 				if(red == 0 && green == 0 && blue == 255){
 					Tower.initPlace(x*32, y*32-303+31 , index);
 					index++;
+				
 					//addEntity(new Tower(x*32,y*32-303+31,303,303,Type.TOWER,true,this));
 				}
 			}
@@ -78,7 +82,15 @@ public class Handler {
 			else 
 				x--;
 		}
-		
+		for(int x=0 ; x < 4; x++){
+			int dy = random.nextInt(index2);
+			if(Pipe.Valid[dy]==false){
+				addEntity(new Pipe(Pipe.doorX[dy],Pipe.doorY[dy],300,300,Type.PIPE,true,this,false,dy));
+				Pipe.Valid[dy] = true;
+			}
+			else 
+				x--;
+		}
 	}
 	
 	public void addEntity(Entity en)	{	entity.add(en); }
