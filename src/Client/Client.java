@@ -64,7 +64,11 @@ public class Client extends PApplet{
 	private PImage menuBg;
 	private PImage[] menuPic = new PImage[3];
 	private PImage[] author = new PImage[5];
+	private PImage[] authorName = new PImage[5];
 	private PImage[][] character = new PImage[4][3];
+	
+	// Mouse Detector
+	private boolean[] isOnAuthor = new boolean[5];
 	
 	private int playerNum;
 	private int wallNum;
@@ -108,6 +112,9 @@ public class Client extends PApplet{
 		Client.height = height;
 		
 		this.menuStatus = "MainMenu";
+		
+		for (int i = 0; i < 5; i++)
+			this.isOnAuthor[i] = false;
 		
 		this.isWaiting = false;
 		this.isRunning = false;
@@ -160,8 +167,10 @@ public class Client extends PApplet{
 		this.titleImg = this.loadImage("title.png");
 		for (int i = 0; i < 3; i++) 
 			this.menuPic[i] = this.loadImage("menu_bg"+i+".png");
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++) {
 			this.author[i] = this.loadImage("author"+i+".png");
+			this.authorName[i] = this.loadImage("authorName"+i+".png");
+		}
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 3; j++) {
 				this.character[i][j] = this.loadImage("character"+i+j+".png");
@@ -207,6 +216,10 @@ public class Client extends PApplet{
 			// Authors' name & picture
 			this.image(this.author[0], 200, 100, 250, 300);
 			this.image(this.author[1], 550, 100, 250, 300);
+			if (this.isOnAuthor[0]) 
+				this.image(this.authorName[0], this.mouseX, this.mouseY, 150, 100);
+			else if (this.isOnAuthor[1]) 
+				this.image(this.authorName[1], this.mouseX, this.mouseY, 150, 100);
 		}
 		else if (this.menuStatus.equals("Information3")) {
 			this.background(255);
@@ -216,6 +229,13 @@ public class Client extends PApplet{
 			this.image(this.author[2], 130, 100, 250, 300);
 			this.image(this.author[3], 395, 100, 250, 300);
 			this.image(this.author[4], 660, 100, 250, 300);
+			if (this.isOnAuthor[2]) 
+				this.image(this.authorName[2], this.mouseX, this.mouseY, 150, 100);
+			else if (this.isOnAuthor[3]) 
+				this.image(this.authorName[3], this.mouseX, this.mouseY, 150, 100);
+			else if (this.isOnAuthor[4]) 
+				this.image(this.authorName[4], this.mouseX, this.mouseY, 150, 100);
+		
 		}
 		else if (this.menuStatus.equals("Selecting")) {
 			this.background(0);
@@ -502,7 +522,7 @@ public class Client extends PApplet{
 		cp5.addButton("MuteBtn")
 			.setLabel("Mute")
 			.setSize(this.muteWidth, this.muteHeight)
-			.setPosition(830, 590)
+			.setPosition(880, 620)
 			.setColorForeground(color(0,255,0))
 			.setColorBackground(color(30, 144, 255))
 			.getCaptionLabel()
@@ -645,6 +665,33 @@ public class Client extends PApplet{
     	}
     }
 
+ // ------------------------- Mouse Input Part ------------------------------- //
+ // -------------------------------------------------------------------------- //
+    
+    public void mouseMoved() {
+    	if (this.menuStatus.equals("Information2")) {
+    		if (mouseX >= 200 && mouseX < 450 && mouseY >= 100 && mouseY < 400)
+    			this.isOnAuthor[0] = true;
+    		else if (mouseX >= 550 && mouseX < 800 && mouseY >= 100 && mouseY < 400)
+    			this.isOnAuthor[1] = true;
+    		else {
+    			for (int i = 0; i < 5; i++)
+    				this.isOnAuthor[i] = false;
+    		}
+    	} else if (this.menuStatus.equals("Information3")) {
+    		if (mouseX >= 130 && mouseX < 380 && mouseY >= 100 && mouseY < 400)
+    			this.isOnAuthor[2] = true;
+    		else if (mouseX >= 395 && mouseX < 645 && mouseY >= 100 && mouseY < 400)
+    			this.isOnAuthor[3] = true;
+    		else if (mouseX >= 660 && mouseX < 910 && mouseY >= 100 && mouseY < 400)
+    			this.isOnAuthor[4] = true;
+    		else {
+    			for (int i = 0; i < 5; i++)
+    				this.isOnAuthor[i] = false;
+    		}
+    	}
+    }
+    
 }
 
 //------------------------------------------
