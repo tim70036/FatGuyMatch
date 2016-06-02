@@ -2,6 +2,7 @@ package SuperClass;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Client.ClientMain;
 import processing.core.PApplet;
@@ -11,6 +12,7 @@ public class Handler {
 	private ArrayList<Entity>	entity;
 	private ArrayList<Tile> tile;
 	private ArrayList<Skill>	skill;
+	private Random random = new Random();
 	
 	public Handler()
 	{
@@ -45,6 +47,7 @@ public class Handler {
 		int width = level.getWidth();
 		int height = level.getHeight();
 		
+		int index = 0;
 		
 		for(int y = 0 ; y < width ; y++)
 		{
@@ -57,10 +60,25 @@ public class Handler {
 				
 				if(red == 0 && green == 0 && blue == 0)
 					addTile(new Wall(x*32, y*32, 32, 32, Type.WALL, true , this));
-				if(red == 0 && green == 0 && blue == 255)
-					addEntity(new Tower(x*32,y*32-303+31,303,303,Type.TOWER,true,this));
+				if(red == 0 && green == 0 && blue == 255){
+					Tower.initPlace(x*32, y*32-303+31 , index);
+					index++;
+					//addEntity(new Tower(x*32,y*32-303+31,303,303,Type.TOWER,true,this));
+				}
 			}
 		}
+		//Random put Tower at first
+		for(int x=0 ; x < 3; x++){
+			int y = random.nextInt(20);
+		
+			if(Tower.isValid[y]==false){
+				addEntity(new Tower(Tower.placeX[y],Tower.placeY[y],303,303,Type.TOWER,true,this,y));
+				Tower.isValid[y] = true;
+			}
+			else 
+				x--;
+		}
+		
 	}
 	
 	public void addEntity(Entity en)	{	entity.add(en); }
