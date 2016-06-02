@@ -132,6 +132,15 @@ public class Server {
 			handler.createLevel(ImageIO.read(new File("level.png")));
 		} catch (IOException e) {}
 		broadCast("Init");	broadCast("Map"); 
+		
+		try{
+
+		    Thread.sleep(1000);
+		}catch(Exception e)
+		{
+		   System.out.println("Exception caught");
+		}
+
 	}
 	
 	public synchronized void stop()
