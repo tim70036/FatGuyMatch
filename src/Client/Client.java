@@ -1,4 +1,5 @@
 package Client;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,28 +26,28 @@ import SuperClass.Skill;
 import SuperClass.Tower;
 import SuperClass.Type;
 import SuperClass.Wall;
+import controlP5.ControlEvent;
+import controlP5.ControlFont;
+import controlP5.ControlP5;
+import controlP5.ControlWindow;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import de.looksgood.ani.Ani;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 public class Client extends PApplet{
 	
 	public static int width , height;
 	
+	private ControlP5 cp5;
+	
 	// Status
+	private String menuStatus;
 	private boolean[] isInformation = new boolean[3];
 	private boolean isMainMenu;
 	private boolean isWaiting;
 	private boolean isRunning;
-	
-	// Mouse Detect
-	private boolean isOnNextBtn;
-	private boolean isOnPrevBtn;
-	private boolean isOnStartBtn;
-	private boolean isOnInfoBtn;
-	private boolean isOnBackBtn;
-	private boolean isOnMuteBtn;
 	
 	// parameters
 	private int muteWidth = 90;
@@ -105,18 +106,11 @@ public class Client extends PApplet{
 		Client.width = width;
 		Client.height = height;
 		
-		for (int i = 0; i < 3; i++) 
-			this.isInformation[i] = false;
-		this.isMainMenu = true;
+		this.menuStatus = "MainMenu";
+		
 		this.isWaiting = false;
 		this.isRunning = false;
 		
-		this.isOnNextBtn = false;
-		this.isOnPrevBtn = false;
-		this.isOnStartBtn = false;
-		this.isOnInfoBtn = false;
-		this.isOnBackBtn = false;
-		this.isOnMuteBtn = false;
 		this.isPlay = true;
 		
 		playerNum = 0;
@@ -148,8 +142,9 @@ public class Client extends PApplet{
 		
 		size(width, height);
 		smooth();
+		this.initButton();
 		Ani.init(this);
-		// Fps 120 is good , 60 is too low
+		// FPS 120 is good , 60 is too low
 		this.frameRate(60);
 		
 		// BGM
@@ -169,24 +164,26 @@ public class Client extends PApplet{
 		Ani.to(this, (float)2, "menu_bgX", 50);
 		
 	}
-	public void loaddata(){
-		
-		
-	}
+	
+	
+	
+	
+	
+	public void loaddata(){}
 
 	
-public void draw() {
+	public void draw() {
 		
 		this.translate(cam.getX(), cam.getY());
 		//this.scale((float)2.0);
 		
 		
-		if (this.isMainMenu) {
+		if (this.menuStatus.equals("MainMenu")) {
 			this.background(255);
 			
 			// MainMenu Picture
 			this.image(this.titleImg, this.titleX, this.titleY);
-	
+			
 			if (delay < 15) {
 				this.image(this.menu_bg[index], this.menu_bgX, this.menu_bgY, 250, 300);
 				delay++;
@@ -195,138 +192,20 @@ public void draw() {
 					index = (index+1) % 3;
 				}
 			}
-			
-			// StartBtn
-			if (this.isOnStartBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.rect(365, 400, this.btnWidth, this.btnHeight);
-			this.fill(0);
-			this.textSize(30);
-			this.text("Let's Start Game!", 370, 450);
-			
-			
-			// InfoBtn
-			if (this.isOnInfoBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.rect(365, 500, this.btnWidth, this.btnHeight);
-			this.fill(0);
-			this.textSize(30);
-			this.text("Information", 405, 550);
-			
-			// MuteBtn
-			if(this.isOnMuteBtn) {
-				this.fill(0, 255, 0, 70);
-			} else {
-				this.fill(30, 144, 255, 70);
-			}
-			this.rect(830, 590, this.muteWidth, this.muteHeight);
-			if (!this.isPlay) {
-				this.line(830, 590, 830+this.muteWidth, 590+this.muteHeight);
-			} 
-			this.fill(0);
-			this.textSize(30);
-			this.text("mute", 840, 621);
 		}
-		else if (this.isInformation[0]) {
+		else if (this.menuStatus.equals("Information1")) {
 			this.background(255);
-			
-			// BackBtn
-			if (this.isOnBackBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.rect(365, 500, this.btnWidth, this.btnHeight);
-			this.fill(0);
-			this.textSize(30);
-			this.text("BackToMainMenu", 365, 550);
-			
-			// NextBtn
-			if (this.isOnNextBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.ellipse(900, 300, 80, 80);
-			this.fill(0);
-			this.triangle(900, 280, 928, 300, 900, 320);
-			this.rect(880, 290, 30, 20);
-			
-			// MuteBtn
-			if(this.isOnMuteBtn) {
-				this.fill(0, 255, 0, 70);
-			} else {
-				this.fill(30, 144, 255, 70);
-			}
-			this.rect(830, 590, this.muteWidth, this.muteHeight);
-			if (!this.isPlay) {
-				this.line(830, 590, 830+this.muteWidth, 590+this.muteHeight);
-			} 
-			this.fill(0);
-			this.textSize(30);
-			this.text("mute", 840, 621);
 		}
-		else if (this.isInformation[1]) {
+		else if (this.menuStatus.equals("Information2")) {
 			this.background(255);
 			
 			// Author's picture
 			this.image(this.author[0], 150, 100, 250, 300);
 			this.image(this.author[1], 600, 100, 250, 300);
 			
-			// BackBtn
-			if (this.isOnBackBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.rect(365, 500, this.btnWidth, this.btnHeight);
-			this.fill(0);
-			this.textSize(30);
-			this.text("BackToMainMenu", 365, 550);
 			
-			// NextBtn
-			if (this.isOnNextBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.ellipse(900, 300, 80, 80);
-			this.fill(0);
-			this.triangle(900, 280, 928, 300, 900, 320);
-			this.rect(880, 290, 30, 20);
-			
-			// PreBtn
-			if (this.isOnPrevBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.ellipse(80, 300, 80, 80);
-			this.fill(0);
-			this.triangle(80, 280, 52, 300, 80, 320);
-			this.rect(70, 290, 33, 20);
-			
-			// MuteBtn
-			if(this.isOnMuteBtn) {
-				this.fill(0, 255, 0, 70);
-			} else {
-				this.fill(30, 144, 255, 70);
-			}
-			this.rect(830, 590, this.muteWidth, this.muteHeight);
-			if (!this.isPlay) {
-				this.line(830, 590, 830+this.muteWidth, 590+this.muteHeight);
-			} 
-			this.fill(0);
-			this.textSize(30);
-			this.text("mute", 840, 621);
 		}
-		else if (this.isInformation[2]) {
+		else if (this.menuStatus.equals("Information3")) {
 			this.background(255);
 			
 			// Author's picture
@@ -334,41 +213,7 @@ public void draw() {
 			this.image(this.author[3], 395, 180, 250, 300);
 			this.image(this.author[4], 660, 100, 250, 300);
 			
-			// BackBtn
-			if (this.isOnBackBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.rect(365, 500, this.btnWidth, this.btnHeight);
-			this.fill(0);
-			this.textSize(30);
-			this.text("BackToMainMenu", 365, 550);
 			
-			// PreBtn
-			if (this.isOnPrevBtn) {
-				this.fill(0, 255, 0);
-			} else {
-				this.fill(30, 144, 255);
-			}
-			this.ellipse(80, 300, 80, 80);
-			this.fill(0);
-			this.triangle(80, 280, 52, 300, 80, 320);
-			this.rect(70, 290, 33, 20);
-			
-			// MuteBtn
-			if(this.isOnMuteBtn) {
-				this.fill(0, 255, 0, 70);
-			} else {
-				this.fill(30, 144, 255, 70);
-			}
-			this.rect(830, 590, this.muteWidth, this.muteHeight);
-			if (!this.isPlay) {
-				this.line(830, 590, 830+this.muteWidth, 590+this.muteHeight);
-			} 
-			this.fill(0);
-			this.textSize(30);
-			this.text("mute", 840, 621);
 		}
 		else if(isWaiting)
 		{
@@ -562,228 +407,148 @@ public void draw() {
     	else if(key == 'd')	sendMessage("D");
     }
     
-    // ------------------------- Mouse Input Part ------------------------------- //
+    // ------------------------- ControlP5 Button ------------------------------- //
     // -------------------------------------------------------------------------- //
-    public void  mouseClicked() {
-  	  if (this.isMainMenu) { 
-  		  // StartBtn
-  		  if (this.isOnStartBtn) {
-  			  this.isMainMenu = false;
-  			  this.isWaiting = true;
-  			  
-  			  // Connect to Server
-  			  this.connect();
-  		  } 
-  		  // InfoBtn
-  		  else if (this.isOnInfoBtn) {
-  			  this.isMainMenu = false;
-  			  this.isInformation[0] = true;
-  		  }
-  		  // MuteBtn
-  		  else if(this.isOnMuteBtn){
-  			  if(this.isPlay){
-  				  bgm.pause();
-  				  this.isPlay = false;
-  			  }
-  			  else{
-  				  bgm.play();
-  				  this.isPlay = true;
-  			  }
-  		  }
-  	  } 
-  	  else if (this.isInformation[0]) {
-  		  // BackBtn
-  		  if (this.isOnBackBtn) {
-  			  this.isMainMenu = true;
-  			  this.isInformation[0] = false;
-  		  } 
-  		  
-  		  // NextBtn
-  		  else if (this.isOnNextBtn) {
-  			  this.isInformation[0] = false;
-  			  this.isInformation[1] = true;
-  		  }
-  		  
-  		  // MuteBtn
-  		  else if(this.isOnMuteBtn){
-			  if(this.isPlay){
-				  bgm.pause();
-				  this.isPlay = false;
-			  }
-			  else{
-				  bgm.play();
-				  this.isPlay = true;
-			  }
-		  }
-  	  }
-  	  else if (this.isInformation[1]) {
-		  // BackBtn
-		  if (this.isOnBackBtn) {
-			  this.isMainMenu = true;
-			  this.isInformation[1] = false;
-		  } 
-		  
-		  // NextBtn
-		  else if (this.isOnNextBtn) {
-			  this.isInformation[1] = false;
-			  this.isInformation[2] = true;
-		  }
-		  
-		  // PrevBtn
-		  else if (this.isOnPrevBtn) {
-			  this.isInformation[1] = false;
-			  this.isInformation[0] = true;
-		  }
-		  
-		  // MuteBtn
-		  else if(this.isOnMuteBtn){
-			  if(this.isPlay){
-				  bgm.pause();
-				  this.isPlay = false;
-			  }
-			  else{
-				  bgm.play();
-				  this.isPlay = true;
-			  }
-		  }
-  	  }
-  	  else if (this.isInformation[2]) {
-		  // BackBtn
-		  if (this.isOnBackBtn) {
-			  this.isMainMenu = true;
-			  this.isInformation[2] = false;
-		  } 
-		  
-		  // PrevBtn
-		  else if (this.isOnPrevBtn) {
-			  this.isInformation[2] = false;
-			  this.isInformation[1] = true;
-		  }
-		  
-		  // MuteBtn
-		  else if(this.isOnMuteBtn){
-			  if(this.isPlay){
-				  bgm.pause();
-				  this.isPlay = false;
-			  }
-			  else{
-				  bgm.play();
-				  this.isPlay = true;
-			  }
-		  }
-	  }
+    
+    public void initButton() {
+		// Button Label Font
+		PFont pfont = createFont("Arial", 25, true); 
+		ControlFont font = new ControlFont(pfont);
+				
+		// Button Controller
+		cp5 = new ControlP5(this);
+		
+		cp5.addButton("StartBtn")
+			.setLabel("Let's Start Game")
+			.setSize(this.btnWidth, this.btnHeight)
+			.setPosition(365, 400)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
+		cp5.addButton("InfoBtn")
+			.setLabel("Information")
+			.setSize(this.btnWidth, this.btnHeight)
+			.setPosition(365, 500)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
+		cp5.addButton("MuteBtn")
+			.setLabel("Mute")
+			.setSize(this.muteWidth, this.muteHeight)
+			.setPosition(830, 590)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
+		cp5.addButton("BackBtn")
+			.setLabel("BackToMainMenu")
+			.setSize(this.btnWidth, this.btnHeight)
+			.setPosition(-500, -500)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
+		cp5.addButton("NextBtn")
+			.setLabel("Next")
+			.setSize(this.muteWidth, this.muteHeight)
+			.setPosition(-500, -500)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
+		cp5.addButton("PrevBtn")
+			.setLabel("Prev")
+			.setSize(this.muteWidth, this.muteHeight)
+			.setPosition(-500, -500)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
+	}
+    
+    public void changeBtnPos(String s, float x, float y) {
+    	cp5.getController(s)
+    		.setPosition(x,  y);
     }
     
-    public void mouseMoved() {
-  	  if (this.isMainMenu) {
-  		  // StartBtn
-  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth
-  				  && this.mouseY >= 400 && this.mouseY < 400+this.btnHeight) {
-  			  this.isOnStartBtn = true;
-  		  }
-  		  // InfoBtn
-  		  else if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
-  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
-  			  this.isOnInfoBtn = true;
-  		  }
-  		  // MuteBtn
-  		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
-  				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
-  			  this.isOnMuteBtn = true;
-  		  }
-  		  else {
-  			  this.isOnStartBtn = false;
-  			  this.isOnInfoBtn = false;
-  			  this.isOnBackBtn = false;
-  			  this.isOnNextBtn = false;
-  			  this.isOnPrevBtn = false;
-  			  this.isOnMuteBtn = false;
-  		  }
-  	  } else if (this.isInformation[0]) {
-  		  // BackBtn
-  		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
-  				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
-  			  this.isOnBackBtn = true;
-  		  }
-  		  // NextBtn
-  		  else if (this.mouseX >= 900-this.btnRadius && this.mouseX < 900+this.btnRadius
-  				  && this.mouseY >= 300-this.btnRadius && this.mouseY < 300+this.btnRadius) {
-  			  this.isOnNextBtn = true;
-  		  }
-  		  
-  		  // MuteBtn
-  		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
-				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
-			  this.isOnMuteBtn = true;
-		  }
-  		  else {
-  			  this.isOnStartBtn = false;
-  			  this.isOnInfoBtn = false;
-  			  this.isOnBackBtn = false;
-  			  this.isOnNextBtn = false;
-  			  this.isOnPrevBtn = false;
-  			  this.isOnMuteBtn = false;
-  		  }
-  	  }
-  	  else if (this.isInformation[1]) {
-		  // BackBtn
-		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
-				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
-			  this.isOnBackBtn = true;
-		  }
-		  // NextBtn
-		  else if (this.mouseX >= 900-this.btnRadius && this.mouseX < 900+this.btnRadius
-				  && this.mouseY >= 300-this.btnRadius && this.mouseY < 300+this.btnRadius) {
-			  this.isOnNextBtn = true;
-		  }
-		  
-		  // PrevBtn
-		  else if (this.mouseX >= 80-this.btnRadius && this.mouseX < 80+this.btnRadius
-				  && this.mouseY >= 300-this.btnRadius && this.mouseY < 300+this.btnRadius) {
-			  this.isOnPrevBtn = true;
-		  }
-		  
-		  // MuteBtn
-		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
-				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
-			  this.isOnMuteBtn = true;
-		  }
-		  else {
-			  this.isOnStartBtn = false;
-			  this.isOnInfoBtn = false;
-			  this.isOnBackBtn = false;
-			  this.isOnNextBtn = false;
-			  this.isOnPrevBtn = false;
-			  this.isOnMuteBtn = false;
-		  }
-	  }
-  	  else if (this.isInformation[2]) {
-		  // BackBtn
-		  if (this.mouseX >= 365 && this.mouseX < 365+this.btnWidth 
-				  && this.mouseY >= 500 && this.mouseY < 500+this.btnHeight) {
-			  this.isOnBackBtn = true;
-		  }
-		  
-		  // PrevBtn
-		  else if (this.mouseX >= 80-this.btnRadius && this.mouseX < 80+this.btnRadius
-				  && this.mouseY >= 300-this.btnRadius && this.mouseY < 300+this.btnRadius) {
-			  this.isOnPrevBtn = true;
-		  }
-		  
-		  // MuteBtn
-		  else if(this.mouseX >= 830 && this.mouseX < 830+this.muteWidth
-				   && this.mouseY >= 590 && this.mouseY < 590+this.muteHeight){
-			  this.isOnMuteBtn = true;
-		  }
-		  else {
-			  this.isOnStartBtn = false;
-			  this.isOnInfoBtn = false;
-			  this.isOnBackBtn = false;
-			  this.isOnNextBtn = false;
-			  this.isOnPrevBtn = false;
-			  this.isOnMuteBtn = false;
-		  }
-	  }
+    public void StartBtn() {
+    	if (this.menuStatus.equals("MainMenu")) {
+    		this.menuStatus = "Game";
+    		this.changeBtnPos("StartBtn", -500, -500);
+    		this.changeBtnPos("InfoBtn", -500, -500);
+    		this.changeBtnPos("MuteBtn", -500, -500);
+    		
+    		// Connect to Server
+    		this.isWaiting = true;
+    		this.connect();
+    	}
+    }
+    
+    public void InfoBtn() {
+    	if (this.menuStatus.equals("MainMenu")) {
+    		this.menuStatus = "Information1";
+    		this.changeBtnPos("StartBtn", -500, -500);
+    		this.changeBtnPos("InfoBtn", -500, -500);
+    		this.changeBtnPos("BackBtn", 365, 500);
+    		this.changeBtnPos("NextBtn", 870, 300);
+    	}
+    }
+    
+    public void BackBtn() {
+	    if (this.menuStatus.equals("Information1") || this.menuStatus.equals("Information2") || this.menuStatus.equals("Information3")) {
+	    	this.menuStatus = "MainMenu";
+	    	this.changeBtnPos("StartBtn", 365, 400);
+    		this.changeBtnPos("InfoBtn", 365, 500);
+    		this.changeBtnPos("BackBtn", -500, -500);
+    		this.changeBtnPos("NextBtn", -500, -500);
+    		this.changeBtnPos("PrevBtn", -500, -500);
+	    }
+    }
+    
+    public void NextBtn() {
+    	if (this.menuStatus.equals("Information1")) {
+    		this.menuStatus = "Information2";
+    		this.changeBtnPos("PrevBtn", 30, 300);
+    	} else if (this.menuStatus.equals("Information2")) {
+    		this.menuStatus = "Information3";
+    		this.changeBtnPos("NextBtn", -500, -500);
+    		this.changeBtnPos("PrevBtn", 30, 300);
+    	}
+    }
+    
+    public void PrevBtn() {
+    	if (this.menuStatus.equals("Information2")) {
+    		this.menuStatus = "Information1";
+    		this.changeBtnPos("NextBtn", 870, 300);
+    		this.changeBtnPos("PrevBtn", -500, -500);
+    	} else if (this.menuStatus.equals("Information3")) {
+    		this.menuStatus = "Information2";
+    		this.changeBtnPos("NextBtn", -500, -500);
+    	}
+    }
+    
+    public void MuteBtn() {
+    	if (this.isPlay) {
+    		this.isPlay = false;
+    		this.bgm.pause();
+    	} else {
+    		this.isPlay = true;
+    		this.bgm.play();
+    	}
     }
 }
 
