@@ -44,8 +44,6 @@ public class Client extends PApplet{
 	
 	// Status
 	private String menuStatus;
-	private boolean[] isInformation = new boolean[3];
-	private boolean isMainMenu;
 	private boolean isWaiting;
 	private boolean isRunning;
 	
@@ -54,16 +52,17 @@ public class Client extends PApplet{
 	private int muteHeight = 40;
 	private int btnWidth = 250;
 	private int btnHeight = 80; 
-	private int btnRadius = 40;
+	private int titleX = 210, titleY = -200;
+	private int menu_bgX = -200, menu_bgY = 300;
+	private int delay , index;
+	private int characterID;
+	private int characterPicX;
+	private int characterPicXL = -500, characterPicXR = 1500;
 	
 	// Menu Picture
 	private PImage titleImg;
 	private PImage[] menu_bg = new PImage[3];
 	private PImage[] author = new PImage[5];
-	private int titleX = 210, titleY = -200;
-	private int menu_bgX = -200, menu_bgY = 300;
-	private int delay = 0, index = 0;
-	
 	
 	private int playerNum;
 	private int wallNum;
@@ -165,12 +164,7 @@ public class Client extends PApplet{
 		
 	}
 	
-	
-	
-	
-	
 	public void loaddata(){}
-
 	
 	public void draw() {
 		
@@ -178,16 +172,16 @@ public class Client extends PApplet{
 		//this.scale((float)2.0);
 		
 		
+		
 		if (this.menuStatus.equals("MainMenu")) {
 			this.background(255);
-			
 			// MainMenu Picture
 			this.image(this.titleImg, this.titleX, this.titleY);
 			
-			if (delay < 15) {
+			if (delay < 20) {
 				this.image(this.menu_bg[index], this.menu_bgX, this.menu_bgY, 250, 300);
 				delay++;
-				if (delay == 15) {
+				if (delay == 20) {
 					delay = 0;
 					index = (index+1) % 3;
 				}
@@ -199,28 +193,83 @@ public class Client extends PApplet{
 		else if (this.menuStatus.equals("Information2")) {
 			this.background(255);
 			
-			// Author's picture
-			this.image(this.author[0], 150, 100, 250, 300);
-			this.image(this.author[1], 600, 100, 250, 300);
-			
-			
+			// Authors' name & picture
+			this.image(this.author[0], 200, 100, 250, 300);
+			this.image(this.author[1], 550, 100, 250, 300);
 		}
 		else if (this.menuStatus.equals("Information3")) {
 			this.background(255);
 			
-			// Author's picture
+			// Authors' name & picture
 			this.image(this.author[2], 130, 100, 250, 300);
-			this.image(this.author[3], 395, 180, 250, 300);
+			this.image(this.author[3], 395, 100, 250, 300);
 			this.image(this.author[4], 660, 100, 250, 300);
-			
-			
+		}
+		else if (this.menuStatus.equals("Selecting")) {
+			this.background(0);
+			switch (this.characterID) {
+				case 0:	
+					if (delay < 20) {
+						this.image(this.menu_bg[index], this.characterPicX, this.height/2-150, 250, 300);
+						delay++;
+						if (delay == 20) {
+							delay = 0;
+							index = (index+1) % 3;
+						}
+					}
+					break;
+				case 1:
+					if (delay < 20) {
+						this.image(this.author[index], this.characterPicX, this.height/2-150, 250, 300);
+						delay++;
+						if (delay == 20) {
+							delay = 0;
+							index = (index+1) % 3;
+						}
+					}
+					break;
+				case 2: 
+					if (delay < 20) {
+						this.image(this.menu_bg[index], this.characterPicX, this.height/2-150, 250, 300);
+						delay++;
+						if (delay == 20) {
+							delay = 0;
+							index = (index+1) % 3;
+						}
+					}
+					break;
+				case 3:
+					if (delay < 20) {
+						this.image(this.author[index], this.characterPicX, this.height/2-150, 250, 300);
+						delay++;
+						if (delay == 20) {
+							delay = 0;
+							index = (index+1) % 3;
+						}
+					}
+					break;
+			}
 		}
 		else if(isWaiting)
 		{
-			this.background(255);
-			this.fill(0);
+			this.background(0);
+			
+			// waiting line
+			this.fill(255);
 			this.textSize(30);
-			this.text("Waiting Other Players...", 300, 300);
+			if (delay < 90) {
+				delay++;
+				if (delay < 30) {
+					this.text("Now Loading.", 380, 350);
+				} else if (delay >= 30 && delay < 60) {
+					this.text("Now Loading..", 380, 350);
+				} else if (delay >= 60 && delay < 90){
+					this.text("Now Loading...", 380, 350);
+				} else {
+					this.text("Now Loading...", 380, 350);
+					delay = 0;
+				}
+			}
 		}
 		else if(isRunning)
 		{
@@ -407,8 +456,8 @@ public class Client extends PApplet{
     	else if(key == 'd')	sendMessage("D");
     }
     
-    // ------------------------- ControlP5 Button ------------------------------- //
-    // -------------------------------------------------------------------------- //
+// ------------------------- ControlP5 Button ------------------------------- //
+// -------------------------------------------------------------------------- //
     
     public void initButton() {
 		// Button Label Font
@@ -421,7 +470,7 @@ public class Client extends PApplet{
 		cp5.addButton("StartBtn")
 			.setLabel("Let's Start Game")
 			.setSize(this.btnWidth, this.btnHeight)
-			.setPosition(365, 400)
+			.setPosition(this.width/2-this.btnWidth/2, 400)
 			.setColorForeground(color(0,255,0))
 			.setColorBackground(color(30, 144, 255))
 			.getCaptionLabel()
@@ -431,7 +480,7 @@ public class Client extends PApplet{
 		cp5.addButton("InfoBtn")
 			.setLabel("Information")
 			.setSize(this.btnWidth, this.btnHeight)
-			.setPosition(365, 500)
+			.setPosition(this.width/2-this.btnWidth/2, 500)
 			.setColorForeground(color(0,255,0))
 			.setColorBackground(color(30, 144, 255))
 			.getCaptionLabel()
@@ -478,6 +527,16 @@ public class Client extends PApplet{
 			.setFont(font)
 			.toUpperCase(false);
 		
+		cp5.addButton("SelectBtn")
+			.setLabel("Select")
+			.setSize(this.btnWidth, this.btnHeight)
+			.setPosition(-500, -500)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
 	}
     
     public void changeBtnPos(String s, float x, float y) {
@@ -487,14 +546,14 @@ public class Client extends PApplet{
     
     public void StartBtn() {
     	if (this.menuStatus.equals("MainMenu")) {
-    		this.menuStatus = "Game";
+    		this.menuStatus = "Selecting";
+    		this.characterPicX = this.width/2-125;
+    		this.changeBtnPos("SelectBtn", this.width/2-this.btnWidth/2, 580);
+    		this.changeBtnPos("PrevBtn", 30, 300);
+    		this.changeBtnPos("NextBtn", 870, 300);
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
     		this.changeBtnPos("MuteBtn", -500, -500);
-    		
-    		// Connect to Server
-    		this.isWaiting = true;
-    		this.connect();
     	}
     }
     
@@ -503,7 +562,7 @@ public class Client extends PApplet{
     		this.menuStatus = "Information1";
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
-    		this.changeBtnPos("BackBtn", 365, 500);
+    		this.changeBtnPos("BackBtn", this.width/2-this.btnWidth/2, 500);
     		this.changeBtnPos("NextBtn", 870, 300);
     	}
     }
@@ -511,8 +570,8 @@ public class Client extends PApplet{
     public void BackBtn() {
 	    if (this.menuStatus.equals("Information1") || this.menuStatus.equals("Information2") || this.menuStatus.equals("Information3")) {
 	    	this.menuStatus = "MainMenu";
-	    	this.changeBtnPos("StartBtn", 365, 400);
-    		this.changeBtnPos("InfoBtn", 365, 500);
+	    	this.changeBtnPos("StartBtn", this.width/2-this.btnWidth/2, 400);
+    		this.changeBtnPos("InfoBtn", this.width/2-this.btnWidth/2, 500);
     		this.changeBtnPos("BackBtn", -500, -500);
     		this.changeBtnPos("NextBtn", -500, -500);
     		this.changeBtnPos("PrevBtn", -500, -500);
@@ -527,6 +586,10 @@ public class Client extends PApplet{
     		this.menuStatus = "Information3";
     		this.changeBtnPos("NextBtn", -500, -500);
     		this.changeBtnPos("PrevBtn", 30, 300);
+    	} else if (this.menuStatus.equals("Selecting")) {
+    		this.characterID = (this.characterID+1) % 4;
+    		this.characterPicX = this.characterPicXL;
+    		Ani.to(this, (float)2, "characterPicX", this.width/2-125);
     	}
     }
     
@@ -538,20 +601,41 @@ public class Client extends PApplet{
     	} else if (this.menuStatus.equals("Information3")) {
     		this.menuStatus = "Information2";
     		this.changeBtnPos("NextBtn", -500, -500);
+    	} else if (this.menuStatus.equals("Selecting")) {
+    		this.characterID = (this.characterID==0) ? 3 : this.characterID-1;
+    		this.characterPicX = this.characterPicXR;
+    		Ani.to(this, (float)2, "characterPicX", this.width/2-125);
     	}
     }
     
     public void MuteBtn() {
     	if (this.isPlay) {
+    		cp5.getController("MuteBtn")
+    			.setColorBackground(color(255, 0, 0));
     		this.isPlay = false;
     		this.bgm.pause();
     	} else {
+    		cp5.getController("MuteBtn")
+				.setColorBackground(color(30, 144, 255));
     		this.isPlay = true;
     		this.bgm.play();
     	}
     }
-}
 
+    public void SelectBtn() {
+    	if (this.menuStatus.equals("Selecting")) {
+    		this.menuStatus = "Game";
+    		this.changeBtnPos("SelectBtn", -500, -500);
+    		this.changeBtnPos("PrevBtn", -500, -500);
+    		this.changeBtnPos("NextBtn", -500, -500);
+    		
+    		// Connect to Server
+    		this.isWaiting = true;
+    		this.connect();
+    	}
+    }
+
+}
 
 //------------------------------------------
 
