@@ -135,12 +135,14 @@ public class Client extends PApplet{
 		sheet = new PictureSheet(loadImage("match.png"));
 		
 		// Player
-		player = new Picture[10];
+		player = new Picture[15];
 		for(int tmp=0;tmp<5;tmp++){
 			player[tmp] = new Picture(sheet,tmp,0);
 			player[tmp].reSize(100, 100);
 			player[tmp+5] = new Picture(sheet,tmp,1);
 			player[tmp+5].reSize(100, 100);
+			player[tmp+10] = new Picture(sheet,tmp,2);
+			player[tmp+10].reSize(100, 100);
 		}
 		
 		

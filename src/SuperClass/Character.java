@@ -177,13 +177,23 @@ public class Character extends Entity
 			}
 		}
 		else{
-			setX(100);
-			setY(0);
 			if(dieTime==0)dieTime = System.nanoTime();
-			else if( System.nanoTime() - dieTime  > (long)10e8*2){
-				life = 500;
-				dieTime = 0;
-				setX(200);
+			else if( System.nanoTime() - dieTime  > (long)10e7*5){
+				if(frame<10){
+					frame=10;
+					dieTime = 0;
+				}
+				else if(frame==14){
+					frame = 0;
+					life = 500;
+					dieTime = 0;
+					setX(200);
+					setY(0);
+				}
+				else{
+					dieTime = 0;
+					frame++;
+				}
 			}
 		}
 		//////
