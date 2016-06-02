@@ -61,8 +61,10 @@ public class Client extends PApplet{
 	
 	// Menu Picture
 	private PImage titleImg;
-	private PImage[] menu_bg = new PImage[3];
+	private PImage menuBg;
+	private PImage[] menuPic = new PImage[3];
 	private PImage[] author = new PImage[5];
+	private PImage[][] character = new PImage[4][3];
 	
 	private int playerNum;
 	private int wallNum;
@@ -154,12 +156,18 @@ public class Client extends PApplet{
 		bgm.play();
 		
 		// Menu picture & animation
+		this.menuBg = this.loadImage("menuBg.png");
 		this.titleImg = this.loadImage("title.png");
 		for (int i = 0; i < 3; i++) 
-			this.menu_bg[i] = this.loadImage("menu_bg"+i+".png");
+			this.menuPic[i] = this.loadImage("menu_bg"+i+".png");
 		for (int i = 0; i < 5; i++)
 			this.author[i] = this.loadImage("author"+i+".png");
-		Ani.to(this, (float)2, "titleY", 100);
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 3; j++) {
+				this.character[i][j] = this.loadImage("character"+i+j+".png");
+			}
+		}
+		Ani.to(this, (float)2, "titleY", 50);
 		Ani.to(this, (float)2, "menu_bgX", 50);
 		
 	}
@@ -176,10 +184,11 @@ public class Client extends PApplet{
 		if (this.menuStatus.equals("MainMenu")) {
 			this.background(255);
 			// MainMenu Picture
+			this.image(this.menuBg, 0, 0, this.width, this.height);
 			this.image(this.titleImg, this.titleX, this.titleY);
 			
 			if (delay < 20) {
-				this.image(this.menu_bg[index], this.menu_bgX, this.menu_bgY, 250, 300);
+				this.image(this.menuPic[index], this.menu_bgX, this.menu_bgY, 250, 300);
 				delay++;
 				if (delay == 20) {
 					delay = 0;
@@ -189,9 +198,11 @@ public class Client extends PApplet{
 		}
 		else if (this.menuStatus.equals("Information1")) {
 			this.background(255);
+			this.image(this.menuBg, 0, 0, this.width, this.height);
 		}
 		else if (this.menuStatus.equals("Information2")) {
 			this.background(255);
+			this.image(this.menuBg, 0, 0, this.width, this.height);
 			
 			// Authors' name & picture
 			this.image(this.author[0], 200, 100, 250, 300);
@@ -199,6 +210,7 @@ public class Client extends PApplet{
 		}
 		else if (this.menuStatus.equals("Information3")) {
 			this.background(255);
+			this.image(this.menuBg, 0, 0, this.width, this.height);
 			
 			// Authors' name & picture
 			this.image(this.author[2], 130, 100, 250, 300);
@@ -210,7 +222,7 @@ public class Client extends PApplet{
 			switch (this.characterID) {
 				case 0:	
 					if (delay < 20) {
-						this.image(this.menu_bg[index], this.characterPicX, this.height/2-150, 250, 300);
+						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
 						delay++;
 						if (delay == 20) {
 							delay = 0;
@@ -220,7 +232,7 @@ public class Client extends PApplet{
 					break;
 				case 1:
 					if (delay < 20) {
-						this.image(this.author[index], this.characterPicX, this.height/2-150, 250, 300);
+						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
 						delay++;
 						if (delay == 20) {
 							delay = 0;
@@ -230,7 +242,7 @@ public class Client extends PApplet{
 					break;
 				case 2: 
 					if (delay < 20) {
-						this.image(this.menu_bg[index], this.characterPicX, this.height/2-150, 250, 300);
+						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
 						delay++;
 						if (delay == 20) {
 							delay = 0;
@@ -240,7 +252,7 @@ public class Client extends PApplet{
 					break;
 				case 3:
 					if (delay < 20) {
-						this.image(this.author[index], this.characterPicX, this.height/2-150, 250, 300);
+						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
 						delay++;
 						if (delay == 20) {
 							delay = 0;
@@ -547,7 +559,7 @@ public class Client extends PApplet{
     public void StartBtn() {
     	if (this.menuStatus.equals("MainMenu")) {
     		this.menuStatus = "Selecting";
-    		this.characterPicX = this.width/2-125;
+    		this.characterPicX = this.width/2-370;
     		this.changeBtnPos("SelectBtn", this.width/2-this.btnWidth/2, 580);
     		this.changeBtnPos("PrevBtn", 30, 300);
     		this.changeBtnPos("NextBtn", 870, 300);
@@ -585,26 +597,24 @@ public class Client extends PApplet{
     	} else if (this.menuStatus.equals("Information2")) {
     		this.menuStatus = "Information3";
     		this.changeBtnPos("NextBtn", -500, -500);
-    		this.changeBtnPos("PrevBtn", 30, 300);
     	} else if (this.menuStatus.equals("Selecting")) {
     		this.characterID = (this.characterID+1) % 4;
     		this.characterPicX = this.characterPicXL;
-    		Ani.to(this, (float)2, "characterPicX", this.width/2-125);
+    		Ani.to(this, (float)2, "characterPicX", this.width/2-370);
     	}
     }
     
     public void PrevBtn() {
     	if (this.menuStatus.equals("Information2")) {
     		this.menuStatus = "Information1";
-    		this.changeBtnPos("NextBtn", 870, 300);
     		this.changeBtnPos("PrevBtn", -500, -500);
     	} else if (this.menuStatus.equals("Information3")) {
     		this.menuStatus = "Information2";
-    		this.changeBtnPos("NextBtn", -500, -500);
+    		this.changeBtnPos("NextBtn", 870, 300);
     	} else if (this.menuStatus.equals("Selecting")) {
     		this.characterID = (this.characterID==0) ? 3 : this.characterID-1;
     		this.characterPicX = this.characterPicXR;
-    		Ani.to(this, (float)2, "characterPicX", this.width/2-125);
+    		Ani.to(this, (float)2, "characterPicX", this.width/2-370);
     	}
     }
     
