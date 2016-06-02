@@ -14,18 +14,21 @@ public class Tower extends Entity {
 	long nowTime;
 	PImage img;
 	private Random random = new Random();
-	
-	public static int[] placeX = new int[20];
+	private int index;
+	//remember the place that tower can revival
+	public static int[] placeX = new int[20]; 
 	public static int[] placeY = new int[20];
 	public static boolean[] isValid = new boolean[20];
 	
 	
 	
-	public Tower(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
+	public Tower(int x, int y, int width, int height, Type type, boolean solid, Handler handler,int index) {
 		super(x, y, width, height, type, solid, handler);
 		life = 5000;
+		//which place it is located
+		this.index = index;
 	}
-
+	// To initial place in the handler
 	public static void initPlace(int x ,int y , int index){
 		placeX[index] = x;
 		placeY[index] = y;
@@ -92,8 +95,9 @@ public class Tower extends Entity {
 					}
 				}
 			}
-			
+			// Tower die and random revival
 			if(life<0){
+				isValid[index] = false;
 				int tag;
 				do
 				{

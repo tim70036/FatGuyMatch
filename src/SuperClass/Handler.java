@@ -67,12 +67,13 @@ public class Handler {
 				}
 			}
 		}
-		
+		//Random put Tower at first
 		for(int x=0 ; x < 3; x++){
 			int y = random.nextInt(20);
 		
 			if(Tower.isValid[y]==false){
-				addEntity(new Tower(Tower.placeX[y],Tower.placeY[y],303,303,Type.TOWER,true,this));
+				addEntity(new Tower(Tower.placeX[y],Tower.placeY[y],303,303,Type.TOWER,true,this,y));
+				Tower.isValid[y] = true;
 			}
 			else 
 				x--;
