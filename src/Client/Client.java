@@ -582,7 +582,6 @@ public class Client extends PApplet{
     		this.changeBtnPos("NextBtn", 870, 300);
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
-    		this.changeBtnPos("MuteBtn", -500, -500);
     	}
     }
     
