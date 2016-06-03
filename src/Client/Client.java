@@ -443,16 +443,6 @@ public class Client extends PApplet{
 								handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 							
 						}
-//						else if(command.equals("Map"))
-//						{
-//							// Level,map floor  picture should be 16*16 32*32....
-//							try 
-//							{
-//								levelImage = ImageIO.read(new File("level.png"));
-//								handler.createLevel(levelImage);
-//								
-//							} catch (IOException e) {}
-//						}
 					}
 					
 					
