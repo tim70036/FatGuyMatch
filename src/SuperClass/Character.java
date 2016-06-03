@@ -263,7 +263,7 @@ public class Character extends Entity
 					if(shit != null)
 					{
 						shit.setX(this.getX());
-						shit.setY(this.getY() + 100);
+						shit.setY(this.getY() + 70);
 						shit.setAlpha(0f);
 						shit.used = true;
 					}

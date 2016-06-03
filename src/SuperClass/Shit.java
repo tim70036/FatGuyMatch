@@ -7,6 +7,8 @@ public class Shit extends Skill {
 	
 	public ShitType shitType;
 	
+	private int offset;
+	
 	private float alpha = 20f;
 
 	public Shit(int x, int y, int width, int height, Type type, boolean solid, Handler handler, ShitType shit) {
@@ -18,7 +20,9 @@ public class Shit extends Skill {
 	{
 		if(used == true)
 		{
+			parent.tint(255,alpha);
 			parent.image(Client.shitImage, getX(), getY());
+			parent.noTint();
 		}
 	}
 
@@ -27,14 +31,45 @@ public class Shit extends Skill {
 	{
 		if(used == true)
 		{
-			alpha = (alpha + 3f > 255f) ? 255f : alpha + 3f; // If alpha > 255 ----> error
+			alpha = (alpha + 3f >= 255f) ? 255f : alpha + 3f; // If alpha > 255 ----> error
 			
 			
 			
 			// Stop ? 
 			if(alpha >= 255f)
 			{
-				//this.die();
+//				delay++;
+//				if(delay > 80)
+//				{
+//					
+//					this.setY(getY() + getVelY());
+//					offset += getVelY();
+//					
+//					if(offset > 50)
+//					{
+//						setVelY(-1.5f);
+//					}
+//					else if(offset < 0)
+//					{
+//						setVelY(1.5f);
+//					}
+//					
+//				}
+				if(jumping)
+				{
+					gravity-=0.0008;
+					setVelY((float)-gravity);
+					if(gravity<=0.90)
+					{
+						jumping = false;
+						falling = true;
+					}
+				}
+				if(falling)
+				{
+					gravity+=0.003;
+					setVelY((float)gravity);			
+				}
 			}
 			else
 			{
