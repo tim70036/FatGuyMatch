@@ -157,28 +157,31 @@ public class Character extends Entity
 			// Skill
 			for(Skill s : this.getHandler().getSkill())
 			{
-				if(s.getType() == Type.FIRESKILL && s.playerID != this.playerID)
+				if(s.used == true)
 				{
-					if(this.getBound().intersects(s.getBound()))
+					if(s.getType() == Type.FIRESKILL && s.playerID != this.playerID)
 					{
-						s.used = false;
-						this.life -= 50;
+						if(this.getBound().intersects(s.getBound()))
+						{
+							s.die();
+							this.life -= 50;
+						}
 					}
-				}
-				else if(s.getType() == Type.LAZERSKILL && s.playerID != this.playerID)
-				{
-					if(this.getBound().intersects(s.getBound()))
+					else if(s.getType() == Type.LAZERSKILL && s.playerID != this.playerID)
 					{
-						s.used = false;
-						this.life -= 50;
+						if(this.getBound().intersects(s.getBound()))
+						{
+							s.die();
+							this.life -= 50;
+						}
 					}
-				}
-				else if(s.getType() == Type.MISSILE && s.playerID != this.playerID)
-				{
-					if(this.getBound().intersects(s.getBound()))
+					else if(s.getType() == Type.MISSILE && s.playerID != this.playerID)
 					{
-						s.used = false;
-						this.life -= 50;
+						if(this.getBound().intersects(s.getBound()))
+						{
+							s.die();
+							this.life -= 50;
+						}
 					}
 				}
 			}

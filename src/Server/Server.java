@@ -295,7 +295,7 @@ public class Server {
 						if(command.equals("Press"))
 						{
 							command = reader.readLine();
-							System.out.println(command);
+							//System.out.println(command);
 							
 							if(command.equals("W"))
 							{
