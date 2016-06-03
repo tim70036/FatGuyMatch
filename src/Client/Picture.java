@@ -13,5 +13,9 @@ public class Picture{
 	public void reSize(int w,int h){
 		this.img.resize(w, h);
 	}
+	public void setImage(PImage p)
+	{
+		this.img = p;
+	}
 	
 }

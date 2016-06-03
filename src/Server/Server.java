@@ -16,12 +16,14 @@ import SuperClass.Entity;
 import SuperClass.Handler;
 import SuperClass.LazerSkill;
 import SuperClass.Missile;
+import SuperClass.Shit;
 import SuperClass.Skill;
 import SuperClass.Tower;
 import SuperClass.Trail;
 import SuperClass.Type;
 import SuperClass.Wall;
 import SuperClass.FireSkill;
+import SuperClass.ShitType;
 
 public class Server {
 	
@@ -45,6 +47,7 @@ public class Server {
 	public int lazerSkillNum;
 	public int missileNum;
 	public int trailNum;
+	public int shitNum;
 	
 	public Server(int port, int playerNum)
 	{
@@ -134,7 +137,13 @@ public class Server {
 		for(int i=0 ; i<trailNum ; i++)
 			handler.addTrail(new Trail(-100,0,100,100,Type.TRAIL , false, handler));
 		broadCast("Init"); broadCast("Trail");	broadCast(Integer.toString(trailNum));
-	
+		
+		// Shit
+		shitNum = 20;
+		for(int i=0 ; i<shitNum ; i++)
+			handler.addSkill(new Shit(-100,0,100,100,Type.SHIT, true, handler, ShitType.TRAIL));
+		broadCast("Init"); broadCast("Shit");	broadCast(Integer.toString(shitNum));
+		
 		//init map,floor.   picture should be 16*16 32*32....
 		try 
 		{

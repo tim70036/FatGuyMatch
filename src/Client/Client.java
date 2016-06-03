@@ -22,6 +22,8 @@ import SuperClass.FireSkill;
 import SuperClass.Handler;
 import SuperClass.LazerSkill;
 import SuperClass.Missile;
+import SuperClass.Shit;
+import SuperClass.ShitType;
 import SuperClass.Skill;
 import SuperClass.Tower;
 import SuperClass.Trail;
@@ -94,11 +96,18 @@ public class Client extends PApplet{
 	public static PictureSheet sheet;
 	public static Picture player[];
 	
+	// Shit
+	public static PImage shitImage;
+	
+	// Door
+	public static PImage doorImage;
+	
 	// SKill
 	private int fireSkillNum;
 	private int lazerSkillNum;
 	private int missileNum;
 	private int trailNum;
+	private int shitNum;
 	
 	// music
 	private Minim minim;
@@ -178,6 +187,15 @@ public class Client extends PApplet{
 				this.character[i][j] = this.loadImage("character"+i+j+".png");
 			}
 		}
+		
+		// Shit
+		shitImage = this.loadImage("shit.png");
+		shitImage.resize(100, 100);
+		
+		// Door
+		doorImage = this.loadImage("door.png");
+		doorImage.resize(150, 150);
+		
 		Ani.to(this, (float)2, "titleY", 50);
 		Ani.to(this, (float)2, "menu_bgX", 50);
 		
@@ -479,6 +497,14 @@ public class Client extends PApplet{
 							trailNum = Integer.parseInt(command);
 							for(int i=0 ; i<trailNum ; i++)
 								handler.addTrail(new Trail(-100, 0, 100, 100, Type.TRAIL, false, handler));
+						}
+						else if(command.equals("Shit"))
+						{
+							command = reader.readLine();
+							
+							shitNum = Integer.parseInt(command);
+							for(int i=0 ; i<shitNum ; i++)
+								handler.addSkill(new Shit(-100,0,100,100,Type.SHIT, true, handler, ShitType.TRAIL));
 						}
 					}
 					

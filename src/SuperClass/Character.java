@@ -237,18 +237,44 @@ public class Character extends Entity
 		{
 			if(dieTime==0)dieTime = System.nanoTime();
 			else if( System.nanoTime() - dieTime  > (long)10e7*5){
-				if(frame<10){
+				// Start to die
+				if(frame<10)
+				{
 					frame=10;
 					dieTime = 0;
 				}
-				else if(frame==14){
+				// Died ---> put shit
+				else if(frame==14)
+				{
 					frame = 0;
 					life = 500;
 					dieTime = 0;
+					
+					// Put an unsused shit and put on it
+					Shit shit = null;
+					for(Skill s : this.getHandler().getSkill())
+					{
+						if(s.getType() == Type.SHIT && s.used == false)
+						{
+							shit = (Shit) s;
+							break;
+						}
+					}
+					if(shit != null)
+					{
+						shit.setX(this.getX());
+						shit.setY(this.getY() + 100);
+						shit.setAlpha(0f);
+						shit.used = true;
+					}
+					
+					// Revive
 					setX(200);
 					setY(0);
 				}
-				else{
+				// Dying
+				else
+				{
 					dieTime = 0;
 					frame++;
 				}

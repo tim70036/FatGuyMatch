@@ -43,8 +43,6 @@ public abstract class Skill {
 		this.used = false;
 		this.setX(-100);
 		this.setY(0);
-		this.setVelX(0);
-		this.setVelY(0);
 		this.playerID = -1;
 	}
 	

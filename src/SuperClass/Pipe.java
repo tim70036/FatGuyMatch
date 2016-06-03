@@ -4,10 +4,10 @@ import java.util.Random;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import Client.*;
 
 public class Pipe extends Entity {
 	public boolean open_close=false;
-	PImage img;
 	public static int[] doorX = new int[12]; 
 	public static int[] doorY = new int[12];
 	private Random random = new Random();
@@ -25,12 +25,10 @@ public class Pipe extends Entity {
 		Valid[index] = false;
 	}
 
-	@Override
-	public void display(PApplet parent) {
-		// TODO Auto-generated method stub
-		img = parent.loadImage("door.png");
-		img.resize(300,300);
-		parent.image(img, getX(), getY(),getWidth(),getHeight());
+	public void display(PApplet parent) 
+	{
+		
+		parent.image(Client.doorImage, getX(), getY(),getWidth(),getHeight());
 		
 	}
 	
