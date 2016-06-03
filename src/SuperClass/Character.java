@@ -10,6 +10,7 @@ public class Character extends Entity
 	
 	public int playerID;
 	public long dieTime = 0;
+	public long lastTime = 0;
 	private Random rand=new Random();
 	
 	// Trail effect
@@ -43,25 +44,31 @@ public class Character extends Entity
 	{
 		if(inTrail)
 		{
-			// Find an unuse Trail
-			Trail trail = null;
-			for(Trail t: this.getHandler().getTrail())
+			long nowTime = System.nanoTime();
+			if(nowTime - lastTime > 5 * 10e6)
 			{
-				if(t.used == false)
+				lastTime = nowTime;
+				
+				// Find an unuse Trail
+				Trail trail = null;
+				for(Trail t: this.getHandler().getTrail())
 				{
-					trail = t;
-					break;
+					if(t.used == false)
+					{
+						trail = t;
+						break;
+					}
 				}
-			}
-			
-			// Show Trail
-			if(trail != null)
-			{
-				trail.setX(this.getX());
-				trail.setY(this.getY());
-				trail.setAlpha(255f);
-				trail.setFrame(this.frame); // Now Image's frame
-				trail.used = true;
+				
+				// Show Trail
+				if(trail != null)
+				{
+					trail.setX(this.getX());
+					trail.setY(this.getY());
+					trail.setAlpha(255f);
+					trail.setFrame(this.frame); // Now Image's frame
+					trail.used = true;
+				}
 			}
 		}
 		

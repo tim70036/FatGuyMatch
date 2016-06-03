@@ -34,7 +34,7 @@ public class Trail extends Skill {
 		
 		if(used == true)
 		{
-			alpha = (alpha - 3.0f < 0.0f) ? 0.0f : alpha - 3.0f; // If alpha < 0 ----> error
+			alpha = (alpha - 1.5f < 0.0f) ? 0.0f : alpha - 1.5f; // If alpha < 0 ----> error
 			
 			// Done ? 
 			if(alpha <= 0.0f)
