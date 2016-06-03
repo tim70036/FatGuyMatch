@@ -188,8 +188,6 @@ public class Client extends PApplet{
 		this.translate(cam.getX(), cam.getY());
 		//this.scale((float)2.0);
 		
-		
-		
 		if (this.menuStatus.equals("MainMenu")) {
 			this.background(255);
 			// MainMenu Picture
@@ -407,6 +405,14 @@ public class Client extends PApplet{
 							playerNum = Integer.parseInt(command);
 							for(int i=0 ; i < playerNum ; i++)
 								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
+							
+							// Level,map floor  picture should be 16*16 32*32....
+							try 
+							{
+								levelImage = ImageIO.read(new File("level.png"));
+								handler.createLevel(levelImage);
+								
+							} catch (IOException e) {}
 						}
 						else if(command.equals("FireSkill"))
 						{
@@ -436,15 +442,6 @@ public class Client extends PApplet{
 							for(int i=0 ; i<missileNum; i++)
 								handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 							
-						}
-						else if(command.equals("Map"))
-						{
-							// Level,map floor  picture should be 16*16 32*32....
-							try 
-							{
-								levelImage = ImageIO.read(new File("level.png"));
-								handler.createLevel(levelImage);
-							} catch (IOException e) {}
 						}
 					}
 					

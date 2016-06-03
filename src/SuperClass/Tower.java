@@ -79,8 +79,6 @@ public class Tower extends Entity {
 						}
 					}
 				}
-					
-//					if(lazer != null){lazer = null;System.out.println("shoot");}
 			}
 			
 			for(Skill s : this.getHandler().getSkill())
@@ -104,6 +102,8 @@ public class Tower extends Entity {
 					tag = random.nextInt(20);
 					this.setX(placeX[tag]);
 					this.setY(placeY[tag]);
+					Tower.isValid[tag] = true;
+					this.index = tag;
 				}while(isValid[tag]==false);
 				this.life = 5000;
 			}

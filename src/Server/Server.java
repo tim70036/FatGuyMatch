@@ -85,11 +85,15 @@ public class Server {
 		}
 		System.out.println("Server stops waiting for client.");
 		
+		// Init Data
+		init();
+		
 		// Tell all Client to start
 		broadCast("StartGame"); 
 		
-		// Init Data
-		init();
+		// Id
+		setAllID();
+				
 		
 		// Start GameThread
 		isRunning = true;
@@ -99,9 +103,6 @@ public class Server {
 	
 	public synchronized void init() // Init all object , and tell Clients to init the same thing
 	{
-		// Id
-		setAllID();
-		
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
 			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
@@ -131,16 +132,6 @@ public class Server {
 		{
 			handler.createLevel(ImageIO.read(new File("level.png")));
 		} catch (IOException e) {}
-		broadCast("Init");	broadCast("Map"); 
-		
-		try{
-
-		    Thread.sleep(1000);
-		}catch(Exception e)
-		{
-		   System.out.println("Exception caught");
-		}
-
 	}
 	
 	public synchronized void stop()
@@ -269,7 +260,7 @@ public class Server {
 					//System.out.println(command);
 					
 					
-					if(command.equals("Connect"))
+					if(command.equals("Ready to Start"))
 					{
 						
 					}
@@ -307,55 +298,62 @@ public class Server {
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 0;
 							}
+							// Fire Skill
 							if(command.equals("C"))
 							{
-								// Find an unused FireSkill
-								FireSkill fire = null;
-								for(Skill s : handler.getSkill())
+								if(handler.getEntity().get(playerID).life > 0)
 								{
-									if(s.getType() == Type.FIRESKILL && s.used == false)
+									// Find an unused FireSkill
+									FireSkill fire = null;
+									for(Skill s : handler.getSkill())
 									{
-										fire = (FireSkill) s;
-										break;
+										if(s.getType() == Type.FIRESKILL && s.used == false)
+										{
+											fire = (FireSkill) s;
+											break;
+										}
 									}
-								}
-								
-								// Launch fire
-								if(fire != null)
-								{
-									fire.setX(handler.getEntity().get(playerID).getX());
-									fire.setY(handler.getEntity().get(playerID).getY());
-									fire.face = handler.getEntity().get(playerID).face;
-									fire.playerID  = playerID;
-									fire.used = true;
+									
+									// Launch fire
+									if(fire != null)
+									{
+										fire.setX(handler.getEntity().get(playerID).getX());
+										fire.setY(handler.getEntity().get(playerID).getY());
+										fire.face = handler.getEntity().get(playerID).face;
+										fire.playerID  = playerID;
+										fire.used = true;
+									}
 								}
 							}
-							///// Missile Skill
+							// Missile Skill
 							else if(command.equals("F"))
 							{
-								// Find an unused FireSkill
-								Missile fire = null;
-								for(Skill s : handler.getSkill())
+								if(handler.getEntity().get(playerID).life > 0)
 								{
-									if(s.getType() == Type.MISSILE && s.used == false)
+									// Find an unused Missile Skill
+									Missile missile = null;
+									for(Skill s : handler.getSkill())
 									{
-										fire = (Missile) s;
-										break;
+										if(s.getType() == Type.MISSILE && s.used == false)
+										{
+											missile = (Missile) s;
+											break;
+										}
 									}
-								}
-								
-								// Launch fire
-								if(fire != null)
-								{
-									fire.setX(handler.getEntity().get(playerID).getX());
-									fire.setY(handler.getEntity().get(playerID).getY());
-									if(playerNum==1)
-										fire.en = (Character) handler.getEntity().get(0);
-									else
-										fire.en = (Character) handler.getEntity().get((playerID+1)%(playerNum));
-									fire.playerID  = playerID;
-									fire.used = true;
-								}
+									
+									// Launch Missle
+									if(missile != null)
+									{
+										missile.setX(handler.getEntity().get(playerID).getX());
+										missile.setY(handler.getEntity().get(playerID).getY());
+										if(playerNum==1)
+											missile.en = (Character) handler.getEntity().get(0);
+										else
+											missile.en = (Character) handler.getEntity().get((playerID+1)%(playerNum));
+										missile.playerID  = playerID;
+										missile.used = true;
+									}
+								}	
 							}
 							else;
 						}
