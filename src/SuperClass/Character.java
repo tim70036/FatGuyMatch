@@ -264,6 +264,7 @@ public class Character extends Entity
 					{
 						shit.setX(this.getX());
 						shit.setY(this.getY() + 70);
+						shit.jumping = true;
 						shit.setAlpha(0f);
 						shit.used = true;
 					}
