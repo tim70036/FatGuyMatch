@@ -29,9 +29,9 @@ public class Shit extends Skill {
 		{
 			if(jumping)
 			{
-				gravity-=0.0008;
+				gravity-=0.0004;
 				setVelY((float)-gravity);
-				if(gravity<=0.90)
+				if(gravity<=0.48)
 				{
 					jumping = false;
 					falling = true;
@@ -39,14 +39,15 @@ public class Shit extends Skill {
 			}
 			else if(falling)
 			{
-				gravity+=0.003;
+				gravity+=0.0004;
 				setVelY((float)gravity);
-				if(gravity >= 1.0)
+				if(gravity >= 0.5)
 				{
 					jumping = true;
 					falling = false;
 				}
 			}
+			setY(getY() + getVelY());
 		}
 	}
 }
