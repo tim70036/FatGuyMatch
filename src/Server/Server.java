@@ -164,7 +164,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 100000000.0/60.0;
+			double ns = 400000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
@@ -321,7 +321,7 @@ public class Server {
 							}
 							if(command.equals("A"))
 							{
-								handler.getCharacter().get(playerID).setVelX(-0.4f);
+								handler.getCharacter().get(playerID).setVelX(-1.5f);
 								handler.getCharacter().get(playerID).move = true;
 								handler.getCharacter().get(playerID).face = 1;
 							}
@@ -329,7 +329,7 @@ public class Server {
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							if(command.equals("D"))
 							{
-								handler.getCharacter().get(playerID).setVelX(0.4f);
+								handler.getCharacter().get(playerID).setVelX(1.5f);
 								handler.getCharacter().get(playerID).move = true;
 								handler.getCharacter().get(playerID).face = 0;
 							}
@@ -395,7 +395,7 @@ public class Server {
 						if(command.equals("Release"))
 						{
 							command = reader.readLine();
-							System.out.println(command);
+							//System.out.println(command);
 							
 							if(command.equals("A")){
 								handler.getCharacter().get(playerID).setVelX(0);

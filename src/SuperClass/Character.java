@@ -14,7 +14,7 @@ public class Character extends Entity
 	private Random rand=new Random();
 	
 	// Trail effect
-	public boolean inTrail = false;
+	public boolean inTrail = true;
 	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
 	{
@@ -197,9 +197,9 @@ public class Character extends Entity
 			// Jumping Falling
 			if(jumping)
 			{
-				gravity-=0.0002;
+				gravity-=0.0008;
 				setVelY((float)-gravity);
-				if(gravity<=0.94)
+				if(gravity<=0.90)
 				{
 					jumping = false;
 					falling = true;
@@ -207,7 +207,7 @@ public class Character extends Entity
 			}
 			if(falling)
 			{
-				gravity+=0.0015;
+				gravity+=0.003;
 				setVelY((float)gravity);			
 			}
 			
