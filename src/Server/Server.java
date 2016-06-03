@@ -131,16 +131,6 @@ public class Server {
 		{
 			handler.createLevel(ImageIO.read(new File("level.png")));
 		} catch (IOException e) {}
-		broadCast("Init");	broadCast("Map"); 
-		
-		try{
-
-		    Thread.sleep(1000);
-		}catch(Exception e)
-		{
-		   System.out.println("Exception caught");
-		}
-
 	}
 	
 	public synchronized void stop()
@@ -307,6 +297,7 @@ public class Server {
 								handler.getEntity().get(playerID).move = true;
 								handler.getEntity().get(playerID).face = 0;
 							}
+							// Fire Skill
 							if(command.equals("C"))
 							{
 								// Find an unused FireSkill
@@ -330,31 +321,31 @@ public class Server {
 									fire.used = true;
 								}
 							}
-							///// Missile Skill
+							// Missile Skill
 							else if(command.equals("F"))
 							{
-								// Find an unused FireSkill
-								Missile fire = null;
+								// Find an unused Missile Skill
+								Missile missile = null;
 								for(Skill s : handler.getSkill())
 								{
 									if(s.getType() == Type.MISSILE && s.used == false)
 									{
-										fire = (Missile) s;
+										missile = (Missile) s;
 										break;
 									}
 								}
 								
-								// Launch fire
-								if(fire != null)
+								// Launch Missle
+								if(missile != null)
 								{
-									fire.setX(handler.getEntity().get(playerID).getX());
-									fire.setY(handler.getEntity().get(playerID).getY());
+									missile.setX(handler.getEntity().get(playerID).getX());
+									missile.setY(handler.getEntity().get(playerID).getY());
 									if(playerNum==1)
-										fire.en = (Character) handler.getEntity().get(0);
+										missile.en = (Character) handler.getEntity().get(0);
 									else
-										fire.en = (Character) handler.getEntity().get((playerID+1)%(playerNum));
-									fire.playerID  = playerID;
-									fire.used = true;
+										missile.en = (Character) handler.getEntity().get((playerID+1)%(playerNum));
+									missile.playerID  = playerID;
+									missile.used = true;
 								}
 							}
 							else;

@@ -79,8 +79,6 @@ public class Tower extends Entity {
 						}
 					}
 				}
-					
-//					if(lazer != null){lazer = null;System.out.println("shoot");}
 			}
 			
 			for(Skill s : this.getHandler().getSkill())
