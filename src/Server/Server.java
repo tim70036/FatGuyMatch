@@ -18,6 +18,7 @@ import SuperClass.LazerSkill;
 import SuperClass.Missile;
 import SuperClass.Skill;
 import SuperClass.Tower;
+import SuperClass.Trail;
 import SuperClass.Type;
 import SuperClass.Wall;
 import SuperClass.FireSkill;
@@ -43,6 +44,7 @@ public class Server {
 	public int fireSkillNum;
 	public int lazerSkillNum;
 	public int missileNum;
+	public int trailNum;
 	
 	public Server(int port, int playerNum)
 	{
@@ -126,6 +128,12 @@ public class Server {
 		for(int i=0 ; i<missileNum; i++)
 			handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 		broadCast("Init");	broadCast("MissileSkill"); broadCast(Integer.toString(missileNum));
+		
+		//Trail 
+		trailNum = 200;
+		for(int i=0 ; i<trailNum ; i++)
+			handler.addTrail(new Trail(-100,0,100,100,Type.TRAIL , false, handler));
+		broadCast("Init"); broadCast("Trail");	broadCast(Integer.toString(trailNum));
 	
 		//init map,floor.   picture should be 16*16 32*32....
 		try 
@@ -208,6 +216,21 @@ public class Server {
 			broadCast(x);
 			broadCast(y);
 			broadCast(u);
+		}
+		
+		// Trail Data
+		for(Trail t : handler.getTrail())
+		{
+			String x = Float.toString(t.getX());
+			String y = Float.toString(t.getY());
+			String u = (t.used == true) ? "True" : "False";
+			String frame = Integer.toString(t.getFrame());
+			String Alpha = Float.toString(t.getAlpha());
+			broadCast(x);
+			broadCast(y);
+			broadCast(u);
+			broadCast(frame);
+			broadCast(Alpha);
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //

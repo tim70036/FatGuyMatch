@@ -11,6 +11,10 @@ public class Character extends Entity
 	public int playerID;
 	public long dieTime = 0;
 	private Random rand=new Random();
+	
+	// Trail effect
+	public boolean inTrail = true;
+	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
 	{
 		super(x, y, width, height, type, solid, handler);
@@ -37,6 +41,30 @@ public class Character extends Entity
 
 	public void update() 
 	{
+		if(inTrail)
+		{
+			// Find an unuse Trail
+			Trail trail = null;
+			for(Trail t: this.getHandler().getTrail())
+			{
+				if(t.used == false)
+				{
+					trail = t;
+					break;
+				}
+			}
+			
+			// Show Trail
+			if(trail != null)
+			{
+				trail.setX(this.getX());
+				trail.setY(this.getY());
+				trail.setAlpha(255f);
+				trail.setFrame(this.frame); // Now Image's frame
+				trail.used = true;
+			}
+		}
+		
 		if(life>0){
 			setX(getX() + getVelX());
 			setY(getY() + getVelY());
@@ -52,12 +80,6 @@ public class Character extends Entity
 					falling = true;
 				}
 			}
-			/*if(getX() + getWidth() >= ClientMain.windowWidth) 		setX(getX() + getVelX());
-			if(getY() + getHeight() >= ClientMain.windowHeight)
-			{
-				setY(0);
-			    if(falling) falling = false;
-			}*/
 			
 	
 			// Collision Detection
@@ -129,35 +151,6 @@ public class Character extends Entity
 							falling = true;
 						}
 					}
-					
-					/*if(this.getBoundBottom().intersects(e.getBound())) // Character's bottom collide
-					{
-						this.setVelY(0);
-						if(falling) 
-							falling = false;
-						
-						this.setY(e.getY() - this.getHeight()); // Right On the top of t
-					}
-					else // Fall down if get out of platform ---> Bottom not collide
-					{
-					    if(!falling && !jumping) 
-						{
-							gravity = 0.0;
-							falling = true;
-						}
-					}*/
-					
-					/*if(this.getBoundLeft().intersects(e.getBound())) // Character's left collide
-					{
-						this.setVelX(0);
-						this.setX(e.getX() + e.getWidth()); // Right on the right of t
-					}
-					
-					if(this.getBoundRight().intersects(e.getBound())) // Character's right collide
-					{
-						this.setVelX(0);
-						this.setX(e.getX() - this.getWidth()); // Right on the left of t
-					}*/
 				}
 			}
 			

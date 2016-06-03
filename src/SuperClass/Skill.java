@@ -40,7 +40,12 @@ public abstract class Skill {
 	
 	public void die()
 	{
-		handler.removeSkill(this);
+		this.used = false;
+		this.setX(-100);
+		this.setY(0);
+		this.setVelX(0);
+		this.setVelY(0);
+		this.playerID = -1;
 	}
 	
 	// For Collision Detection

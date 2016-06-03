@@ -20,7 +20,6 @@ public class FireSkill extends Skill{
 			parent.fill(12,63,45);
 			parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
 		}
-		
 	}
 
 	@Override
@@ -30,43 +29,21 @@ public class FireSkill extends Skill{
 		if(used == true)
 		{
 			delay++;
-			if(face==0){
-				if(delay>8){
-					frame++;
-					delay=0;
-					setVelX(20);
-					setX(getX()+getVelX());
-					if(frame>40){
-						frame=0;
-						setX(100);
-						setY(0);
-						used = false;
-					}
-				}
+			
+			if(delay>8)
+			{
+				frame++;
+				delay=0;
+				if(face==0)	setVelX(20);
+				else setVelX(-20);
+				setX(getX()+getVelX());
 			}
-			else{
-				if(delay>8){
-					frame++;
-					delay=0;
-					setVelX(-20);
-					setX(getX()+getVelX());
-					if(frame>40){
-						frame=0;
-						setX(100);
-						setY(0);
-						used = false;
-					}
-				}
+		
+			if(frame>40)
+			{
+				frame=0;
+				this.die();
 			}
-		}
-		// Skill done, back to origin x , y
-		else
-		{
-			playerID = -1;
-			setVelX(0);
-			setVelY(0);
-			setX(100);
-			setY(0);
 		}
 		
 	}

@@ -35,23 +35,16 @@ public class Missile extends Skill{
 				setVelY((en.getY()-getY())/10);
 				setX(getX()+getVelX());
 				setY(getY()+getVelY());
-				if(frame>50){
+				if(frame>50)
+				{
 					frame=0;
-					setX(100);
-					setY(0);
-					used = false;
+					// Skill done, back to origin x , y
+					this.die();
 				}
 			}
 		}
-		// Skill done, back to origin x , y
-		else
-		{
-			playerID = -1;
-			setVelX(0);
-			setVelY(0);
-			setX(100);
-			setY(0);
-		}
+		
+
 	}
 
 }

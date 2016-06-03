@@ -37,19 +37,9 @@ public class LazerSkill extends Skill {
 				setY(getY()+getVelY());
 				if(frame>50){
 					frame=0;
-					setX(100);
-					setY(0);
-					used = false;
+					this.die();
 				}
 			}
-		}
-		// Skill done, back to origin x , y
-		else
-		{
-			setVelX(0);
-			setVelY(0);
-			setX(100);
-			setY(0);
 		}
 	}
 

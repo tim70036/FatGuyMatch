@@ -24,6 +24,7 @@ import SuperClass.LazerSkill;
 import SuperClass.Missile;
 import SuperClass.Skill;
 import SuperClass.Tower;
+import SuperClass.Trail;
 import SuperClass.Type;
 import SuperClass.Wall;
 import controlP5.ControlEvent;
@@ -97,6 +98,7 @@ public class Client extends PApplet{
 	private int fireSkillNum;
 	private int lazerSkillNum;
 	private int missileNum;
+	private int trailNum;
 	
 	// music
 	private Minim minim;
@@ -393,6 +395,22 @@ public class Client extends PApplet{
 							s.setY(Float.parseFloat(y));
 							s.used = (used.equals("True")) ? true : false;
 						}
+						
+						// Trail Data
+						for(Trail t : handler.getTrail())
+						{
+							String x = reader.readLine();
+							String y = reader.readLine();
+							String used = reader.readLine();
+							String frame = reader.readLine();
+							String Alpha = reader.readLine();
+							
+							t.setX(Float.parseFloat(x));
+							t.setY(Float.parseFloat(y));;
+							t.used = (used.equals("True")) ? true : false;
+							t.setFrame(Integer.parseInt(frame));
+							t.setAlpha(Float.parseFloat(Alpha));
+						}
 					}
 					else if(command.equals("Init"))
 					{
@@ -442,6 +460,14 @@ public class Client extends PApplet{
 							for(int i=0 ; i<missileNum; i++)
 								handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 							
+						}
+						else if(command.equals("Trail"))
+						{
+							command = reader.readLine();
+							
+							trailNum = Integer.parseInt(command);
+							for(int i=0 ; i<trailNum ; i++)
+								handler.addTrail(new Trail(-100, 0, 100, 100, Type.TRAIL, false, handler));
 						}
 					}
 					
@@ -576,12 +602,13 @@ public class Client extends PApplet{
     public void StartBtn() {
     	if (this.menuStatus.equals("MainMenu")) {
     		this.menuStatus = "Selecting";
-    		this.characterPicX = this.width/2-370;
-    		this.changeBtnPos("SelectBtn", this.width/2-this.btnWidth/2, 580);
+    		this.characterPicX = Client.width/2-370;
+    		this.changeBtnPos("SelectBtn", Client.width/2-this.btnWidth/2, 580);
     		this.changeBtnPos("PrevBtn", 30, 300);
     		this.changeBtnPos("NextBtn", 870, 300);
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
+    		this.changeBtnPos("MuteBtn", -500, -500);
     	}
     }
     
