@@ -9,7 +9,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Handler {
-	//private ArrayList<Character>	character
+	private ArrayList<Character>	character;
 	private ArrayList<Entity>	entity;
 	private ArrayList<Tile> 	tile;
 	private ArrayList<Skill>	skill;
@@ -18,6 +18,7 @@ public class Handler {
 	
 	public Handler()
 	{
+		character = new ArrayList<Character>();
 		entity = new ArrayList<Entity>();
 		tile = new ArrayList<Tile>();
 		skill = new ArrayList<Skill>();
@@ -26,6 +27,8 @@ public class Handler {
 	
 	public void display(PApplet parent)
 	{
+		for(Character ch : character)
+			ch.display(parent);
 		for(Entity en : entity)
 			en.display(parent);
 		for(Tile t : tile)
@@ -38,6 +41,8 @@ public class Handler {
 	
 	public void update()
 	{
+		for(Character ch : character)
+			ch.update();
 		for(Entity en : entity)
 			en.update();
 		for(Tile t : tile)
@@ -100,6 +105,7 @@ public class Handler {
 		}
 	}
 	
+	public void addCharacter(Character ch)	{ character.add(ch); }
 	public void addEntity(Entity en)	{	entity.add(en); }
 	public void addTile(Tile t)	{ tile.add(t); }
 	public void addSkill(Skill s){	skill.add(s); }
@@ -110,6 +116,7 @@ public class Handler {
 	public void removeSkill(Skill s){ skill.remove(s); }
 	public void removeTrail(Trail t){ trail.remove(t); }
 	
+	public ArrayList<Character> getCharacter(){return character; } 
 	public ArrayList<Entity> getEntity() { return entity; }
 	public ArrayList<Tile>	getTile() { return tile; }
 	public ArrayList<Skill>	getSkill() {return skill;}

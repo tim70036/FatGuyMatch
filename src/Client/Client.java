@@ -309,12 +309,10 @@ public class Client extends PApplet{
 			handler.display(this);
 			
 			int tag=0;
-			for(Entity en:handler.getEntity()){
-				if(en.getType() == Type.CHARACTER){
-					
-					cam.tick(en);
-					if(tag==ID)break;tag++;
-				}
+			for(Character en:	handler.getCharacter())
+			{
+				cam.tick(en);
+				if(tag==ID)break;tag++;
 			}
 		}
 		
@@ -373,6 +371,19 @@ public class Client extends PApplet{
 					else if(command.equals("GameData"))
 					{
 						// Character's Data
+						for(Character ch : handler.getCharacter())
+						{
+							String x = reader.readLine();
+							String y = reader.readLine();
+							String frame = reader.readLine();
+							String life = reader.readLine();
+							ch.setX(Float.parseFloat(x));
+							ch.setY(Float.parseFloat(y));
+							ch.setFrame(Integer.parseInt(frame));
+							ch.life = Integer.parseInt(life);
+						}
+						
+						// Entity Data
 						for(Entity ch : handler.getEntity())
 						{
 							String x = reader.readLine();
@@ -422,7 +433,7 @@ public class Client extends PApplet{
 							
 							playerNum = Integer.parseInt(command);
 							for(int i=0 ; i < playerNum ; i++)
-								handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
+								handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
 							
 							// Level,map floor  picture should be 16*16 32*32....
 							try 
@@ -470,7 +481,6 @@ public class Client extends PApplet{
 								handler.addTrail(new Trail(-100, 0, 100, 100, Type.TRAIL, false, handler));
 						}
 					}
-					
 					
 				} catch (IOException e) {e.printStackTrace();}
 			}
@@ -525,7 +535,7 @@ public class Client extends PApplet{
 		cp5.addButton("StartBtn")
 			.setLabel("Let's Start Game")
 			.setSize(this.btnWidth, this.btnHeight)
-			.setPosition(this.width/2-this.btnWidth/2, 400)
+			.setPosition(Client.width/2-this.btnWidth/2, 400)
 			.setColorForeground(color(0,255,0))
 			.setColorBackground(color(30, 144, 255))
 			.getCaptionLabel()
@@ -535,7 +545,7 @@ public class Client extends PApplet{
 		cp5.addButton("InfoBtn")
 			.setLabel("Information")
 			.setSize(this.btnWidth, this.btnHeight)
-			.setPosition(this.width/2-this.btnWidth/2, 500)
+			.setPosition(Client.width/2-this.btnWidth/2, 500)
 			.setColorForeground(color(0,255,0))
 			.setColorBackground(color(30, 144, 255))
 			.getCaptionLabel()

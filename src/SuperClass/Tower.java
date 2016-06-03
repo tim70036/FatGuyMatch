@@ -52,30 +52,27 @@ public class Tower extends Entity {
 	public void update() 
 	{
 		// Character Detection
-		for(Entity e : this.getHandler().getEntity())
+		for(Character e : this.getHandler().getCharacter())
 		{
-			if(e.getType() == Type.CHARACTER)
+			// If in the area of Tower
+			if(this.getBound().intersects(e.getBound()))
 			{
-				// If in the area of Tower
-				if(this.getBound().intersects(e.getBound()))
+				nowTime = System.nanoTime();
+				// Emit a unused Lazer to it
+				if(nowTime - lastTime > (long)10e8 * 2) // Fire Rate
 				{
-					nowTime = System.nanoTime();
-					// Emit a unused Lazer to it
-					if(nowTime - lastTime > (long)10e8 * 2) // Fire Rate
+					for(Skill s : this.getHandler().getSkill())
 					{
-						for(Skill s : this.getHandler().getSkill())
+						if(s.getType() == Type.LAZERSKILL && s.used == false)
 						{
-							if(s.getType() == Type.LAZERSKILL && s.used == false)
-							{
-								LazerSkill lazer = (LazerSkill) s;
-								lazer.used = true;
-								lazer.setX(this.getX());
-								lazer.setY(this.getY());
-								lazer.setVelX( (e.getX() - this.getX()) / 5 );
-								lazer.setVelY( (e.getY() - this.getY()) / 5 );
-								lastTime = nowTime;
-								break;
-							}
+							LazerSkill lazer = (LazerSkill) s;
+							lazer.used = true;
+							lazer.setX(this.getX());
+							lazer.setY(this.getY());
+							lazer.setVelX( (e.getX() - this.getX()) / 5 );
+							lazer.setVelY( (e.getY() - this.getY()) / 5 );
+							lastTime = nowTime;
+							break;
 						}
 					}
 				}

@@ -107,7 +107,7 @@ public class Server {
 	{
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
-			handler.addEntity(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
+			handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 		
 		
@@ -194,6 +194,19 @@ public class Server {
 		broadCast("GameData");
 		
 		// Character's Data
+		for(Character ch : handler.getCharacter())
+		{
+			String x = Float.toString(ch.getX());
+			String y = Float.toString(ch.getY());
+			String frame = Integer.toString(ch.getFrame());
+			String life = Integer.toString(ch.life);
+			broadCast(x);
+			broadCast(y);
+			broadCast(frame);
+			broadCast(life);
+			
+		}
+		
 		for(Entity ch : handler.getEntity())
 		{
 			String x = Float.toString(ch.getX());
@@ -299,32 +312,31 @@ public class Server {
 							
 							if(command.equals("W"))
 							{
-								//characters.getEntity().get(playerID).setVelY(-0.1f);
-							    if(!handler.getEntity().get(playerID).jumping)
+							    if(!handler.getCharacter().get(playerID).jumping)
 							    {
-									handler.getEntity().get(playerID).jumping = true;
-									handler.getEntity().get(playerID).falling = false;
-									handler.getEntity().get(playerID).gravity = 1;
+									handler.getCharacter().get(playerID).jumping = true;
+									handler.getCharacter().get(playerID).falling = false;
+									handler.getCharacter().get(playerID).gravity = 1;
 								}
 							}
 							if(command.equals("A"))
 							{
-								handler.getEntity().get(playerID).setVelX(-0.4f);
-								handler.getEntity().get(playerID).move = true;
-								handler.getEntity().get(playerID).face = 1;
+								handler.getCharacter().get(playerID).setVelX(-0.4f);
+								handler.getCharacter().get(playerID).move = true;
+								handler.getCharacter().get(playerID).face = 1;
 							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							if(command.equals("D"))
 							{
-								handler.getEntity().get(playerID).setVelX(0.4f);
-								handler.getEntity().get(playerID).move = true;
-								handler.getEntity().get(playerID).face = 0;
+								handler.getCharacter().get(playerID).setVelX(0.4f);
+								handler.getCharacter().get(playerID).move = true;
+								handler.getCharacter().get(playerID).face = 0;
 							}
 							// Fire Skill
 							if(command.equals("C"))
 							{
-								if(handler.getEntity().get(playerID).life > 0)
+								if(handler.getCharacter().get(playerID).life > 0)
 								{
 									// Find an unused FireSkill
 									FireSkill fire = null;
@@ -340,9 +352,9 @@ public class Server {
 									// Launch fire
 									if(fire != null)
 									{
-										fire.setX(handler.getEntity().get(playerID).getX());
-										fire.setY(handler.getEntity().get(playerID).getY());
-										fire.face = handler.getEntity().get(playerID).face;
+										fire.setX(handler.getCharacter().get(playerID).getX());
+										fire.setY(handler.getCharacter().get(playerID).getY());
+										fire.face = handler.getCharacter().get(playerID).face;
 										fire.playerID  = playerID;
 										fire.used = true;
 									}
@@ -351,7 +363,7 @@ public class Server {
 							// Missile Skill
 							else if(command.equals("F"))
 							{
-								if(handler.getEntity().get(playerID).life > 0)
+								if(handler.getCharacter().get(playerID).life > 0)
 								{
 									// Find an unused Missile Skill
 									Missile missile = null;
@@ -367,12 +379,12 @@ public class Server {
 									// Launch Missle
 									if(missile != null)
 									{
-										missile.setX(handler.getEntity().get(playerID).getX());
-										missile.setY(handler.getEntity().get(playerID).getY());
+										missile.setX(handler.getCharacter().get(playerID).getX());
+										missile.setY(handler.getCharacter().get(playerID).getY());
 										if(playerNum==1)
-											missile.en = (Character) handler.getEntity().get(0);
+											missile.en = handler.getCharacter().get(0);
 										else
-											missile.en = (Character) handler.getEntity().get((playerID+1)%(playerNum));
+											missile.en = handler.getCharacter().get((playerID+1)%(playerNum));
 										missile.playerID  = playerID;
 										missile.used = true;
 									}
@@ -386,14 +398,14 @@ public class Server {
 							System.out.println(command);
 							
 							if(command.equals("A")){
-								handler.getEntity().get(playerID).setVelX(0);
-								handler.getEntity().get(playerID).move = false;
+								handler.getCharacter().get(playerID).setVelX(0);
+								handler.getCharacter().get(playerID).move = false;
 							}
 							/*else if(command.equals("S"))
 								characters.getEntity().get(playerID).setVelY(0);*/
 							else if(command.equals("D")){
-								handler.getEntity().get(playerID).setVelX(0);
-								handler.getEntity().get(playerID).move = false;
+								handler.getCharacter().get(playerID).setVelX(0);
+								handler.getCharacter().get(playerID).move = false;
 							}
 							else;
 						}

@@ -14,7 +14,7 @@ public class Character extends Entity
 	private Random rand=new Random();
 	
 	// Trail effect
-	public boolean inTrail = true;
+	public boolean inTrail = false;
 	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
 	{
@@ -72,7 +72,8 @@ public class Character extends Entity
 			}
 		}
 		
-		if(life>0){
+		if(life>0)
+		{
 			setX(getX() + getVelX());
 			setY(getY() + getVelY());
 			
@@ -231,7 +232,9 @@ public class Character extends Entity
 				frame = 0;
 			}
 		}
-		else{
+		// Died
+		else
+		{
 			if(dieTime==0)dieTime = System.nanoTime();
 			else if( System.nanoTime() - dieTime  > (long)10e7*5){
 				if(frame<10){

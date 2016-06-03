@@ -14,7 +14,6 @@ public class Trail extends Skill {
 	
 	public Trail(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
-		this.used = false;
 	}
 
 	public void display(PApplet parent) 
