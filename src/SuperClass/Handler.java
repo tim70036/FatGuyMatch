@@ -100,7 +100,7 @@ public class Handler {
 		for(int x=0 ; x < 4; x++){
 			int dy = random.nextInt(index2);
 			if(Pipe.Valid[dy]==false){
-				addEntity(new Pipe(Pipe.doorX[dy],Pipe.doorY[dy],300,300,Type.PIPE,true,this,false,dy));
+				addEntity(new Pipe(Pipe.doorX[dy],Pipe.doorY[dy],150,150,Type.PIPE,true,this,false,dy));
 				Pipe.Valid[dy] = true;
 			}
 			else 

@@ -5,13 +5,8 @@ import Client.*;
 
 public class Shit extends Skill {
 	
-	public ShitType shitType;
-	
-	
-
-	public Shit(int x, int y, int width, int height, Type type, boolean solid, Handler handler, ShitType shit) {
+	public Shit(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
-		this.shitType = shit;
 	}
 	
 	public static void putShit(float targetX , float targetY)

@@ -24,7 +24,6 @@ import SuperClass.Handler;
 import SuperClass.LazerSkill;
 import SuperClass.Missile;
 import SuperClass.Shit;
-import SuperClass.ShitType;
 import SuperClass.Skill;
 import SuperClass.Thunder;
 import SuperClass.Tower;
@@ -367,7 +366,8 @@ public class Client extends PApplet{
 	
 	public void connect()
 	{
-		try {
+		try 
+		{
 			socket = new Socket(IP , port);
 			writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -476,7 +476,8 @@ public class Client extends PApplet{
 							command = reader.readLine();
 							
 							playerNum = Integer.parseInt(command);
-							for(int i=0 ; i < playerNum ; i++){
+							for(int i=0 ; i < playerNum ; i++)
+							{
 								command = reader.readLine();
 								handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i,Integer.parseInt(command)));
 							}
@@ -549,7 +550,7 @@ public class Client extends PApplet{
 							
 							shitNum = Integer.parseInt(command);
 							for(int i=0 ; i<shitNum ; i++)
-								handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler, ShitType.TRAIL));
+								handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler));
 						}
 					}
 					
@@ -767,7 +768,6 @@ public class Client extends PApplet{
     		this.isWaiting = true;
     		this.connect();
     		
- 
     	}
     }
 

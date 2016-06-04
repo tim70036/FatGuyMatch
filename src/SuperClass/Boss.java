@@ -20,22 +20,17 @@ public class Boss extends Entity {
 	//public static int[] placeX = new int[20]; 
 	//public static int[] placeY = new int[20];
 	public static boolean[] isValid = new boolean[20];
-	public int  randomNum;
-	public int count=0;
-	public long borntime=0;
+	
+	public boolean isAiming = false;
+	
 	public int spell;
 	
-	public Boss(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
+	public Boss(int x, int y, int width, int height, Type type, boolean solid, Handler handler) 
+	{
 		super(x, y, width, height, type, solid, handler);
 		life = 50000000;
 		//which place it is located
 	}
-	// To initial place in the handler
-	/*public static void initPlace(int x ,int y , int index){
-		placeX[index] = x;
-		placeY[index] = y;
-		isValid[index] = false;
-	}*/
 	
 	public void display(PApplet parent) 
 	{
@@ -52,121 +47,107 @@ public class Boss extends Entity {
 	public void update() 
 	{
 		// Character Detection
-		if(life>0){
+		if(life>0)
+		{
+			// Attack Character
 			for(Character e : this.getHandler().getCharacter())
 			{			
 				// If in the area of Tower
 				if(this.getBound().intersects(e.getBound()))
 				{
-					delay++;
-					if(delay>20){
-						
-							if(frame==frameNum||frame>=5){
-								frame=1;
-								spell=1;
-							}
-							else {
-								frame++;
-								spell=0;
-							}
-
-						delay = 0;
+					// Not aiming ---> get a character 
+					if(isAiming == false)
+					{
+						isAiming = true;
+						target = e;
 					}
-					nowTime = System.nanoTime();
+					
 					// Emit a unused Lazer to it
+					nowTime = System.nanoTime();
 					if(nowTime - lastTime > (long)10e8 * 2) // Fire Rate
 					{
-						randomNum = random.nextInt(3);
-
-						switch(randomNum){
-							case 0:
-								for(Skill s : this.getHandler().getSkill())
-								{	
-									if(s.getType() == Type.LAZERSKILL && s.used == false)
-									{
-										LazerSkill lazer = (LazerSkill) s;
-										lazer.used = true;
-										lazer.setX(this.getX());
-										lazer.setY(this.getY());
-										lazer.setVelX( (e.getX() - this.getX()) / 5 );
-										lazer.setVelY( (e.getY() - this.getY()) / 5 );
-										lastTime = nowTime;
-										break;
-									}
-								}
+						for(Skill s : this.getHandler().getSkill())
+						{	
+							if(s.getType() == Type.LAZERSKILL && s.used == false)
+							{
+								LazerSkill lazer = (LazerSkill) s;
+								lazer.used = true;
+								lazer.setX(this.getX());
+								lazer.setY(this.getY());
+								lazer.setVelX( (e.getX() - this.getX()) / 5 );
+								lazer.setVelY( (e.getY() - this.getY()) / 5 );
+								lastTime = nowTime;
 								break;
-							case 1:
-								for(Skill s : this.getHandler().getSkill())
-								{	
-									if(s.getType() == Type.THUNDERSKILL && s.used == false && spell==1)
-									{
-										Thunder thunder = (Thunder) s;
-										thunder.used = true;
-										thunder.setX(this.getX());
-										thunder.setY(this.getY());
-										thunder.setVelX( (e.getX() - this.getX()) / 5 );
-										thunder.setVelY( (e.getY() - this.getY()) / 5 );
-										lastTime = nowTime;
-										break;
-									}
-								}
-								break;
-							case 2:
-								for(Skill s : this.getHandler().getSkill())
-								{	
-									if(s.getType() == Type.DARKSKILL && s.used == false && spell==1)
-									{
-										Darkness dark = (Darkness) s;
-										dark.used = true;
-										dark.setX(this.getX());
-										dark.setY(this.getY());
-										dark.setVelX( (e.getX() - this.getX()) / 5 );
-										dark.setVelY( (e.getY() - this.getY()) / 5 );
-										lastTime = nowTime;
-										break;
-									}
-								}
-								break;
+							}
 						}
+					}
+				}
+			}
+			
+			// Aiming
+			if(isAiming)
+			{
+				// Animation
+				delay++;
+				if(delay>20)
+				{
+					if(frame == frameNum || frame>=5)
+					{
+						frame=1;
+						spell=1;
+					}
+					else 
+					{
+						frame++;
+						spell=0;
+					}
+					delay = 0;
+				}
+				
+				// Animation is done ----> Launch Skill
+				if(spell == 1)
+				{
+					for(Skill s : this.getHandler().getSkill())
+					{	
+						if(s.getType() == Type.DARKSKILL && s.used == false && spell==1)
+						{
+							Darkness dark = (Darkness) s;
+							dark.used = true;
+							dark.setX(this.getX());
+							dark.setY(this.getY());
+							dark.setVelX( (target.getX() - this.getX()) / 5 );
+							dark.setVelY( (target.getY() - this.getY()) / 5 );
+						}
+					}
+					
+					// Reset
+					isAiming = false;
+					spell = 0;
+				}
+			}
+			
+			// Player's Attack
+			for(Skill s : this.getHandler().getSkill())
+			{
+				if(s.getType() == Type.FIRESKILL )
+				{
+					///need to reset the bound size
+					if(super.getBound().intersects(s.getBound()))
+					{
+						s.die();
+						this.life -= 100;
 						
 					}
 				}
-				
-				for(Skill s : this.getHandler().getSkill())
-				{
-					if(s.getType() == Type.FIRESKILL )
-					{
-						///need to reset the bound size
-						if(super.getBound().intersects(s.getBound()))
-						{
-							s.die();
-							this.life -= 100;
-						}
-					}
-				}
-
-	
 			}
 		}
-		else {
-			if(borntime==0)borntime=System.nanoTime();
-			
-			
+		// Boss died ----> Game over
+		else 
+		{
+			Server.Server.isRunning = false;
 		}
 	}
 		
-		// Remove the skill, if it's target is out of Tower's area
-//		if(lazer != null && target != null)
-//		{
-//			if(this.getBound().intersects(target.getBound()) == false)
-//			{
-//				lazer.used = false;
-//				lazer = null;
-//				target = null;
-//			}
-//		}
-	
-	
 	// Override, Bigger bound
 	public Rectangle getBound()
 	{

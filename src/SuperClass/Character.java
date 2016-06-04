@@ -12,7 +12,7 @@ public class Character extends Entity
 	public int characterID;
 	public long dieTime = 0;
 	public long lastTime = 0,lastTime_dura = 0;
-	private Random rand=new Random();
+	private Random rand = new Random();
 	
 	// Trail effect
 	public boolean inTrail = false;
@@ -42,7 +42,7 @@ public class Character extends Entity
 		//draw name
 		parent.fill(0, 0, 0);
 		parent.textSize(16);
-		parent.text("player "+this.playerID, getX(), getY()-25);
+		parent.text("Player "+this.playerID, getX() + getWidth() * 0.3f, getY()-25);
 	
 	}
 
@@ -213,7 +213,7 @@ public class Character extends Entity
 						if(this.getBound().intersects(s.getBound()))
 						{
 							s.die();
-							this.life -= 500;
+							this.life = (this.life - 500 < 0) ? 0 : this.life - 500;
 						}
 					}
 					
@@ -222,29 +222,25 @@ public class Character extends Entity
 						if(this.getBound().intersects(s.getBound()))
 						{
 							s.die();
-							this.life -= 2000;
+							this.life = (this.life - 2000 < 0) ? 0 : this.life - 2000;
 						}
 					}
 					else if(s.getType() == Type.SHIT)
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
-							if( ((Shit)s).shitType == ShitType.TRAIL ){
-								
-								switch (rand.nextInt(2)){
-								case 0:
-									this.inTrail = true;
-									this.lastTime_dura = System.nanoTime();
-									break;
-								case 1:
-									this.life = 0;
-									break;
-									
-								}
+							switch (rand.nextInt(2))
+							{
+							case 0:
+								this.inTrail = true;
+								this.lastTime_dura = System.nanoTime();
+								break;
+							case 1:
+								this.life = 0;
+								break;
 							}
-							
 							s.die();
-						}
+						}	
 					}
 				}
 			}
@@ -306,6 +302,9 @@ public class Character extends Entity
 					
 					// Put an unsused shit and put on it
 					Shit.putShit(this.getX()+(this.getWidth()*0.4f) , this.getY()+(this.getHeight()*0.8f));
+					
+					// Reset Effect
+					inTrail = false;
 					
 					// Revive
 					setX(200);

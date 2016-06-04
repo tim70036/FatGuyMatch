@@ -25,19 +25,17 @@ import SuperClass.Trail;
 import SuperClass.Type;
 import SuperClass.Wall;
 import SuperClass.FireSkill;
-import SuperClass.ShitType;
-
 public class Server {
 	
 	//ArrayList<Character> handler;
 	ArrayList<ServerThread> threadPool;// Store the connection to all Client
-	ArrayList<Integer> CharacterID;
+	ArrayList<Integer> CharacterID;// Store which Character
 	
 	Handler handler;
 	
 	// Game Part
 	GameThread gameThread;
-	public boolean isRunning = false;
+	public static boolean isRunning = false;
 	public int wallNum;
 	
 	// Network Part
@@ -53,6 +51,7 @@ public class Server {
 	public int shitNum;
 	public int darkNum;
 	public int thunderNum;
+	
 	//Character init place
 	public int initPlace[][];
 
@@ -109,13 +108,8 @@ public class Server {
 		
 		// wait characterID
 		int CharacterID_NUM = 0;
-		while(CharacterID_NUM != threadPool.size())
-		{
-			if(CharacterID_NUM==threadPool.size())break;
-			else {
-				CharacterID_NUM = CharacterID.size();
-			}
-		}
+		while(CharacterID_NUM != threadPool.size())	CharacterID_NUM = CharacterID.size();
+
 		// Init Data
 		init();
 		
@@ -177,7 +171,7 @@ public class Server {
 		// Shit
 		shitNum = 20;
 		for(int i=0 ; i<shitNum ; i++)
-			handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler, ShitType.TRAIL));
+			handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler));
 		broadCast("Init"); broadCast("Shit");	broadCast(Integer.toString(shitNum));
 		
 		//init map,floor.   picture should be 16*16 32*32....

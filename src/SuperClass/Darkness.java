@@ -30,12 +30,14 @@ public class Darkness extends Skill {
 		if(used == true)
 		{
 			delay++;
-			if(delay>100){
+			if(delay>100)
+			{
 				frame++;
 				delay=0;
 				setX(getX()+getVelX());
 				setY(getY()+getVelY());
-				if(frame>50){
+				if(frame>50)
+				{
 					frame=0;
 					this.die();
 				}
