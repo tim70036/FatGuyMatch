@@ -179,11 +179,11 @@ public class Client extends PApplet{
 		
 		boss_sheet = new PictureSheet(loadImage("boss.png" ));
 		boss = new Picture[15];
-		boss[5] = new Picture(boss_sheet,0 , 0 ,40);
+		boss[5] = new Picture(boss_sheet,0 , 0 ,200);
 		boss[5].reSize(300, 300);
 		for(int tmp=0;tmp<5;tmp++)
 		{
-			boss[tmp] = new Picture(boss_sheet,tmp,0,40);
+			boss[tmp] = new Picture(boss_sheet,tmp,0,200);
 			boss[tmp].reSize(300, 300);
 //			boss[tmp+5] = new Picture(boss_sheet,tmp,1,40);
 //			boss[tmp+5].reSize(300, 300);
