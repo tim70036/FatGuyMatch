@@ -89,7 +89,7 @@ public class Boss extends Entity {
 			{
 				// Animation
 				delay++;
-				if(delay>20)
+				if(delay>60)
 				{
 					if(frame == frameNum || frame>=5)
 					{
