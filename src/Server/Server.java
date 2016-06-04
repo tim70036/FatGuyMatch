@@ -95,6 +95,7 @@ public class Server {
 		}
 		System.out.println("Server stops waiting for client.");
 		
+		
 		// wait characterID
 		while(this.CharacterID.size() < playerNum)
 		{
@@ -121,10 +122,14 @@ public class Server {
 	{
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
-			handler.addCharacter(new Character(initPlace[i][0],initPlace[i][1],100,100,Type.CHARACTER,true,handler, i,CharacterID.get(i)));
+			handler.addCharacter(new Character(initPlace[i][0],initPlace[i][1],100,100,Type.CHARACTER,true,handler, i,CharacterID.get(i)
+					, threadPool.get(i).playerName));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 		for(int i=0 ; i<playerNum ; i++)
+		{
 			broadCast(Integer.toString(CharacterID.get(i)));
+			broadCast(threadPool.get(i).playerName);
+		}
 		
 		///SKILL BALL
 		fireSkillNum = 50;
@@ -206,7 +211,8 @@ public class Server {
 				if(e.getType() == Type.BOSS)
 					lastAttackPlayerID = ((Boss)e).lastAttackPlayerID;
 			
-			broadCast("Game Over");	broadCast(Integer.toString(lastAttackPlayerID));
+			String winner = threadPool.get(lastAttackPlayerID).playerName;
+			broadCast("Game Over");	broadCast(winner);
 			
 			System.out.println("Server stops game thread. ");
 		}
@@ -299,7 +305,8 @@ public class Server {
 		private Socket socket;
 		private PrintWriter writer;
 		private BufferedReader reader;
-		private int playerID; // ??? useful???
+		private int playerID;
+		public String playerName;
 		private Character ch;
 		
 		public Socket getSocket() {return socket;}
@@ -329,14 +336,7 @@ public class Server {
 					//System.out.println(command);
 					
 					
-					if(command.equals("CharacterType"))
-					{
-						command = reader.readLine();
-						int num = Integer.parseInt(command);
-						CharacterID.add(num);
-						System.out.println("num = " + num + " " + CharacterID.get(0));
-					}
-					else if(command.equals("PlayerInput"))
+					if(command.equals("PlayerInput"))
 					{
 						command = reader.readLine();
 						//System.out.println(command);
@@ -446,6 +446,17 @@ public class Server {
 								ch.move = false;
 							}
 						}
+					}
+					else if(command.equals("CharacterType"))
+					{
+						command = reader.readLine();
+						int num = Integer.parseInt(command);
+						CharacterID.add(num);
+					}
+					else if(command.equals("Player Name"))
+					{
+						command = reader.readLine();
+						playerName = command;
 					}
 					
 				} catch (IOException e) {e.printStackTrace();}

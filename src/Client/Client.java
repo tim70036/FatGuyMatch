@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,7 +54,7 @@ public class Client extends PApplet{
 	private boolean isGameOver;
 	private boolean isInMenu;
 	
-	private int winner;
+	private String winner;
 	
 	// parameters
 	private int muteWidth = 90;
@@ -84,6 +85,7 @@ public class Client extends PApplet{
 	
 	// Attributes for Network
 	public int ID;
+	public String playerName;
 	private String IP;
 	private int port;
 	private Socket socket;
@@ -378,7 +380,7 @@ public class Client extends PApplet{
 			this.background(255);
 			this.fill(0);
 			this.textSize(40);
-			this.text("Winner is Player " + winner + " !!!", 1000, 600);
+			if(winner != null) this.text("Winner is " + winner + " !!!", 600, 600);
 		}
 	}
 	
@@ -413,6 +415,10 @@ public class Client extends PApplet{
 		sendMessage("CharacterType");
 		sendMessage(Integer.toString(this.characterID));
 		
+		// Send PlayerName
+		sendMessage("Player Name");
+		sendMessage(this.playerName);
+		
 	}
 	
 // ----------------------------------------------------------------------- //
@@ -443,7 +449,7 @@ public class Client extends PApplet{
 						
 						isRunning = false;
 						isGameOver = true;
-						winner = Integer.parseInt(command);
+						winner = command;
 					}
 					else if(command.equals("GameData"))
 					{
@@ -516,7 +522,8 @@ public class Client extends PApplet{
 							for(int i=0 ; i < playerNum ; i++)
 							{
 								command = reader.readLine();
-								handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i,Integer.parseInt(command)));
+								String name = reader.readLine();
+								handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i,Integer.parseInt(command), name));
 							}
 							// Level,map floor  picture should be 16*16 32*32....
 							try 
@@ -599,36 +606,42 @@ public class Client extends PApplet{
 // ----------------------------------------------------------------------- //
     public void keyPressed() 
 	{
-    	if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'c' || key == 'f')
+    	if(isRunning)
     	{
-    		sendMessage("PlayerInput");
-    		sendMessage("Press");
+    		if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'c' || key == 'f')
+        	{
+        		sendMessage("PlayerInput");
+        		sendMessage("Press");
+        	}
+        	if(key == 'w')	sendMessage("W");
+        	else if(key == 'a')	sendMessage("A");
+        	else if(key == 's')	sendMessage("S");
+        	else if(key == 'd')	sendMessage("D");
+        	else if(key == 'c') {
+        		sendMessage("C");
+        		fire = minim.loadFile("bomb.mp3");
+        		fire.setGain((float)-8.0);
+        		fire.play();
+        	}
+        	else if(key == 'f') sendMessage("F");
     	}
-    	if(key == 'w')	sendMessage("W");
-    	else if(key == 'a')	sendMessage("A");
-    	else if(key == 's')	sendMessage("S");
-    	else if(key == 'd')	sendMessage("D");
-    	else if(key == 'c') {
-    		sendMessage("C");
-    		fire = minim.loadFile("bomb.mp3");
-    		fire.setGain((float)-8.0);
-    		fire.play();
-    	}
-    	else if(key == 'f') sendMessage("F");
  	}
     
     public void keyReleased()
     {
-    	if(key == 'w' || key == 'a' || key == 's' || key == 'd')
+    	if(isRunning)
     	{
-    		sendMessage("PlayerInput");
-    		sendMessage("Release");
+    		if(key == 'w' || key == 'a' || key == 's' || key == 'd')
+        	{
+        		sendMessage("PlayerInput");
+        		sendMessage("Release");
+        	}
+        	
+        	if(key == 'w')	sendMessage("W");
+        	else if(key == 'a')	sendMessage("A");
+        	else if(key == 's')	sendMessage("S");
+        	else if(key == 'd')	sendMessage("D");
     	}
-    	
-    	if(key == 'w')	sendMessage("W");
-    	else if(key == 'a')	sendMessage("A");
-    	else if(key == 's')	sendMessage("S");
-    	else if(key == 'd')	sendMessage("D");
     }
     
 // ------------------------- ControlP5 Button ------------------------------- //
@@ -641,6 +654,14 @@ public class Client extends PApplet{
 				
 		// Button Controller
 		cp5 = new ControlP5(this);
+		
+		cp5.addTextfield("EnterPlayerName")
+	     .setPosition(-500,-500)
+	     .setSize(200,40)
+	     .setFont(font)
+	     .setFocus(true)
+	     .setColor(color(255,0,0))
+	     ;
 		
 		cp5.addButton("StartBtn")
 			.setLabel("Let's Start Game")
@@ -702,16 +723,16 @@ public class Client extends PApplet{
 			.setFont(font)
 			.toUpperCase(false);
 		
-		cp5.addButton("SelectBtn")
-			.setLabel("Select")
-			.setSize(this.btnWidth, this.btnHeight)
-			.setPosition(-500, -500)
-			.setColorForeground(color(0,255,0))
-			.setColorBackground(color(30, 144, 255))
-			.getCaptionLabel()
-			.setFont(font)
-			.toUpperCase(false);
-		
+//		cp5.addButton("SelectBtn")
+//			.setLabel("Select")
+//			.setSize(this.btnWidth, this.btnHeight)
+//			.setPosition(-500, -500)
+//			.setColorForeground(color(0,255,0))
+//			.setColorBackground(color(30, 144, 255))
+//			.getCaptionLabel()
+//			.setFont(font)
+//			.toUpperCase(false);
+//		
 	}
     
     public void changeBtnPos(String s, float x, float y) {
@@ -719,16 +740,39 @@ public class Client extends PApplet{
     		.setPosition(x,  y);
     }
     
+    public void EnterPlayerName(String theText)
+    {
+    	if (this.menuStatus.equals("Selecting")) 
+    	{
+    		Scanner s = new Scanner(theText);
+    		String checkSpace = s.next();
+    		if(checkSpace != null)
+    		{
+    			this.menuStatus = "Game";
+        		this.changeBtnPos("EnterPlayerName", -500, -500);
+        		this.changeBtnPos("PrevBtn", -500, -500);
+        		this.changeBtnPos("NextBtn", -500, -500);
+        		
+        		playerName = theText;
+        		// Connect to Server
+        		this.isInMenu = false;
+        		this.isWaiting = true;
+        		this.connect();
+    		}
+    	}
+    }
+    
     public void StartBtn() {
     	if (this.menuStatus.equals("MainMenu")) {
     		this.menuStatus = "Selecting";
     		this.characterPicX = Client.width/2-370;
-    		this.changeBtnPos("SelectBtn", Client.width/2-this.btnWidth/2, 580);
+    		this.changeBtnPos("EnterPlayerName" ,Client.width/2-this.btnWidth/2, 580);
     		this.changeBtnPos("PrevBtn", 30, 300);
     		this.changeBtnPos("NextBtn", 870, 300);
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
     		this.changeBtnPos("MuteBtn", -500, -500);
+  
     	}
     }
     
@@ -795,20 +839,20 @@ public class Client extends PApplet{
     	}
     }
 
-    public void SelectBtn() {
-    	if (this.menuStatus.equals("Selecting")) {
-    		this.menuStatus = "Game";
-    		this.changeBtnPos("SelectBtn", -500, -500);
-    		this.changeBtnPos("PrevBtn", -500, -500);
-    		this.changeBtnPos("NextBtn", -500, -500);
-    		
-    		// Connect to Server
-    		this.isInMenu = false;
-    		this.isWaiting = true;
-    		this.connect();
-    		
-    	}
-    }
+//    public void SelectBtn() {
+//    	if (this.menuStatus.equals("Selecting")) {
+//    		this.menuStatus = "Game";
+//    		this.changeBtnPos("SelectBtn", -500, -500);
+//    		this.changeBtnPos("PrevBtn", -500, -500);
+//    		this.changeBtnPos("NextBtn", -500, -500);
+//    		
+//    		// Connect to Server
+//    		this.isInMenu = false;
+//    		this.isWaiting = true;
+//    		this.connect();
+//    		
+//    	}
+
 
  // ------------------------- Mouse Input Part ------------------------------- //
  // -------------------------------------------------------------------------- //

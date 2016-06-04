@@ -9,6 +9,7 @@ public class Character extends Entity
 {
 	
 	public int playerID;
+	public String playerName;
 	public int characterID;
 	public long dieTime = 0;
 	public long lastTime = 0,lastTime_dura = 0;
@@ -17,13 +18,14 @@ public class Character extends Entity
 	// Trail effect
 	public boolean inTrail = false;
 	
-	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID , int characterID)
+	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID , int characterID, String name)
 	{
 		super(x, y, width, height, type, solid, handler);
 		frame = 0;
 		delay = 0;
 		frameNum = 5-1;
 		playerID = ID;
+		playerName = name;
 		this.characterID = characterID;
 	}
 
@@ -42,7 +44,7 @@ public class Character extends Entity
 		//draw name
 		parent.fill(0, 0, 0);
 		parent.textSize(16);
-		parent.text("Player "+this.playerID, getX() + getWidth() * 0.3f, getY()-25);
+		parent.text(playerName, getX() + getWidth() * 0.3f, getY()-25);
 	
 	}
 
