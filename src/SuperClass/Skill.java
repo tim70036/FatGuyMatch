@@ -20,6 +20,9 @@ public abstract class Skill {
 	
 	public double gravity = 0.0;
 	
+	// normal attack 
+	public int uniAttack;
+	
 	//animate
 	public int frame,delay,frameNum;
 	public boolean used = false;

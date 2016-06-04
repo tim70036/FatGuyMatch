@@ -103,6 +103,9 @@ public class Client extends PApplet{
 	// Shit
 	public static PImage shitImage;
 	
+	// Normal attack
+	public static PImage normalAttack[][];
+	
 	// Door
 	public static PImage doorImage;
 	
@@ -212,6 +215,14 @@ public class Client extends PApplet{
 		// Shit
 		shitImage = this.loadImage("shit.png");
 		shitImage.resize(50, 50);
+		
+		// Normal attack
+		normalAttack = new PImage[4][2];
+		for(int i = 0; i < 1; i++){
+			for(int j = 0; j < 2; j++){
+				normalAttack[i][j] = this.loadImage("normalAttack"+ i + j +".png");
+			}
+		}
 		
 		// Door
 		doorImage = this.loadImage("door.png");
@@ -446,9 +457,11 @@ public class Client extends PApplet{
 							String x = reader.readLine();
 							String y = reader.readLine();
 							String used = reader.readLine();
+							String n = reader.readLine();
 							s.setX(Float.parseFloat(x));
 							s.setY(Float.parseFloat(y));
 							s.used = (used.equals("True")) ? true : false;
+							s.face = Integer.parseInt(n);
 						}
 						
 						// Trail Data
@@ -576,6 +589,7 @@ public class Client extends PApplet{
     	else if(key == 'c') {
     		sendMessage("C");
     		fire = minim.loadFile("bomb.mp3");
+    		fire.setGain((float)-8.0);
     		fire.play();
     	}
     	else if(key == 'f') sendMessage("F");

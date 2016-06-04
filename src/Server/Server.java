@@ -267,9 +267,11 @@ public class Server {
 			String x = Float.toString(s.getX());
 			String y = Float.toString(s.getY());
 			String u = (s.used == true) ? "True" : "False";
+			String n = Integer.toString(s.face);
 			broadCast(x);
 			broadCast(y);
 			broadCast(u);
+			broadCast(n);
 		}
 		
 		// Trail Data
@@ -393,6 +395,7 @@ public class Server {
 										if(s.getType() == Type.FIRESKILL && s.used == false)
 										{
 											fire = (FireSkill) s;
+											fire.uniAttack = ch.characterID;
 											break;
 										}
 									}

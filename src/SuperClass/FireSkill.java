@@ -15,8 +15,7 @@ public class FireSkill extends Skill{
 		// TODO Auto-generated method stub
 		if(used == true)
 		{
-			parent.fill(12,63,45);
-			parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
+			parent.image(Client.normalAttack[uniAttack][face], this.getX(), this.getY());
 		}
 	}
 
