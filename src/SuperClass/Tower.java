@@ -85,13 +85,17 @@ public class Tower extends Entity {
 					///need to reset the bound size
 					if(super.getBound().intersects(s.getBound()))
 					{
-						s.used = false;
+						s.die();
 						this.life -= 100;
 					}
 				}
 			}
 			// Tower die and random revival
-			if(life<0){
+			if(life<0)
+			{
+				// Put shit
+				Shit.putShit(this.getX()+(this.getWidth()*0.4f) , this.getY()+(this.getHeight()*0.8f));
+				
 				isValid[index] = false;
 				int tag;
 				do

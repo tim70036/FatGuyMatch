@@ -13,7 +13,8 @@ public abstract class Skill {
 	private boolean solid;
 	public boolean jumping = false;
 	public boolean falling = true;
-	private Handler handler;
+	
+	private static Handler handler;
 	
 	public int playerID = -1;
 	
@@ -89,8 +90,8 @@ public abstract class Skill {
 	public void setType(Type type) {this.type = type;}
 	public boolean isSolid() {return solid;}
 	public void setSolid(boolean solid) {this.solid = solid;}
-	public Handler getHandler() {return handler;}
-	public void setHandler(Handler handler) {this.handler = handler;}
+	public static Handler getHandler() {return handler;}
+	public static void setHandler(Handler handler) {Skill.handler = handler;}
 	public int getFrame(){ return this.frame;}
 	public void setFrame(int frame){ this.frame = frame;}
 }
