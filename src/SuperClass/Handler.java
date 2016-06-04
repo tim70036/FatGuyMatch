@@ -81,6 +81,9 @@ public class Handler {
 				
 					//addEntity(new Tower(x*32,y*32-303+31,303,303,Type.TOWER,true,this));
 				}
+				if(red == 0 && green == 255 && blue == 255){
+					addEntity(new Boss(x*32,y*32-300, 300 , 300, Type.BOSS , true , this));
+				}
 			}
 		}
 		//Random put Tower at first

@@ -83,7 +83,7 @@ public class Character extends Entity
 					}
 				}
 				//duration time 
-				if(durationTime - lastTime_dura > 10e8){
+				if(durationTime - lastTime_dura > 10e10){
 					durationTime = 0;
 					lastTime_dura = 0;
 					this.inTrail = false;

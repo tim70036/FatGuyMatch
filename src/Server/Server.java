@@ -12,12 +12,14 @@ import java.util.*;
 import javax.imageio.ImageIO;
 
 import SuperClass.Character;
+import SuperClass.Darkness;
 import SuperClass.Entity;
 import SuperClass.Handler;
 import SuperClass.LazerSkill;
 import SuperClass.Missile;
 import SuperClass.Shit;
 import SuperClass.Skill;
+import SuperClass.Thunder;
 import SuperClass.Tower;
 import SuperClass.Trail;
 import SuperClass.Type;
@@ -49,7 +51,8 @@ public class Server {
 	public int missileNum;
 	public int trailNum;
 	public int shitNum;
-	
+	public int darkNum;
+	public int thunderNum;
 	//Character init place
 	public int initPlace[][];
 
@@ -153,7 +156,16 @@ public class Server {
 		for(int i=0 ; i<missileNum; i++)
 			handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 		broadCast("Init");	broadCast("MissileSkill"); broadCast(Integer.toString(missileNum));
-		
+		//darkNUm
+		darkNum = 50;
+		for(int i=0 ; i<darkNum ; i++)
+			handler.addSkill(new Darkness(3000,3000,50,50,Type.DARKSKILL, true, handler));
+		broadCast("Init");	broadCast("Darkness"); broadCast(Integer.toString(darkNum));
+		//thunder
+		thunderNum = 20;
+		for(int i=0 ; i<thunderNum ; i++)
+			handler.addSkill(new Thunder(3000,3000,50,50,Type.THUNDERSKILL, true, handler));
+		broadCast("Init");	broadCast("Thunder"); broadCast(Integer.toString(thunderNum));
 		//Trail 
 		trailNum = 200;
 		for(int i=0 ; i<trailNum ; i++)
@@ -195,7 +207,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 400000000.0/60.0;
+			double ns = 600000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();

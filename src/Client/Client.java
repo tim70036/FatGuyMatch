@@ -17,6 +17,7 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 
 import SuperClass.Character;
+import SuperClass.Darkness;
 import SuperClass.Entity;
 import SuperClass.FireSkill;
 import SuperClass.Handler;
@@ -25,6 +26,7 @@ import SuperClass.Missile;
 import SuperClass.Shit;
 import SuperClass.ShitType;
 import SuperClass.Skill;
+import SuperClass.Thunder;
 import SuperClass.Tower;
 import SuperClass.Trail;
 import SuperClass.Type;
@@ -96,6 +98,9 @@ public class Client extends PApplet{
 	public static PictureSheet sheet[];
 	public static Picture player[][];
 	
+	public static PictureSheet boss_sheet;
+	public static Picture boss[];
+	
 	// Shit
 	public static PImage shitImage;
 	
@@ -108,7 +113,8 @@ public class Client extends PApplet{
 	private int missileNum;
 	private int trailNum;
 	private int shitNum;
-	
+	private int thunderNum;
+	private int darkNum;
 	// music
 	private Minim minim;
 	private AudioPlayer bgm;
@@ -153,14 +159,25 @@ public class Client extends PApplet{
 		player = new Picture[4][15];
 		for(int i=0;i<4;i++)
 			for(int tmp=0;tmp<5;tmp++){
-				player[i][tmp] = new Picture(sheet[i],tmp,0);
+				player[i][tmp] = new Picture(sheet[i],tmp,0,64);
 				player[i][tmp].reSize(100, 100);
-				player[i][tmp+5] = new Picture(sheet[i],tmp,1);
+				player[i][tmp+5] = new Picture(sheet[i],tmp,1,64);
 				player[i][tmp+5].reSize(100, 100);
-				player[i][tmp+10] = new Picture(sheet[i],tmp,2);
+				player[i][tmp+10] = new Picture(sheet[i],tmp,2,64);
 				player[i][tmp+10].reSize(100, 100);
 			}
 		
+		boss_sheet = new PictureSheet(loadImage("wizard.png" ));
+		boss = new Picture[15];
+		
+		for(int tmp=0;tmp<5;tmp++){
+			boss[tmp] = new Picture(boss_sheet,tmp,0,220);
+			boss[tmp].reSize(300, 300);
+			boss[tmp+5] = new Picture(boss_sheet,tmp,1,220);
+			boss[tmp+5].reSize(300, 300);
+			boss[tmp+10] = new Picture(boss_sheet,tmp,2,220);
+			boss[tmp+10].reSize(300, 300);
+		}
 		
 		size(width, height);
 		smooth();
@@ -498,6 +515,24 @@ public class Client extends PApplet{
 							missileNum = Integer.parseInt(command);
 							for(int i=0 ; i<missileNum; i++)
 								handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
+							
+						}
+						else if(command.equals("Thunder"))
+						{
+							command = reader.readLine();
+							
+							thunderNum = Integer.parseInt(command);
+							for(int i=0 ; i<thunderNum; i++)
+								handler.addSkill(new Thunder(3000,3000,50,50,Type.THUNDERSKILL, true, handler));
+							
+						}
+						else if(command.equals("Darkness"))
+						{
+							command = reader.readLine();
+							
+							darkNum = Integer.parseInt(command);
+							for(int i=0 ; i<darkNum; i++)
+								handler.addSkill(new Darkness(3000,3000,50,50,Type.DARKSKILL, true, handler));
 							
 						}
 						else if(command.equals("Trail"))
