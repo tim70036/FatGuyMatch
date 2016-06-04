@@ -9,6 +9,7 @@ public class Character extends Entity
 {
 	
 	public int playerID;
+	public int characterID;
 	public long dieTime = 0;
 	public long lastTime = 0;
 	private Random rand=new Random();
@@ -16,13 +17,14 @@ public class Character extends Entity
 	// Trail effect
 	public boolean inTrail = true;
 	
-	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
+	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID , int characterID)
 	{
 		super(x, y, width, height, type, solid, handler);
 		frame = 0;
 		delay = 0;
 		frameNum = 5-1;
 		playerID = ID;
+		this.characterID = characterID;
 	}
 
 	public void display(PApplet parent) 
@@ -30,7 +32,7 @@ public class Character extends Entity
 
 		//draw character
 		parent.fill(0);
-		parent.image(Client.player[frame].getImage(), this.getX(), this.getY());
+		parent.image(Client.player[characterID][frame].getImage(), this.getX(), this.getY());
 		
 		//draw life bar
 		parent.fill(123,15,3);

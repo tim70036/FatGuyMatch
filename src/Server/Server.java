@@ -29,6 +29,7 @@ public class Server {
 	
 	//ArrayList<Character> handler;
 	ArrayList<ServerThread> threadPool;// Store the connection to all Client
+	public ArrayList<Integer> CharacterID;
 	
 	Handler handler;
 	
@@ -53,6 +54,7 @@ public class Server {
 	{
 		//handler = new ArrayList<Character>();
 		threadPool = new ArrayList<ServerThread>();
+		CharacterID = new ArrayList<Integer>();
 		handler = new Handler();
 		
 		try 
@@ -90,12 +92,23 @@ public class Server {
 		}
 		System.out.println("Server stops waiting for client.");
 		
+		int CharacterID_NUM = 0;
+		while(CharacterID_NUM != threadPool.size())
+		{
+			if(CharacterID_NUM==threadPool.size())break;
+			else {
+				System.out.println("TH "+threadPool.size()+"CH "+CharacterID.size());
+				CharacterID_NUM = CharacterID.size();
+			}
+		}
 		// Init Data
 		init();
 		
 		// Tell all Client to start
 		broadCast("StartGame"); 
 		
+		for(int i =0 ; i < 1 ; i++)
+			System.out.println(CharacterID.get(0));
 		// Id
 		setAllID();
 				
@@ -110,9 +123,10 @@ public class Server {
 	{
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
-			handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
+			handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i,CharacterID.get(i)));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
-		
+		for(int i=0 ; i<playerNum ; i++)
+			broadCast(Integer.toString(CharacterID.get(i)));
 		
 		///SKILL BALL
 		fireSkillNum = 50;
@@ -305,9 +319,12 @@ public class Server {
 					//System.out.println(command);
 					
 					
-					if(command.equals("Ready to Start"))
+					if(command.equals("CharacterType"))
 					{
-						
+						command = reader.readLine();
+						int num = Integer.parseInt(command);
+						CharacterID.add(num);
+						System.out.println("num = " + num + " " + CharacterID.get(0));
 					}
 					else if(command.equals("PlayerInput"))
 					{

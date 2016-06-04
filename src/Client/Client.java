@@ -93,8 +93,8 @@ public class Client extends PApplet{
 	public BufferedImage levelImage;
 	
 	/// pic data
-	public static PictureSheet sheet;
-	public static Picture player[];
+	public static PictureSheet sheet[];
+	public static Picture player[][];
 	
 	// Shit
 	public static PImage shitImage;
@@ -145,18 +145,21 @@ public class Client extends PApplet{
 		//player.reSize(100, 100);// Change be careful server init
 		
 		//	Sprite
-		sheet = new PictureSheet(loadImage("match.png"));
-		
-		// Player
-		player = new Picture[15];
-		for(int tmp=0;tmp<5;tmp++){
-			player[tmp] = new Picture(sheet,tmp,0);
-			player[tmp].reSize(100, 100);
-			player[tmp+5] = new Picture(sheet,tmp,1);
-			player[tmp+5].reSize(100, 100);
-			player[tmp+10] = new Picture(sheet,tmp,2);
-			player[tmp+10].reSize(100, 100);
+		sheet = new PictureSheet[4];
+		for(int i = 0; i < 4; i++){
+			sheet[i] = new PictureSheet(loadImage("match"+ i + ".png"));
 		}
+		// Player
+		player = new Picture[4][15];
+		for(int i=0;i<4;i++)
+			for(int tmp=0;tmp<5;tmp++){
+				player[i][tmp] = new Picture(sheet[i],tmp,0);
+				player[i][tmp].reSize(100, 100);
+				player[i][tmp+5] = new Picture(sheet[i],tmp,1);
+				player[i][tmp+5].reSize(100, 100);
+				player[i][tmp+10] = new Picture(sheet[i],tmp,2);
+				player[i][tmp+10].reSize(100, 100);
+			}
 		
 		
 		size(width, height);
@@ -362,6 +365,10 @@ public class Client extends PApplet{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//send CharacterID
+		sendMessage("CharacterType");
+		sendMessage(Integer.toString(this.characterID));
+		
 	}
 	
 // ----------------------------------------------------------------------- //
@@ -450,9 +457,10 @@ public class Client extends PApplet{
 							command = reader.readLine();
 							
 							playerNum = Integer.parseInt(command);
-							for(int i=0 ; i < playerNum ; i++)
-								handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i));
-							
+							for(int i=0 ; i < playerNum ; i++){
+								command = reader.readLine();
+								handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i,Integer.parseInt(command)));
+							}
 							// Level,map floor  picture should be 16*16 32*32....
 							try 
 							{
@@ -721,6 +729,8 @@ public class Client extends PApplet{
     		// Connect to Server
     		this.isWaiting = true;
     		this.connect();
+    		
+ 
     	}
     }
 
