@@ -92,12 +92,12 @@ public class Server {
 		}
 		System.out.println("Server stops waiting for client.");
 		
+		// wait characterID
 		int CharacterID_NUM = 0;
 		while(CharacterID_NUM != threadPool.size())
 		{
 			if(CharacterID_NUM==threadPool.size())break;
 			else {
-				System.out.println("TH "+threadPool.size()+"CH "+CharacterID.size());
 				CharacterID_NUM = CharacterID.size();
 			}
 		}
@@ -107,8 +107,6 @@ public class Server {
 		// Tell all Client to start
 		broadCast("StartGame"); 
 		
-		for(int i =0 ; i < 1 ; i++)
-			System.out.println(CharacterID.get(0));
 		// Id
 		setAllID();
 				
@@ -262,11 +260,13 @@ public class Server {
 			String u = (t.used == true) ? "True" : "False";
 			String frame = Integer.toString(t.getFrame());
 			String Alpha = Float.toString(t.getAlpha());
+			String Character = Integer.toString(t.getCharacterID());
 			broadCast(x);
 			broadCast(y);
 			broadCast(u);
 			broadCast(frame);
 			broadCast(Alpha);
+			broadCast(Character);
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //

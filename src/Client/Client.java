@@ -440,12 +440,14 @@ public class Client extends PApplet{
 							String used = reader.readLine();
 							String frame = reader.readLine();
 							String Alpha = reader.readLine();
+							String Character = reader.readLine();
 							
 							t.setX(Float.parseFloat(x));
 							t.setY(Float.parseFloat(y));;
 							t.used = (used.equals("True")) ? true : false;
 							t.setFrame(Integer.parseInt(frame));
 							t.setAlpha(Float.parseFloat(Alpha));
+							t.setCharacterID(Integer.parseInt(Character));
 						}
 					}
 					else if(command.equals("Init"))

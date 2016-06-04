@@ -7,6 +7,7 @@ import processing.core.PImage;
 public class Trail extends Skill {
 	
 	private int frame;
+	private int CharacterID;
 	//private PImage image;
 	
 	// Transperancy
@@ -45,9 +46,12 @@ public class Trail extends Skill {
 	
 	public void setAlpha(float f){ this.alpha = f; }
 	public void setFrame(int i){ this.frame = i; }
+	public void setCharacterID(int characterID) {CharacterID = characterID;}
 	//public void setImage(PImage p){ this.image = p; }
 	
 	public int getFrame() { return this.frame; }
 	public float getAlpha() { return this.alpha; }
+	public int getCharacterID() {return CharacterID; }
+
 
 }

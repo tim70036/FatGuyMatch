@@ -71,6 +71,7 @@ public class Character extends Entity
 						trail.setX(this.getX());
 						trail.setY(this.getY());
 						trail.setAlpha(255f);
+						trail.setCharacterID(this.characterID);
 						trail.setFrame(this.frame); // Now Image's frame
 						trail.used = true;
 					}
@@ -229,12 +230,11 @@ public class Character extends Entity
 				delay++;
 				if(delay>20){
 					if(face==0){
-						if(frame==frameNum||frame>=5)frame=0;
-						else if(frame>=5)frame=0;
+						if(frame==frameNum||frame>=5)frame=1;
 						else frame++;
 					}
 					else if(face==1){
-						if(frame==frameNum+5||frame<5)frame=5;
+						if(frame==frameNum+5||frame<5)frame=6;
 						else frame++;
 					}
 					delay = 0;
