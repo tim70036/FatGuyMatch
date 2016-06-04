@@ -380,7 +380,9 @@ public class Client extends PApplet{
 			this.background(255);
 			this.fill(0);
 			this.textSize(40);
-			if(winner != null) this.text("Winner is " + winner + " !!!", 600, 600);
+			for(Character ch : handler.getCharacter())
+				if(ch.playerID == ID)
+					this.text("Winner is " + winner + " !!!", ch.getX() - winner.length() * 7 - 150, ch.getY());
 		}
 	}
 	
