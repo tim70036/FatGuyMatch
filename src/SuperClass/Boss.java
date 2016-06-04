@@ -11,6 +11,8 @@ import processing.core.PImage;
 public class Boss extends Entity {
 
 	Character target;
+	public int lastAttackPlayerID = -1;
+	
 	long lastTime ;
 	long nowTime;
 	PImage img;
@@ -28,7 +30,7 @@ public class Boss extends Entity {
 	public Boss(int x, int y, int width, int height, Type type, boolean solid, Handler handler) 
 	{
 		super(x, y, width, height, type, solid, handler);
-		life = 5000;
+		life = 50;
 		//which place it is located
 	}
 	
@@ -117,7 +119,7 @@ public class Boss extends Entity {
 							dark.setY(this.getY());
 							dark.setVelX( (target.getX() - this.getX()) / 5 );
 							dark.setVelY( (target.getY() - this.getY()) / 5 );
-							System.out.println("Launch a DarkSkill");
+							
 							break;
 						}
 					}
@@ -136,9 +138,10 @@ public class Boss extends Entity {
 					///need to reset the bound size
 					if(super.getBound().intersects(s.getBound()))
 					{
+						this.lastAttackPlayerID = s.playerID;
+						
 						s.die();
 						this.life -= 100;
-						
 					}
 				}
 			}

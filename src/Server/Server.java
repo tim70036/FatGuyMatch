@@ -11,20 +11,9 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
+import SuperClass.*;
 import SuperClass.Character;
-import SuperClass.Darkness;
-import SuperClass.Entity;
-import SuperClass.Handler;
-import SuperClass.LazerSkill;
-import SuperClass.Missile;
-import SuperClass.Shit;
-import SuperClass.Skill;
-import SuperClass.Thunder;
-import SuperClass.Tower;
-import SuperClass.Trail;
-import SuperClass.Type;
-import SuperClass.Wall;
-import SuperClass.FireSkill;
+
 public class Server {
 	
 	//ArrayList<Character> handler;
@@ -183,16 +172,6 @@ public class Server {
 		} catch (IOException e) {}
 	}
 	
-	public synchronized void stop()
-	{
-		if(!isRunning)	return;
-		
-		isRunning = false;
-		try 
-		{
-			gameThread.join();
-		} catch (InterruptedException e) {e.printStackTrace();}
-	}
 // -------------------------Game Thread ----------------------------------- //
 // ----------------------------------------------------------------------- //
 	
@@ -219,9 +198,17 @@ public class Server {
 				}
 					
 			}
+			System.out.println("Server stops game loop.");
 			
+			// Who kill the boss? 
+			int lastAttackPlayerID = -1;
+			for(Entity e : handler.getEntity())
+				if(e.getType() == Type.BOSS)
+					lastAttackPlayerID = ((Boss)e).lastAttackPlayerID;
 			
-			System.out.println("Server stops game thread");
+			broadCast("Game Over");	broadCast(Integer.toString(lastAttackPlayerID));
+			
+			System.out.println("Server stops game thread. ");
 		}
 	}
 	

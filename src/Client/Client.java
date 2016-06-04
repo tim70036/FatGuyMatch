@@ -50,6 +50,10 @@ public class Client extends PApplet{
 	private String menuStatus;
 	private boolean isWaiting;
 	private boolean isRunning;
+	private boolean isGameOver;
+	private boolean isInMenu;
+	
+	private int winner;
 	
 	// parameters
 	private int muteWidth = 90;
@@ -137,6 +141,8 @@ public class Client extends PApplet{
 		
 		this.isWaiting = false;
 		this.isRunning = false;
+		this.isGameOver = false;
+		this.isInMenu = true;
 		
 		this.isPlay = true;
 		
@@ -238,98 +244,112 @@ public class Client extends PApplet{
 	public void draw() {
 		
 		this.translate(cam.getX(), cam.getY());
-		//this.scale((float)2.0);
 		
-		if (this.menuStatus.equals("MainMenu")) {
-			this.background(255);
-			// MainMenu Picture
-			this.image(this.menuBg, 0, 0, this.width, this.height);
-			this.image(this.titleImg, this.titleX, this.titleY);
+		if(isInMenu)
+		{
+			if (this.menuStatus.equals("MainMenu")) {
+				this.background(255);
+				// MainMenu Picture
+				this.image(this.menuBg, 0, 0, this.width, this.height);
+				this.image(this.titleImg, this.titleX, this.titleY);
+				
+				if (delay < 20) {
+					this.image(this.menuPic[index], this.menu_bgX, this.menu_bgY, 250, 300);
+					delay++;
+					if (delay == 20) {
+						delay = 0;
+						index = (index+1) % 3;
+					}
+				}
+			}
+			else if (this.menuStatus.equals("Information1")) {
+				this.background(255);
+				this.image(this.menuBg, 0, 0, this.width, this.height);
+			}
+			else if (this.menuStatus.equals("Information2")) {
+				this.background(255);
+				this.image(this.menuBg, 0, 0, this.width, this.height);
+				
+				// Authors' name & picture
+				this.image(this.author[0], 200, 100, 250, 300);
+				this.image(this.author[1], 550, 100, 250, 300);
+				if (this.isOnAuthor[0]) 
+					this.image(this.authorName[0], this.mouseX, this.mouseY, 150, 100);
+				else if (this.isOnAuthor[1]) 
+					this.image(this.authorName[1], this.mouseX, this.mouseY, 150, 100);
+			}
+			else if (this.menuStatus.equals("Information3")) {
+				this.background(255);
+				this.image(this.menuBg, 0, 0, this.width, this.height);
+				
+				// Authors' name & picture
+				this.image(this.author[2], 130, 100, 250, 300);
+				this.image(this.author[3], 395, 100, 250, 300);
+				this.image(this.author[4], 660, 100, 250, 300);
+				if (this.isOnAuthor[2]) 
+					this.image(this.authorName[2], this.mouseX, this.mouseY, 150, 100);
+				else if (this.isOnAuthor[3]) 
+					this.image(this.authorName[3], this.mouseX, this.mouseY, 150, 100);
+				else if (this.isOnAuthor[4]) 
+					this.image(this.authorName[4], this.mouseX, this.mouseY, 150, 100);
 			
-			if (delay < 20) {
-				this.image(this.menuPic[index], this.menu_bgX, this.menu_bgY, 250, 300);
-				delay++;
-				if (delay == 20) {
-					delay = 0;
-					index = (index+1) % 3;
+			}
+			else if (this.menuStatus.equals("Selecting")) {
+				this.background(0);
+				switch (this.characterID) {
+					case 0:	
+						if (delay < 20) {
+							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							delay++;
+							if (delay == 20) {
+								delay = 0;
+								index = (index+1) % 3;
+							}
+						}
+						break;
+					case 1:
+						if (delay < 20) {
+							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							delay++;
+							if (delay == 20) {
+								delay = 0;
+								index = (index+1) % 3;
+							}
+						}
+						break;
+					case 2: 
+						if (delay < 20) {
+							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							delay++;
+							if (delay == 20) {
+								delay = 0;
+								index = (index+1) % 3;
+							}
+						}
+						break;
+					case 3:
+						if (delay < 20) {
+							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							delay++;
+							if (delay == 20) {
+								delay = 0;
+								index = (index+1) % 3;
+							}
+						}
+						break;
 				}
 			}
 		}
-		else if (this.menuStatus.equals("Information1")) {
+		else if(isRunning)
+		{
 			this.background(255);
-			this.image(this.menuBg, 0, 0, this.width, this.height);
-		}
-		else if (this.menuStatus.equals("Information2")) {
-			this.background(255);
-			this.image(this.menuBg, 0, 0, this.width, this.height);
+			handler.display(this);
 			
-			// Authors' name & picture
-			this.image(this.author[0], 200, 100, 250, 300);
-			this.image(this.author[1], 550, 100, 250, 300);
-			if (this.isOnAuthor[0]) 
-				this.image(this.authorName[0], this.mouseX, this.mouseY, 150, 100);
-			else if (this.isOnAuthor[1]) 
-				this.image(this.authorName[1], this.mouseX, this.mouseY, 150, 100);
-		}
-		else if (this.menuStatus.equals("Information3")) {
-			this.background(255);
-			this.image(this.menuBg, 0, 0, this.width, this.height);
-			
-			// Authors' name & picture
-			this.image(this.author[2], 130, 100, 250, 300);
-			this.image(this.author[3], 395, 100, 250, 300);
-			this.image(this.author[4], 660, 100, 250, 300);
-			if (this.isOnAuthor[2]) 
-				this.image(this.authorName[2], this.mouseX, this.mouseY, 150, 100);
-			else if (this.isOnAuthor[3]) 
-				this.image(this.authorName[3], this.mouseX, this.mouseY, 150, 100);
-			else if (this.isOnAuthor[4]) 
-				this.image(this.authorName[4], this.mouseX, this.mouseY, 150, 100);
-		
-		}
-		else if (this.menuStatus.equals("Selecting")) {
-			this.background(0);
-			switch (this.characterID) {
-				case 0:	
-					if (delay < 20) {
-						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
-						delay++;
-						if (delay == 20) {
-							delay = 0;
-							index = (index+1) % 3;
-						}
-					}
-					break;
-				case 1:
-					if (delay < 20) {
-						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
-						delay++;
-						if (delay == 20) {
-							delay = 0;
-							index = (index+1) % 3;
-						}
-					}
-					break;
-				case 2: 
-					if (delay < 20) {
-						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
-						delay++;
-						if (delay == 20) {
-							delay = 0;
-							index = (index+1) % 3;
-						}
-					}
-					break;
-				case 3:
-					if (delay < 20) {
-						this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
-						delay++;
-						if (delay == 20) {
-							delay = 0;
-							index = (index+1) % 3;
-						}
-					}
-					break;
+			int tag=0;
+			for(Character en:	handler.getCharacter())
+			{
+				cam.tick(en);
+				if(tag==ID)break;tag++;
 			}
 		}
 		else if(isWaiting)
@@ -353,19 +373,13 @@ public class Client extends PApplet{
 				}
 			}
 		}
-		else if(isRunning)
+		else if(isGameOver)
 		{
 			this.background(255);
-			handler.display(this);
-			
-			int tag=0;
-			for(Character en:	handler.getCharacter())
-			{
-				cam.tick(en);
-				if(tag==ID)break;tag++;
-			}
+			this.fill(0);
+			this.textSize(40);
+			this.text("Winner is Player " + winner + " !!!", 1000, 600);
 		}
-		
 	}
 	
 // ------------------------NetWork Part ----------------------------------- //
@@ -422,6 +436,14 @@ public class Client extends PApplet{
 						ID = Integer.parseInt(command);
 						isRunning = true;
 						isWaiting = false;
+					}
+					else if(command.equals("Game Over"))
+					{
+						command = reader.readLine();
+						
+						isRunning = false;
+						isGameOver = true;
+						winner = Integer.parseInt(command);
 					}
 					else if(command.equals("GameData"))
 					{
@@ -781,6 +803,7 @@ public class Client extends PApplet{
     		this.changeBtnPos("NextBtn", -500, -500);
     		
     		// Connect to Server
+    		this.isInMenu = false;
     		this.isWaiting = true;
     		this.connect();
     		
