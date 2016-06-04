@@ -39,6 +39,10 @@ public class Character extends Entity
 		parent.rect(this.getX(),this.getY()-20,this.getWidth(),10);
 		parent.fill(13,155,23);
 		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/500),10);
+		//draw name
+		parent.fill(0, 0, 0);
+		parent.textSize(16);
+		parent.text("player "+this.playerID, getX(), getY()-25);
 	
 	}
 

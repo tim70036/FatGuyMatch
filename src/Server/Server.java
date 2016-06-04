@@ -29,7 +29,7 @@ public class Server {
 	
 	//ArrayList<Character> handler;
 	ArrayList<ServerThread> threadPool;// Store the connection to all Client
-	public ArrayList<Integer> CharacterID;
+	ArrayList<Integer> CharacterID;
 	
 	Handler handler;
 	
@@ -50,12 +50,22 @@ public class Server {
 	public int trailNum;
 	public int shitNum;
 	
+	//Character init place
+	public int initPlace[][];
+
+	
 	public Server(int port, int playerNum)
 	{
 		//handler = new ArrayList<Character>();
 		threadPool = new ArrayList<ServerThread>();
 		CharacterID = new ArrayList<Integer>();
 		handler = new Handler();
+		
+		// init character's first place
+		initPlace = new int[][]{
+			{100,100,100,2500},
+			{2500,100,2500,2500}
+		};
 		
 		try 
 		{
@@ -121,7 +131,7 @@ public class Server {
 	{
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
-			handler.addCharacter(new Character(100,100,100,100,Type.CHARACTER,true,handler, i,CharacterID.get(i)));
+			handler.addCharacter(new Character(initPlace[i][0],initPlace[i][1],100,100,Type.CHARACTER,true,handler, i,CharacterID.get(i)));
 		broadCast("Init");	broadCast("Characters");	broadCast(Integer.toString(playerNum));
 		for(int i=0 ; i<playerNum ; i++)
 			broadCast(Integer.toString(CharacterID.get(i)));
