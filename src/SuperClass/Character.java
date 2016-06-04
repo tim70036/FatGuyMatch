@@ -11,7 +11,7 @@ public class Character extends Entity
 	public int playerID;
 	public int characterID;
 	public long dieTime = 0;
-	public long lastTime = 0;
+	public long lastTime = 0,lastTime_dura = 0;
 	private Random rand=new Random();
 	
 	// Trail effect
@@ -53,6 +53,7 @@ public class Character extends Entity
 			// Trail effect
 			if(inTrail)
 			{
+				long durationTime = System.nanoTime();
 				long nowTime = System.nanoTime();
 				if(nowTime - lastTime > 5 * 10e6)
 				{
@@ -69,6 +70,7 @@ public class Character extends Entity
 						}
 					}
 					
+					
 					// Show Trail
 					if(trail != null)
 					{
@@ -79,6 +81,12 @@ public class Character extends Entity
 						trail.setFrame(this.frame); // Now Image's frame
 						trail.used = true;
 					}
+				}
+				//duration time 
+				if(durationTime - lastTime_dura > 10e8){
+					durationTime = 0;
+					lastTime_dura = 0;
+					this.inTrail = false;
 				}
 			}
 			
@@ -204,7 +212,19 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
-							if( ((Shit)s).shitType == ShitType.TRAIL )	this.inTrail = true;
+							if( ((Shit)s).shitType == ShitType.TRAIL ){
+								
+								switch (rand.nextInt(2)){
+								case 0:
+									this.inTrail = true;
+									this.lastTime_dura = System.nanoTime();
+									break;
+								case 1:
+									this.life = 0;
+									break;
+									
+								}
+							}
 							
 							s.die();
 						}
