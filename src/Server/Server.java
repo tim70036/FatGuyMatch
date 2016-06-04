@@ -261,10 +261,12 @@ public class Server {
 			String y = Float.toString(s.getY());
 			String u = (s.used == true) ? "True" : "False";
 			String n = Integer.toString(s.face);
+			String m = Integer.toString(s.uniAttack);
 			broadCast(x);
 			broadCast(y);
 			broadCast(u);
 			broadCast(n);
+			broadCast(m);
 		}
 		
 		// Trail Data

@@ -226,7 +226,7 @@ public class Client extends PApplet{
 		
 		// Normal attack
 		normalAttack = new PImage[4][2];
-		for(int i = 0; i < 1; i++){
+		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 2; j++){
 				normalAttack[i][j] = this.loadImage("normalAttack"+ i + j +".png");
 			}
@@ -488,10 +488,12 @@ public class Client extends PApplet{
 							String y = reader.readLine();
 							String used = reader.readLine();
 							String n = reader.readLine();
+							String m = reader.readLine();
 							s.setX(Float.parseFloat(x));
 							s.setY(Float.parseFloat(y));
 							s.used = (used.equals("True")) ? true : false;
 							s.face = Integer.parseInt(n);
+							s.uniAttack = Integer.parseInt(m);
 						}
 						
 						// Trail Data
