@@ -28,7 +28,7 @@ public class Boss extends Entity {
 	public Boss(int x, int y, int width, int height, Type type, boolean solid, Handler handler) 
 	{
 		super(x, y, width, height, type, solid, handler);
-		life = 50000000;
+		life = 5000;
 		//which place it is located
 	}
 	
@@ -39,7 +39,7 @@ public class Boss extends Entity {
 		parent.fill(123,15,3);
 		parent.rect(this.getX(),this.getY()-20,this.getWidth(),20);
 		parent.fill(13,155,23);
-		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/50000000),20);
+		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/5000f),20);
 		
 	}
 	
@@ -117,6 +117,7 @@ public class Boss extends Entity {
 							dark.setY(this.getY());
 							dark.setVelX( (target.getX() - this.getX()) / 5 );
 							dark.setVelY( (target.getY() - this.getY()) / 5 );
+							System.out.println("Launch a DarkSkill");
 						}
 					}
 					
