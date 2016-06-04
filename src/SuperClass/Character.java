@@ -14,7 +14,7 @@ public class Character extends Entity
 	private Random rand=new Random();
 	
 	// Trail effect
-	public boolean inTrail = true;
+	public boolean inTrail = false;
 	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID)
 	{
@@ -41,39 +41,40 @@ public class Character extends Entity
 	}
 
 	public void update() 
-	{
-		if(inTrail)
-		{
-			long nowTime = System.nanoTime();
-			if(nowTime - lastTime > 5 * 10e6)
-			{
-				lastTime = nowTime;
-				
-				// Find an unuse Trail
-				Trail trail = null;
-				for(Trail t: this.getHandler().getTrail())
-				{
-					if(t.used == false)
-					{
-						trail = t;
-						break;
-					}
-				}
-				
-				// Show Trail
-				if(trail != null)
-				{
-					trail.setX(this.getX());
-					trail.setY(this.getY());
-					trail.setAlpha(255f);
-					trail.setFrame(this.frame); // Now Image's frame
-					trail.used = true;
-				}
-			}
-		}
-		
+	{	
 		if(life>0)
 		{
+			// Trail effect
+			if(inTrail)
+			{
+				long nowTime = System.nanoTime();
+				if(nowTime - lastTime > 5 * 10e6)
+				{
+					lastTime = nowTime;
+					
+					// Find an unuse Trail
+					Trail trail = null;
+					for(Trail t: this.getHandler().getTrail())
+					{
+						if(t.used == false)
+						{
+							trail = t;
+							break;
+						}
+					}
+					
+					// Show Trail
+					if(trail != null)
+					{
+						trail.setX(this.getX());
+						trail.setY(this.getY());
+						trail.setAlpha(255f);
+						trail.setFrame(this.frame); // Now Image's frame
+						trail.used = true;
+					}
+				}
+			}
+			
 			setX(getX() + getVelX());
 			setY(getY() + getVelY());
 			
@@ -140,6 +141,7 @@ public class Character extends Entity
 					}
 				}
 			}
+			
 			for(Entity e : this.getHandler().getEntity())
 			{
 				if(e.isSolid() == false)	continue;
@@ -175,7 +177,7 @@ public class Character extends Entity
 							this.life -= 50;
 						}
 					}
-					else if(s.getType() == Type.LAZERSKILL && s.playerID != this.playerID)
+					else if(s.getType() == Type.LAZERSKILL)
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
@@ -189,6 +191,15 @@ public class Character extends Entity
 						{
 							s.die();
 							this.life -= 50;
+						}
+					}
+					else if(s.getType() == Type.SHIT)
+					{
+						if(this.getBound().intersects(s.getBound()))
+						{
+							if( ((Shit)s).shitType == ShitType.TRAIL )	this.inTrail = true;
+							
+							s.die();
 						}
 					}
 				}
@@ -251,23 +262,7 @@ public class Character extends Entity
 					dieTime = 0;
 					
 					// Put an unsused shit and put on it
-					Shit shit = null;
-					for(Skill s : this.getHandler().getSkill())
-					{
-						if(s.getType() == Type.SHIT && s.used == false)
-						{
-							shit = (Shit) s;
-							break;
-						}
-					}
-					if(shit != null)
-					{
-						shit.setX(this.getX());
-						shit.setY(this.getY() + 10);
-						shit.gravity = 0.5;
-						shit.jumping = true;
-						shit.used = true;
-					}
+					Shit.putShit(this.getX()+(this.getWidth()*0.4f) , this.getY()+(this.getHeight()*0.8f));
 					
 					// Revive
 					setX(200);

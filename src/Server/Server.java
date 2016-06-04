@@ -141,7 +141,7 @@ public class Server {
 		// Shit
 		shitNum = 20;
 		for(int i=0 ; i<shitNum ; i++)
-			handler.addSkill(new Shit(-100,0,100,100,Type.SHIT, true, handler, ShitType.TRAIL));
+			handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler, ShitType.TRAIL));
 		broadCast("Init"); broadCast("Shit");	broadCast(Integer.toString(shitNum));
 		
 		//init map,floor.   picture should be 16*16 32*32....
@@ -277,6 +277,7 @@ public class Server {
 		private PrintWriter writer;
 		private BufferedReader reader;
 		private int playerID; // ??? useful???
+		private Character ch;
 		
 		public Socket getSocket() {return socket;}
 		public int getPlayerID() {return this.playerID;}
@@ -314,6 +315,7 @@ public class Server {
 						command = reader.readLine();
 						//System.out.println(command);
 						
+						ch = handler.getCharacter().get(playerID);
 						if(command.equals("Press"))
 						{
 							command = reader.readLine();
@@ -321,31 +323,31 @@ public class Server {
 							
 							if(command.equals("W"))
 							{
-							    if(!handler.getCharacter().get(playerID).jumping)
+							    if(!ch.jumping)
 							    {
-									handler.getCharacter().get(playerID).jumping = true;
-									handler.getCharacter().get(playerID).falling = false;
-									handler.getCharacter().get(playerID).gravity = 1;
+									ch.jumping = true;
+									ch.falling = false;
+									ch.gravity = 1;
 								}
 							}
 							if(command.equals("A"))
 							{
-								handler.getCharacter().get(playerID).setVelX(-1.5f);
-								handler.getCharacter().get(playerID).move = true;
-								handler.getCharacter().get(playerID).face = 1;
+								if(ch.inTrail)	ch.setVelX(-2.7f);
+								else ch.setVelX(-1.5f);
+								ch.move = true;
+								ch.face = 1;
 							}
-							/*else if(command.equals("S"))
-								characters.getEntity().get(playerID).setVelY(0.1f);*/
 							if(command.equals("D"))
 							{
-								handler.getCharacter().get(playerID).setVelX(1.5f);
-								handler.getCharacter().get(playerID).move = true;
-								handler.getCharacter().get(playerID).face = 0;
+								if(ch.inTrail)	ch.setVelX(2.7f);
+								else ch.setVelX(1.5f);
+								ch.move = true;
+								ch.face = 0;
 							}
 							// Fire Skill
 							if(command.equals("C"))
 							{
-								if(handler.getCharacter().get(playerID).life > 0)
+								if(ch.life > 0)
 								{
 									// Find an unused FireSkill
 									FireSkill fire = null;
@@ -361,9 +363,9 @@ public class Server {
 									// Launch fire
 									if(fire != null)
 									{
-										fire.setX(handler.getCharacter().get(playerID).getX());
-										fire.setY(handler.getCharacter().get(playerID).getY());
-										fire.face = handler.getCharacter().get(playerID).face;
+										fire.setX(ch.getX());
+										fire.setY(ch.getY());
+										fire.face = ch.face;
 										fire.playerID  = playerID;
 										fire.used = true;
 									}
@@ -372,7 +374,7 @@ public class Server {
 							// Missile Skill
 							else if(command.equals("F"))
 							{
-								if(handler.getCharacter().get(playerID).life > 0)
+								if(ch.life > 0)
 								{
 									// Find an unused Missile Skill
 									Missile missile = null;
@@ -388,8 +390,8 @@ public class Server {
 									// Launch Missle
 									if(missile != null)
 									{
-										missile.setX(handler.getCharacter().get(playerID).getX());
-										missile.setY(handler.getCharacter().get(playerID).getY());
+										missile.setX(ch.getX());
+										missile.setY(ch.getY());
 										if(playerNum==1)
 											missile.en = handler.getCharacter().get(0);
 										else
@@ -406,17 +408,16 @@ public class Server {
 							command = reader.readLine();
 							//System.out.println(command);
 							
-							if(command.equals("A")){
-								handler.getCharacter().get(playerID).setVelX(0);
-								handler.getCharacter().get(playerID).move = false;
+							if(command.equals("A"))
+							{
+								ch.setVelX(0);
+								ch.move = false;
 							}
-							/*else if(command.equals("S"))
-								characters.getEntity().get(playerID).setVelY(0);*/
-							else if(command.equals("D")){
-								handler.getCharacter().get(playerID).setVelX(0);
-								handler.getCharacter().get(playerID).move = false;
+							else if(command.equals("D"))
+							{
+								ch.setVelX(0);
+								ch.move = false;
 							}
-							else;
 						}
 					}
 					

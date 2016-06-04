@@ -13,7 +13,29 @@ public class Shit extends Skill {
 		super(x, y, width, height, type, solid, handler);
 		this.shitType = shit;
 	}
-
+	
+	public static void putShit(float targetX , float targetY)
+	{
+		// Put an unsused shit and put on it
+		Shit shit = null;
+		for(Skill s : Skill.getHandler().getSkill())
+		{
+			if(s.getType() == Type.SHIT && s.used == false)
+			{
+				shit = (Shit) s;
+				break;
+			}
+		}
+		if(shit != null)
+		{
+			shit.setX(targetX);
+			shit.setY(targetY);
+			shit.gravity = 0.5;
+			shit.jumping = true;
+			shit.used = true;
+		}
+	}
+	
 	public void display(PApplet parent) 
 	{
 		if(used == true)

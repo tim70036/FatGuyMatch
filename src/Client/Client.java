@@ -190,7 +190,7 @@ public class Client extends PApplet{
 		
 		// Shit
 		shitImage = this.loadImage("shit.png");
-		shitImage.resize(100, 100);
+		shitImage.resize(50, 50);
 		
 		// Door
 		doorImage = this.loadImage("door.png");
@@ -504,7 +504,7 @@ public class Client extends PApplet{
 							
 							shitNum = Integer.parseInt(command);
 							for(int i=0 ; i<shitNum ; i++)
-								handler.addSkill(new Shit(-100,0,100,100,Type.SHIT, true, handler, ShitType.TRAIL));
+								handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler, ShitType.TRAIL));
 						}
 					}
 					
