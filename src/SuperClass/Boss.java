@@ -118,6 +118,7 @@ public class Boss extends Entity {
 							dark.setVelX( (target.getX() - this.getX()) / 5 );
 							dark.setVelY( (target.getY() - this.getY()) / 5 );
 							System.out.println("Launch a DarkSkill");
+							break;
 						}
 					}
 					

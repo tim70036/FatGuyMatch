@@ -107,7 +107,10 @@ public class Server {
 		System.out.println("Server stops waiting for client.");
 		
 		// wait characterID
-		while(this.CharacterID.size() < playerNum);
+		while(this.CharacterID.size() < playerNum)
+		{
+			System.out.println("");
+		}
 		
 		// Init Data
 		init();

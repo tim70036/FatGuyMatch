@@ -5,8 +5,6 @@ import processing.core.PApplet;
 
 public class FireSkill extends Skill{
 	
-	public int face=0;
-	
 	public FireSkill(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
 		// TODO Auto-generated constructor stub
