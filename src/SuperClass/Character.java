@@ -208,6 +208,23 @@ public class Character extends Entity
 							this.life -= 50;
 						}
 					}
+					else if(s.getType() == Type.DARKSKILL)
+					{
+						if(this.getBound().intersects(s.getBound()))
+						{
+							s.die();
+							this.life -= 500;
+						}
+					}
+					
+					else if(s.getType() == Type.THUNDERSKILL)
+					{
+						if(this.getBound().intersects(s.getBound()))
+						{
+							s.die();
+							this.life -= 2000;
+						}
+					}
 					else if(s.getType() == Type.SHIT)
 					{
 						if(this.getBound().intersects(s.getBound()))

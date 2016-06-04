@@ -66,8 +66,10 @@ public class Server {
 		
 		// init character's first place
 		initPlace = new int[][]{
-			{100,100,100,2500},
-			{2500,100,2500,2500}
+			{100,100},
+			{100,2500},
+			{2500,100},
+			{2500,2500}
 		};
 		
 		try 
@@ -157,12 +159,12 @@ public class Server {
 			handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 		broadCast("Init");	broadCast("MissileSkill"); broadCast(Integer.toString(missileNum));
 		//darkNUm
-		darkNum = 50;
+		darkNum = 10;
 		for(int i=0 ; i<darkNum ; i++)
 			handler.addSkill(new Darkness(3000,3000,50,50,Type.DARKSKILL, true, handler));
 		broadCast("Init");	broadCast("Darkness"); broadCast(Integer.toString(darkNum));
 		//thunder
-		thunderNum = 20;
+		thunderNum = 10;
 		for(int i=0 ; i<thunderNum ; i++)
 			handler.addSkill(new Thunder(3000,3000,50,50,Type.THUNDERSKILL, true, handler));
 		broadCast("Init");	broadCast("Thunder"); broadCast(Integer.toString(thunderNum));
@@ -207,7 +209,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 600000000.0/60.0;
+			double ns = 400000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
