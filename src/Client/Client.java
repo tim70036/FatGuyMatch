@@ -1,5 +1,4 @@
 package Client;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,14 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.imageio.ImageIO;
 
 import SuperClass.Character;
@@ -27,14 +21,10 @@ import SuperClass.Missile;
 import SuperClass.Shit;
 import SuperClass.Skill;
 import SuperClass.Thunder;
-import SuperClass.Tower;
 import SuperClass.Trail;
 import SuperClass.Type;
-import SuperClass.Wall;
-import controlP5.ControlEvent;
 import controlP5.ControlFont;
 import controlP5.ControlP5;
-import controlP5.ControlWindow;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import de.looksgood.ani.Ani;
@@ -43,6 +33,8 @@ import processing.core.PFont;
 import processing.core.PImage;
 public class Client extends PApplet{
 	
+	private static final long serialVersionUID = 1L;
+
 	public static int width , height;
 	
 	private ControlP5 cp5;
@@ -80,7 +72,6 @@ public class Client extends PApplet{
 	private boolean[] isOnAuthor = new boolean[5];
 	
 	private int playerNum;
-	private int wallNum;
 	private Handler handler;
 	
 	// Attributes for Network
@@ -93,7 +84,7 @@ public class Client extends PApplet{
 	private BufferedReader reader;
 	private ClientThread clientThread;
 	
-	/// cam
+	// cam
 	public static Camera cam;
 	
 	// Level
@@ -156,9 +147,6 @@ public class Client extends PApplet{
 	
 	public void setup() {
 		
-		// init picture
-		//player = new Picture(loadImage("match.png"));
-		//player.reSize(100, 100);// Change be careful server init
 		
 		//	Sprite
 		sheet = new PictureSheet[4];
@@ -185,10 +173,6 @@ public class Client extends PApplet{
 		{
 			boss[tmp] = new Picture(boss_sheet,tmp,0,200);
 			boss[tmp].reSize(300, 300);
-//			boss[tmp+5] = new Picture(boss_sheet,tmp,1,40);
-//			boss[tmp+5].reSize(300, 300);
-//			boss[tmp+10] = new Picture(boss_sheet,tmp,2,40);
-//			boss[tmp+10].reSize(300, 300);
 		}
 		
 		size(width, height);
@@ -251,7 +235,7 @@ public class Client extends PApplet{
 			if (this.menuStatus.equals("MainMenu")) {
 				this.background(255);
 				// MainMenu Picture
-				this.image(this.menuBg, 0, 0, this.width, this.height);
+				this.image(this.menuBg, 0, 0, Client.width, Client.height);
 				this.image(this.titleImg, this.titleX, this.titleY);
 				
 				if (delay < 20) {
@@ -265,11 +249,11 @@ public class Client extends PApplet{
 			}
 			else if (this.menuStatus.equals("Information1")) {
 				this.background(255);
-				this.image(this.menuBg, 0, 0, this.width, this.height);
+				this.image(this.menuBg, 0, 0, Client.width, Client.height);
 			}
 			else if (this.menuStatus.equals("Information2")) {
 				this.background(255);
-				this.image(this.menuBg, 0, 0, this.width, this.height);
+				this.image(this.menuBg, 0, 0, Client.width, Client.height);
 				
 				// Authors' name & picture
 				this.image(this.author[0], 200, 100, 250, 300);
@@ -281,7 +265,7 @@ public class Client extends PApplet{
 			}
 			else if (this.menuStatus.equals("Information3")) {
 				this.background(255);
-				this.image(this.menuBg, 0, 0, this.width, this.height);
+				this.image(this.menuBg, 0, 0, Client.width, Client.height);
 				
 				// Authors' name & picture
 				this.image(this.author[2], 130, 100, 250, 300);
@@ -300,7 +284,7 @@ public class Client extends PApplet{
 				switch (this.characterID) {
 					case 0:	
 						if (delay < 20) {
-							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							this.image(this.character[this.characterID][index], this.characterPicX, Client.height/2-330, 730, 550);
 							delay++;
 							if (delay == 20) {
 								delay = 0;
@@ -310,7 +294,7 @@ public class Client extends PApplet{
 						break;
 					case 1:
 						if (delay < 20) {
-							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							this.image(this.character[this.characterID][index], this.characterPicX, Client.height/2-330, 730, 550);
 							delay++;
 							if (delay == 20) {
 								delay = 0;
@@ -320,7 +304,7 @@ public class Client extends PApplet{
 						break;
 					case 2: 
 						if (delay < 20) {
-							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							this.image(this.character[this.characterID][index], this.characterPicX, Client.height/2-330, 730, 550);
 							delay++;
 							if (delay == 20) {
 								delay = 0;
@@ -330,7 +314,7 @@ public class Client extends PApplet{
 						break;
 					case 3:
 						if (delay < 20) {
-							this.image(this.character[this.characterID][index], this.characterPicX, this.height/2-330, 730, 550);
+							this.image(this.character[this.characterID][index], this.characterPicX, Client.height/2-330, 730, 550);
 							delay++;
 							if (delay == 20) {
 								delay = 0;
@@ -391,7 +375,6 @@ public class Client extends PApplet{
 	{
 		writer.println(message);
 		writer.flush();
-		//System.out.println("Send message: " + message);
 	}
 	
 	public void connect()
@@ -405,13 +388,8 @@ public class Client extends PApplet{
 			clientThread = new ClientThread();
 			clientThread.start();
 			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (UnknownHostException e) {e.printStackTrace();} catch (IOException e) {e.printStackTrace();}
+		
 		//send CharacterID
 		sendMessage("CharacterType");
 		sendMessage(Integer.toString(this.characterID));
@@ -451,6 +429,12 @@ public class Client extends PApplet{
 						isRunning = false;
 						isGameOver = true;
 						winner = command;
+						
+						for(Character ch : handler.getCharacter())
+							if(ch.playerID == ID)
+								changeBtnPos("ReplayBtn" ,ch.getX()-150, ch.getY() + 150);
+							
+						
 					}
 					else if(command.equals("GameData"))
 					{
@@ -544,10 +528,6 @@ public class Client extends PApplet{
 							for(int i=0 ; i < fireSkillNum ; i++)
 								handler.addSkill(new FireSkill(3000,3000,50,50,Type.FIRESKILL,true,handler));
 						}
-						/*else if(command.equals("Tower"))
-						{
-							handler.addEntity(new Tower(250 ,250,303,303, Type.TOWER, true, handler));
-						}*/
 						else if(command.equals("LazerSkill"))
 						{
 							command = reader.readLine();
@@ -666,6 +646,16 @@ public class Client extends PApplet{
 	     .setColor(color(255,0,0))
 	     ;
 		
+		cp5.addButton("ReplayBtn")
+			.setLabel("Replay")
+			.setSize(this.btnWidth, this.btnHeight)
+			.setPosition(-500, -500)
+			.setColorForeground(color(0,255,0))
+			.setColorBackground(color(30, 144, 255))
+			.getCaptionLabel()
+			.setFont(font)
+			.toUpperCase(false);
+		
 		cp5.addButton("StartBtn")
 			.setLabel("Let's Start Game")
 			.setSize(this.btnWidth, this.btnHeight)
@@ -726,16 +716,6 @@ public class Client extends PApplet{
 			.setFont(font)
 			.toUpperCase(false);
 		
-//		cp5.addButton("SelectBtn")
-//			.setLabel("Select")
-//			.setSize(this.btnWidth, this.btnHeight)
-//			.setPosition(-500, -500)
-//			.setColorForeground(color(0,255,0))
-//			.setColorBackground(color(30, 144, 255))
-//			.getCaptionLabel()
-//			.setFont(font)
-//			.toUpperCase(false);
-//		
 	}
     
     public void changeBtnPos(String s, float x, float y) {
@@ -762,7 +742,21 @@ public class Client extends PApplet{
         		this.isWaiting = true;
         		this.connect();
     		}
+    		s.close();
     	}
+    }
+    
+    public void ReplayBtn()
+    {
+    	System.out.println("hi");
+    	// Reset Data
+    	isGameOver = false;
+    	isWaiting = true;
+    	handler = new Handler();
+    	
+    	sendMessage("Replay");
+    	
+    	this.changeBtnPos("ReplayBtn" , -500, -500);
     }
     
     public void StartBtn() {
@@ -784,7 +778,7 @@ public class Client extends PApplet{
     		this.menuStatus = "Information1";
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
-    		this.changeBtnPos("BackBtn", this.width/2-this.btnWidth/2, 500);
+    		this.changeBtnPos("BackBtn", Client.width/2-this.btnWidth/2, 500);
     		this.changeBtnPos("NextBtn", 870, 300);
     	}
     }
@@ -792,8 +786,8 @@ public class Client extends PApplet{
     public void BackBtn() {
 	    if (this.menuStatus.equals("Information1") || this.menuStatus.equals("Information2") || this.menuStatus.equals("Information3")) {
 	    	this.menuStatus = "MainMenu";
-	    	this.changeBtnPos("StartBtn", this.width/2-this.btnWidth/2, 400);
-    		this.changeBtnPos("InfoBtn", this.width/2-this.btnWidth/2, 500);
+	    	this.changeBtnPos("StartBtn", Client.width/2-this.btnWidth/2, 400);
+    		this.changeBtnPos("InfoBtn", Client.width/2-this.btnWidth/2, 500);
     		this.changeBtnPos("BackBtn", -500, -500);
     		this.changeBtnPos("NextBtn", -500, -500);
     		this.changeBtnPos("PrevBtn", -500, -500);
@@ -810,7 +804,7 @@ public class Client extends PApplet{
     	} else if (this.menuStatus.equals("Selecting")) {
     		this.characterID = (this.characterID+1) % 4;
     		this.characterPicX = this.characterPicXL;
-    		Ani.to(this, (float)2, "characterPicX", this.width/2-370);
+    		Ani.to(this, (float)2, "characterPicX", Client.width/2-370);
     	}
     }
     
@@ -824,7 +818,7 @@ public class Client extends PApplet{
     	} else if (this.menuStatus.equals("Selecting")) {
     		this.characterID = (this.characterID==0) ? 3 : this.characterID-1;
     		this.characterPicX = this.characterPicXR;
-    		Ani.to(this, (float)2, "characterPicX", this.width/2-370);
+    		Ani.to(this, (float)2, "characterPicX", Client.width/2-370);
     	}
     }
     
@@ -841,21 +835,6 @@ public class Client extends PApplet{
     		this.bgm.play();
     	}
     }
-
-//    public void SelectBtn() {
-//    	if (this.menuStatus.equals("Selecting")) {
-//    		this.menuStatus = "Game";
-//    		this.changeBtnPos("SelectBtn", -500, -500);
-//    		this.changeBtnPos("PrevBtn", -500, -500);
-//    		this.changeBtnPos("NextBtn", -500, -500);
-//    		
-//    		// Connect to Server
-//    		this.isInMenu = false;
-//    		this.isWaiting = true;
-//    		this.connect();
-//    		
-//    	}
-
 
  // ------------------------- Mouse Input Part ------------------------------- //
  // -------------------------------------------------------------------------- //

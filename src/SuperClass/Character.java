@@ -15,7 +15,7 @@ public class Character extends Entity
 	public long lastTime = 0,lastTime_dura = 0;
 	private Random rand = new Random();
 	
-	public boolean canAttackssBoss = false;
+	public boolean canAttackssBoss = true;
 	public int shitNum = 8;
 	
 	// Trail effect

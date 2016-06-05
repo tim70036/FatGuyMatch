@@ -30,6 +30,7 @@ public class Server {
 	// Network Part
 	public int port;
 	public int playerNum;
+	public int replayNum;
 	ServerSocket serverSocket;
 	
 	// Skill
@@ -47,10 +48,9 @@ public class Server {
 	
 	public Server(int port, int playerNum)
 	{
-		//handler = new ArrayList<Character>();
-		threadPool = new ArrayList<ServerThread>();
-		CharacterID = new ArrayList<Integer>();
-		handler = new Handler();
+		
+		this.port = port;
+		this.playerNum = playerNum;
 		
 		// init character's first place
 		initPlace = new int[][]{
@@ -60,13 +60,6 @@ public class Server {
 			{2500,2500}
 		};
 		
-		try 
-		{
-			this.port = port;
-			this.playerNum = playerNum;
-			serverSocket = new ServerSocket(port);
-		} catch (IOException e) {e.printStackTrace();}
-		
 		isRunning = false;
 		start();
 	}
@@ -74,6 +67,13 @@ public class Server {
 	public synchronized void start()
 	{
 		if(isRunning)	return; 
+		
+		threadPool = new ArrayList<ServerThread>();
+		CharacterID = new ArrayList<Integer>();
+		try 
+		{
+			serverSocket = new ServerSocket(port);
+		} catch (IOException e) {e.printStackTrace();}
 		
 		// Accepting clients until every player is connected
 		System.out.println("Server starts waiting for client.");
@@ -105,21 +105,12 @@ public class Server {
 		// Init Data
 		init();
 		
-		// Tell all Client to start
-		broadCast("StartGame"); 
-		
-		// Id
-		setAllID();
-				
-		
-		// Start GameThread
-		isRunning = true;
-		gameThread = new GameThread();
-		gameThread.start();
 	}
 	
 	public synchronized void init() // Init all object , and tell Clients to init the same thing
 	{
+		handler = new Handler();
+		
 		// Character
 		for(int i=0 ; i < playerNum ; i++)
 			handler.addCharacter(new Character(initPlace[i][0],initPlace[i][1],100,100,Type.CHARACTER,true,handler, i,CharacterID.get(i)
@@ -175,6 +166,20 @@ public class Server {
 		{
 			handler.createLevel(ImageIO.read(new File("level.png")));
 		} catch (IOException e) {}
+		
+		
+		
+		// Tell all Client to start
+		broadCast("StartGame"); 
+		
+		// Id
+		setAllID();
+				
+		
+		// Start GameThread
+		isRunning = true;
+		gameThread = new GameThread();
+		gameThread.start();
 	}
 	
 // -------------------------Game Thread ----------------------------------- //
@@ -447,6 +452,17 @@ public class Server {
 								ch.setVelX(0);
 								ch.move = false;
 							}
+						}
+					}
+					else if(command.equals("Replay"))
+					{
+						replayNum++;
+						if(replayNum >= playerNum)
+						{
+							replayNum = 0;
+							
+							// Restart 
+							init();
 						}
 					}
 					else if(command.equals("CharacterType"))
