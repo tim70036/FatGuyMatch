@@ -203,7 +203,6 @@ public class Client extends PApplet{
 		bgm = minim.loadFile("battle.mp3");
 		bgm.setGain((float)-20.0);
 		bgm.loop();
-		bgm.play();
 		
 		// Menu picture & animation
 		this.menuBg = this.loadImage("menuBg.png");
