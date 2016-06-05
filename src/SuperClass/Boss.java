@@ -138,10 +138,15 @@ public class Boss extends Entity {
 					///need to reset the bound size
 					if(super.getBound().intersects(s.getBound()))
 					{
+						// Record who last attack boss
 						this.lastAttackPlayerID = s.playerID;
 						
+						// Is this player's attack valid ?
+						if(this.getHandler().getCharacter().get(s.playerID).canAttackssBoss == true)
+							this.life -= 100;
+	
 						s.die();
-						this.life -= 100;
+						
 					}
 				}
 			}

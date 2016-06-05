@@ -15,6 +15,9 @@ public class Character extends Entity
 	public long lastTime = 0,lastTime_dura = 0;
 	private Random rand = new Random();
 	
+	public boolean canAttackssBoss = false;
+	public int shitNum = 8;
+	
 	// Trail effect
 	public boolean inTrail = false;
 	
@@ -55,7 +58,6 @@ public class Character extends Entity
 			// Trail effect
 			if(inTrail)
 			{
-				long durationTime = System.nanoTime();
 				long nowTime = System.nanoTime();
 				if(nowTime - lastTime > 5 * 10e6)
 				{
@@ -83,12 +85,6 @@ public class Character extends Entity
 						trail.setFrame(this.frame); // Now Image's frame
 						trail.used = true;
 					}
-				}
-				//duration time 
-				if(durationTime - lastTime_dura > 10e10){
-					durationTime = 0;
-					lastTime_dura = 0;
-					this.inTrail = false;
 				}
 			}
 			
@@ -231,16 +227,24 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
-							switch (rand.nextInt(2))
+							this.shitNum += 1;
+							
+							int ran = rand.nextInt(100);
+							
+							if(ran <= 10)
 							{
-							case 0:
-								this.inTrail = true;
-								this.lastTime_dura = System.nanoTime();
-								break;
-							case 1:
 								this.life = 0;
-								break;
 							}
+							else if(ran <= 50)
+							{
+								this.inTrail = true;
+							}
+							else
+							{
+								if(this.shitNum >= 10)	this.canAttackssBoss = true;
+								else this.life += 100;
+							}
+							
 							s.die();
 						}	
 					}

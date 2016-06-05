@@ -16,7 +16,7 @@ public class Thunder extends Skill {
 		if(used == true)
 		{
 			parent.strokeWeight(5);
-			parent.stroke(255,127,80);
+			parent.stroke(255,0,0);
 			parent.fill(255);
 			parent.rect(getX(), getY(), getWidth(), getHeight());
 			parent.stroke(0);
