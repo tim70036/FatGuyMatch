@@ -30,28 +30,28 @@ public class Handler {
 	{
 		for(Character ch : character)
 			ch.display(parent);
+		for(Trail t : trail)
+			t.display(parent);
 		for(Entity en : entity)
 			en.display(parent);
 		for(Tile t : tile)
 			t.display(parent);
 		for(Skill s : skill)
 			s.display(parent);
-		for(Trail t : trail)
-			t.display(parent);
 	}
 	
 	public void update()
 	{
 		for(Character ch : character)
 			ch.update();
+		for(Trail t : trail)
+			t.update();
 		for(Entity en : entity)
 			en.update();
 		for(Tile t : tile)
 			t.update();
 		for(Skill s : skill)
 			s.update();
-		for(Trail t : trail)
-			t.update();
 	}
 	
 	public void createLevel(BufferedImage level)

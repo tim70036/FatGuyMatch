@@ -66,7 +66,7 @@ public class Character extends Entity
 			if(inTrail)
 			{
 				long nowTime = System.nanoTime();
-				if(nowTime - lastTime > 5 * 10e6)
+				if(nowTime - lastTime > 10e6)
 				{
 					lastTime = nowTime;
 					
