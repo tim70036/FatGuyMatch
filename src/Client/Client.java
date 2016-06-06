@@ -177,6 +177,8 @@ public class Client extends PApplet{
 	
 	public void setup() {
 		
+		this.frameRate(45);
+		
 		// Record state
 		this.pushMatrix();
 		
@@ -211,8 +213,6 @@ public class Client extends PApplet{
 		smooth();
 		this.initButton();
 		Ani.init(this);
-		// FPS 120 is good , 60 is too low
-		this.frameRate(60);
 		
 		// BGM
 		minim = new Minim(this);
@@ -489,6 +489,7 @@ public class Client extends PApplet{
 			
 			this.textSize(35);
 			this.text("PLAYER  P.KILL  T.KILL  DIED  KDA", Client.width/2-300, 250);
+			this.line(180, 260, 780, 260);
 			this.line(345, 220, 345, 510);
 			this.line(465, 220, 465, 510);
 			this.line(580, 220, 580, 510);
@@ -510,12 +511,12 @@ public class Client extends PApplet{
 				
 				String s5 = String.format("%.1f", kda);
 				
-				this.line(180, 260+i*30, 780, 260+i*30);
-				this.text(s1, 345-s1.length()*19  , 300+i*30);
-				this.text(s2, 395, 300+i*30);
-				this.text(s3, 520, 300+i*30);
-				this.text(s4, 620, 300+i*30);
-				this.text(s5, 705, 300+i*30);
+				this.line(180, 305+i*45, 780, 305+i*45);
+				this.text(s1, 180, 300+i*45);
+				this.text(s2, 395, 300+i*45);
+				this.text(s3, 520, 300+i*45);
+				this.text(s4, 620, 300+i*45);
+				this.text(s5, 705, 300+i*45);
 			}
 			
 			this.stroke(0);

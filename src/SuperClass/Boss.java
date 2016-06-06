@@ -18,9 +18,7 @@ public class Boss extends Entity {
 	PImage img;
 	private Random random = new Random();
 	public int skill_type;
-	//remember the place that tower can revival
-	//public static int[] placeX = new int[20]; 
-	//public static int[] placeY = new int[20];
+	
 	public static boolean[] isValid = new boolean[20];
 	
 	public boolean isAiming = false;
@@ -165,6 +163,7 @@ public class Boss extends Entity {
 		// Boss died ----> Game over
 		else 
 		{
+			System.out.println("");// God
 			Server.Server.isRunning = false;
 		}
 	}

@@ -26,7 +26,7 @@ public class Tower extends Entity {
 	
 	public Tower(int x, int y, int width, int height, Type type, boolean solid, Handler handler,int index) {
 		super(x, y, width, height, type, solid, handler);
-		life = 5000;
+		life = 2000;
 		//which place it is located
 		this.index = index;
 	}
@@ -46,7 +46,7 @@ public class Tower extends Entity {
 		parent.fill(123,15,3);
 		parent.rect(this.getX(),this.getY()-20,this.getWidth(),20);
 		parent.fill(13,155,23);
-		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/5000),20);
+		parent.rect(this.getX(),this.getY()-20,(life*this.getWidth()/2000),20);
 		
 	}
 	
@@ -112,26 +112,16 @@ public class Tower extends Entity {
 					tag = random.nextInt(20);
 					this.setX(placeX[tag]);
 					this.setY(placeY[tag]);
-					Tower.isValid[tag] = true;
 					this.index = tag;
-				}while(isValid[tag]==false);
-				this.life = 5000;
+				}while(isValid[tag]==true);
+				
+				Tower.isValid[tag] = true;
+				this.life = 2000;
 			}
 		}
 	}
 		
-		// Remove the skill, if it's target is out of Tower's area
-//		if(lazer != null && target != null)
-//		{
-//			if(this.getBound().intersects(target.getBound()) == false)
-//			{
-//				lazer.used = false;
-//				lazer = null;
-//				target = null;
-//			}
-//		}
-	
-	
+
 	// Override, Bigger bound
 	public Rectangle getBound()
 	{
