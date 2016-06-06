@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
@@ -47,6 +48,7 @@ public class Client extends PApplet{
 	private boolean isInMenu;
 	
 	private String winner;
+	private ArrayList<String>	scoreBoard;
 	
 	// parameters
 	private int muteWidth = 90;
@@ -364,8 +366,17 @@ public class Client extends PApplet{
 			this.fill(0);
 			this.textSize(40);
 			for(Character ch : handler.getCharacter())
+			{
 				if(ch.playerID == ID)
-					this.text("Winner is " + winner + " !!!", ch.getX() - winner.length() * 7 - 150, ch.getY());
+				{
+					this.text("Winner is " + winner + " !!!", ch.getX() - winner.length() * 7 - 150, ch.getY()- 100);
+					for(int i=0 ; i<playerNum ; i++)
+					{
+						String score = scoreBoard.get(i);
+						this.text(score, ch.getX() - score.length() * 7, ch.getY()+ (i * 30) - 20);
+					}
+				}
+			}	
 		}
 	}
 	
@@ -424,11 +435,23 @@ public class Client extends PApplet{
 					}
 					else if(command.equals("Game Over"))
 					{
+						// Reset score board
+						scoreBoard = new ArrayList<String>();
+						
+						for(int i=0 ; i<playerNum ; i++)
+						{
+							String playerName = reader.readLine();
+							String characterKill = reader.readLine();
+							String towerKill = reader.readLine();
+							scoreBoard.add(playerName + "  :  " + characterKill + "     " + towerKill);
+						}
+						
 						command = reader.readLine();
+						winner = command;
 						
 						isRunning = false;
 						isGameOver = true;
-						winner = command;
+						
 						
 						for(Character ch : handler.getCharacter())
 							if(ch.playerID == ID)

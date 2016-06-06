@@ -25,6 +25,8 @@ public class Boss extends Entity {
 	
 	public boolean isAiming = false;
 	
+	public static int characterKill = 0;
+	
 	public int spell;
 	
 	public Boss(int x, int y, int width, int height, Type type, boolean solid, Handler handler) 
@@ -74,6 +76,7 @@ public class Boss extends Entity {
 							{
 								LazerSkill lazer = (LazerSkill) s;
 								lazer.used = true;
+								lazer.playerID = -2;
 								lazer.setX(this.getX());
 								lazer.setY(this.getY());
 								lazer.setVelX( (e.getX() - this.getX()) / 5 );
@@ -115,6 +118,7 @@ public class Boss extends Entity {
 						{
 							Darkness dark = (Darkness) s;
 							dark.used = true;
+							dark.playerID = -2;
 							dark.setX(this.getX());
 							dark.setY(this.getY());
 							dark.setVelX( (target.getX() - this.getX()) / 5 );
@@ -138,13 +142,16 @@ public class Boss extends Entity {
 					///need to reset the bound size
 					if(super.getBound().intersects(s.getBound()))
 					{
-						// Record who last attack boss
-						this.lastAttackPlayerID = s.playerID;
+						
 						
 						// Is this player's attack valid ?
 						if(this.getHandler().getCharacter().get(s.playerID).canAttackssBoss == true)
+						{
+							// Record who last attack boss
+							this.lastAttackPlayerID = s.playerID;
+							
 							this.life -= 100;
-	
+						}
 						s.die();
 						
 					}

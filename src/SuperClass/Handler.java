@@ -23,6 +23,7 @@ public class Handler {
 		tile = new ArrayList<Tile>();
 		skill = new ArrayList<Skill>();
 		trail = new ArrayList<Trail>();
+		
 	}
 	
 	public void display(PApplet parent)
@@ -124,4 +125,5 @@ public class Handler {
 	public ArrayList<Tile>	getTile() { return tile; }
 	public ArrayList<Skill>	getSkill() {return skill;}
 	public ArrayList<Trail>	getTrail()	{	return trail; }
+	
 }

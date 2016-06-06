@@ -20,7 +20,9 @@ public class Tower extends Entity {
 	public static int[] placeY = new int[20];
 	public static boolean[] isValid = new boolean[20];
 	
-	
+	// Recored
+	public static int characterKill = 0;
+	public int lastAttackID = -1;
 	
 	public Tower(int x, int y, int width, int height, Type type, boolean solid, Handler handler,int index) {
 		super(x, y, width, height, type, solid, handler);
@@ -85,6 +87,7 @@ public class Tower extends Entity {
 					///need to reset the bound size
 					if(super.getBound().intersects(s.getBound()))
 					{
+						this.lastAttackID = s.playerID;
 						s.die();
 						this.life -= 100;
 					}
@@ -95,6 +98,12 @@ public class Tower extends Entity {
 			{
 				// Put shit
 				Shit.putShit(this.getX()+(this.getWidth()*0.4f) , this.getY()+(this.getHeight()*0.8f));
+				
+				// Record
+				if(lastAttackID > -1)
+				{
+					this.getHandler().getCharacter().get(lastAttackID).towerKill++;
+				}
 				
 				isValid[index] = false;
 				int tag;

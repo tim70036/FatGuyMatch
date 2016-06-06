@@ -12,14 +12,21 @@ public class Character extends Entity
 	public String playerName;
 	public int characterID;
 	public long dieTime = 0;
-	public long lastTime = 0,lastTime_dura = 0;
+	
 	private Random rand = new Random();
 	
+	// Shit
 	public boolean canAttackssBoss = true;
 	public int shitNum = 8;
 	
 	// Trail effect
 	public boolean inTrail = false;
+	public long lastTime = 0;
+	
+	// Record
+	public int characterKill;
+	public int towerKill;
+	public int lastAttackID;
 	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID , int characterID, String name)
 	{
@@ -186,6 +193,7 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
+							this.lastAttackID = s.playerID;
 							s.die();
 							this.life -= 50;
 						}
@@ -194,6 +202,7 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
+							this.lastAttackID = s.playerID;
 							s.die();
 							this.life -= 50;
 						}
@@ -202,6 +211,7 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
+							this.lastAttackID = s.playerID;
 							s.die();
 							this.life -= 50;
 						}
@@ -210,6 +220,7 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
+							this.lastAttackID = s.playerID;
 							s.die();
 							this.life = (this.life - 500 < 0) ? 0 : this.life - 500;
 						}
@@ -219,6 +230,7 @@ public class Character extends Entity
 					{
 						if(this.getBound().intersects(s.getBound()))
 						{
+							this.lastAttackID = s.playerID;
 							s.die();
 							this.life = (this.life - 2000 < 0) ? 0 : this.life - 2000;
 						}
@@ -242,7 +254,7 @@ public class Character extends Entity
 							else
 							{
 								if(this.shitNum >= 10)	this.canAttackssBoss = true;
-								else this.life += 100;
+								else this.life = (this.life + 100) > 500 ? 500 : this.life + 500;
 							}
 							
 							s.die();
@@ -311,6 +323,22 @@ public class Character extends Entity
 					
 					// Reset Effect
 					inTrail = false;
+					
+					// Record
+					if(this.lastAttackID > -1)
+					{
+						this.getHandler().getCharacter().get(lastAttackID).characterKill += 1;
+					}
+					else if(this.lastAttackID == -1) // Tower kill
+					{
+						Tower.characterKill++;
+					}
+					else if(this.lastAttackID == -2) // Boss kill
+					{
+						Boss.characterKill++;
+					}
+					
+					
 					
 					// Revive
 					setX(200);

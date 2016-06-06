@@ -216,8 +216,19 @@ public class Server {
 				if(e.getType() == Type.BOSS)
 					lastAttackPlayerID = ((Boss)e).lastAttackPlayerID;
 			
+			broadCast("Game Over");
+			for(int i=0 ; i<playerNum ; i++)
+			{
+				// Player Name , Data
+				int characterKill = handler.getCharacter().get(i).characterKill;
+				int towerKill = handler.getCharacter().get(i).towerKill;
+				broadCast(threadPool.get(i).playerName);
+				broadCast(Integer.toString(characterKill));
+				broadCast(Integer.toString(towerKill));
+			}
+			
 			String winner = threadPool.get(lastAttackPlayerID).playerName;
-			broadCast("Game Over");	broadCast(winner);
+				broadCast(winner);
 			
 			System.out.println("Server stops game thread. ");
 		}
