@@ -8,11 +8,11 @@ import Client.*;
 
 public class Pipe extends Entity {
 	public boolean open_close=false;
-	public static int[] doorX = new int[12]; 
-	public static int[] doorY = new int[12];
+	public static int[] doorX = new int[25]; 
+	public static int[] doorY = new int[25];
 	private Random random = new Random();
 	private int index;
-	public static boolean[] Valid = new boolean[12];
+	public static boolean[] Valid = new boolean[25];
 	public Pipe(int x, int y, int width, int height, Type type, boolean solid, Handler handler,boolean state,int index) {
 		super(x, y, width, height, type, solid, handler);
 		// TODO Auto-generated constructor stub

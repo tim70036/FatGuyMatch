@@ -16,16 +16,20 @@ public class Character extends Entity
 	private Random rand = new Random();
 	
 	// Shit
-	public boolean canAttackssBoss = true;
 	public int shitNum = 8;
 	
 	// Trail effect
 	public boolean inTrail = false;
 	public long lastTime = 0;
 	
+	// Bigger effect
+	public boolean canAttackssBoss = false;
+	public int orgWidth, orgHeight;
+	
 	// Record
 	public int characterKill;
 	public int towerKill;
+	public int diedNum;
 	public int lastAttackID;
 	
 	public Character(int x, int y, int width, int height, Type type, boolean solid, Handler handler, int ID , int characterID, String name)
@@ -37,6 +41,9 @@ public class Character extends Entity
 		playerID = ID;
 		playerName = name;
 		this.characterID = characterID;
+		
+		orgWidth = width;
+		orgHeight = height;
 	}
 
 	public void display(PApplet parent) 
@@ -60,8 +67,21 @@ public class Character extends Entity
 
 	public void update() 
 	{	
+		
 		if(life>0)
 		{
+			// Bigger effect
+			if(canAttackssBoss)
+			{
+				this.setWidth(orgWidth * 2);
+				this.setHeight(orgHeight * 2);
+			}
+			else
+			{
+				this.setWidth(orgWidth);
+				this.setHeight(orgHeight);
+			}
+			
 			// Trail effect
 			if(inTrail)
 			{
@@ -71,27 +91,25 @@ public class Character extends Entity
 					lastTime = nowTime;
 					
 					// Find an unuse Trail
-					Trail trail = null;
 					for(Trail t: this.getHandler().getTrail())
 					{
 						if(t.used == false)
 						{
-							trail = t;
+							// Show Trail
+							t.setX(this.getX());
+							t.setY(this.getY());
+							t.setWidth(this.getWidth());
+							t.setHeight(this.getHeight());
+							t.setAlpha(255f);
+							t.setCharacterID(this.characterID);
+							t.setFrame(this.frame); // Now Image's frame
+							t.used = true;
 							break;
 						}
 					}
 					
 					
-					// Show Trail
-					if(trail != null)
-					{
-						trail.setX(this.getX());
-						trail.setY(this.getY());
-						trail.setAlpha(255f);
-						trail.setCharacterID(this.characterID);
-						trail.setFrame(this.frame); // Now Image's frame
-						trail.used = true;
-					}
+					
 				}
 			}
 			
@@ -326,6 +344,7 @@ public class Character extends Entity
 					{
 						Boss.characterKill++;
 					}
+					this.diedNum++;
 				}
 				// Died ---> put shit
 				else if(frame==14)
@@ -338,7 +357,8 @@ public class Character extends Entity
 					Shit.putShit(this.getX()+(this.getWidth()*0.4f) , this.getY()+(this.getHeight()*0.8f));
 					
 					// Reset Effect
-					inTrail = false;
+					this.inTrail = false;
+					this.canAttackssBoss = false;
 					
 					// Revive
 					setX(rand.nextInt(3000));

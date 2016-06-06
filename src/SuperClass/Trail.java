@@ -23,7 +23,7 @@ public class Trail extends Skill {
 		{
 			//System.out.println("FIND unused");
 			parent.tint(255, alpha);
-			parent.image(Client.player[CharacterID][frame].getImage(), getX(), getY());
+			parent.image(Client.player[CharacterID][frame].getImage(), getX(), getY(), this.getWidth(), this.getHeight());
 			parent.noTint();
 		}
 	}

@@ -227,9 +227,12 @@ public class Server {
 				// Player Name , Data
 				int characterKill = handler.getCharacter().get(i).characterKill;
 				int towerKill = handler.getCharacter().get(i).towerKill;
+				int diedNum = handler.getCharacter().get(i).diedNum;
+				
 				broadCast(threadPool.get(i).playerName);
 				broadCast(Integer.toString(characterKill));
 				broadCast(Integer.toString(towerKill));
+				broadCast(Integer.toString(diedNum));
 			}
 			
 			int bossScore = Boss.characterKill;
@@ -258,10 +261,14 @@ public class Server {
 			String y = Float.toString(ch.getY());
 			String frame = Integer.toString(ch.getFrame());
 			String life = Integer.toString(ch.life);
+			String w = Integer.toString(ch.getWidth());
+			String h = Integer.toString(ch.getHeight());
 			broadCast(x);
 			broadCast(y);
 			broadCast(frame);
 			broadCast(life);
+			broadCast(w);
+			broadCast(h);
 			
 		}
 		
@@ -302,12 +309,16 @@ public class Server {
 			String frame = Integer.toString(t.getFrame());
 			String Alpha = Float.toString(t.getAlpha());
 			String Character = Integer.toString(t.getCharacterID());
+			String w = Integer.toString(t.getWidth());
+			String h = Integer.toString(t.getHeight());
 			broadCast(x);
 			broadCast(y);
 			broadCast(u);
 			broadCast(frame);
 			broadCast(Alpha);
 			broadCast(Character);
+			broadCast(w);
+			broadCast(h);
 		}
 	}
 // -------------------------NetWork Part ---------------------------------- //
@@ -408,19 +419,14 @@ public class Server {
 										if(s.getType() == Type.FIRESKILL && s.used == false)
 										{
 											fire = (FireSkill) s;
+											fire.setX(ch.getX());
+											fire.setY(ch.getY());
+											fire.face = ch.face;
+											fire.playerID  = playerID;
+											fire.used = true;
 											fire.uniAttack = ch.characterID;
 											break;
 										}
-									}
-									
-									// Launch fire
-									if(fire != null)
-									{
-										fire.setX(ch.getX());
-										fire.setY(ch.getY());
-										fire.face = ch.face;
-										fire.playerID  = playerID;
-										fire.used = true;
 									}
 								}
 							}
@@ -436,21 +442,16 @@ public class Server {
 										if(s.getType() == Type.MISSILE && s.used == false)
 										{
 											missile = (Missile) s;
+											missile.setX(ch.getX());
+											missile.setY(ch.getY());
+											if(playerNum==1)
+												missile.en = handler.getCharacter().get(0);
+											else
+												missile.en = handler.getCharacter().get((playerID+1)%(playerNum));
+											missile.playerID  = playerID;
+											missile.used = true;
 											break;
 										}
-									}
-									
-									// Launch Missle
-									if(missile != null)
-									{
-										missile.setX(ch.getX());
-										missile.setY(ch.getY());
-										if(playerNum==1)
-											missile.en = handler.getCharacter().get(0);
-										else
-											missile.en = handler.getCharacter().get((playerID+1)%(playerNum));
-										missile.playerID  = playerID;
-										missile.used = true;
 									}
 								}	
 							}

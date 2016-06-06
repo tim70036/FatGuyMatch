@@ -50,7 +50,10 @@ public class Client extends PApplet{
 	private String winner;
 	private String bossScore;
 	private String towerScore;
-	private ArrayList<String>	scoreBoard;
+	private ArrayList<String>	playerAccount;
+	private ArrayList<String> 	playerKill;
+	private ArrayList<String> 	playerDied;
+	private ArrayList<String> 	playerTowerKill;
 	
 	// parameters
 	private int muteWidth = 90;
@@ -383,27 +386,44 @@ public class Client extends PApplet{
 		}
 		else if(isGameOver)
 		{
-			this.popMatrix();
+this.popMatrix();
 			
-			this.background(255);
-			this.fill(0);
-			this.textSize(40);
+			this.background(0);
+			this.fill(255);
+			this.stroke(255);
 			
-			changeBtnPos("ReplayBtn" ,350, 500);
+			changeBtnPos("ReplayBtn" , Client.width/2-this.btnWidth/2, 550);
 			
 			// Show text
-			this.text("Winner is " + winner + " !!!", 325 , 100);
+			this.textSize(70);
+			this.text("Winner : " + winner, Client.width/2-220 , 100);
 			
 			this.textSize(30);
-			this.text("Boss kills " + bossScore + " players!!!", 325 , 50 + 100);
-			this.text("Tower kills " + towerScore + " players!!!", 325 , 50 +150);
+			this.text("Boss  Kills " + bossScore + " Fat Guys", Client.width/2-125 , 150);
+			this.text("Tower Kills " + towerScore + " Fat Guys", Client.width/2-125 , 200);
+			
+			this.textSize(35);
+			this.text("PLAYER  P.KILL  T.KILL  DIED  KDA", Client.width/2-300, 250);
+			this.line(480, 220, 480, 510);
+			this.line(590, 220, 590, 510);
+			
+			this.textSize(30);
 			for(int i=0 ; i<playerNum ; i++)
 			{
-				String score = scoreBoard.get(i);
-				this.text("Player " + score, 325 , 100 + (i * 30) + 250);
+				String s1 = playerAccount.get(i);
+				String s2 = playerKill.get(i);
+				String s3 = playerTowerKill.get(i);
+				String s4 = playerDied.get(i);
+				
+				this.line(Client.width/2-210, 260+i*30, 720, 260+i*30);
+				this.text(s1, Client.width/2-190, 300+i*30);
+				this.text(s2, Client.width/2-190, 300+i*30);
+				this.text(s3, Client.width/2-190, 300+i*30);
+				this.text(s4, Client.width/2-190, 300+i*30);
 			}
-					
-			this.pushMatrix();	
+			
+			this.stroke(0);
+			this.pushMatrix();
 		}
 	}
 	
@@ -466,14 +486,23 @@ public class Client extends PApplet{
 						winner = command;
 						
 						// Reset score board
-						scoreBoard = new ArrayList<String>();
-						
+						playerAccount = new ArrayList<String>();
+						playerKill = new ArrayList<String>();
+						playerTowerKill = new ArrayList<String>();
+						playerDied = new ArrayList<String>();
+			
 						for(int i=0 ; i<playerNum ; i++)
 						{
-							String playerName = reader.readLine();
+							String player = reader.readLine();
 							String characterKill = reader.readLine();
 							String towerKill = reader.readLine();
-							scoreBoard.add(playerName + "  :  " + characterKill + "     " + towerKill);
+							String diedNum = reader.readLine();
+							
+							playerAccount.add(player);
+							playerKill.add(characterKill);
+							playerTowerKill.add(towerKill);
+							playerDied.add(diedNum);
+							
 						}
 						
 						bossScore = reader.readLine();
@@ -493,10 +522,15 @@ public class Client extends PApplet{
 							String y = reader.readLine();
 							String frame = reader.readLine();
 							String life = reader.readLine();
+							String w = reader.readLine();
+							String h = reader.readLine();
+							
 							ch.setX(Float.parseFloat(x));
 							ch.setY(Float.parseFloat(y));
 							ch.setFrame(Integer.parseInt(frame));
 							ch.life = Integer.parseInt(life);
+							ch.setWidth(Integer.parseInt(w));
+							ch.setHeight(Integer.parseInt(h));;
 						}
 						
 						// Entity Data
@@ -536,6 +570,8 @@ public class Client extends PApplet{
 							String frame = reader.readLine();
 							String Alpha = reader.readLine();
 							String Character = reader.readLine();
+							String w = reader.readLine();
+							String h = reader.readLine();
 							
 							t.setX(Float.parseFloat(x));
 							t.setY(Float.parseFloat(y));;
@@ -543,6 +579,8 @@ public class Client extends PApplet{
 							t.setFrame(Integer.parseInt(frame));
 							t.setAlpha(Float.parseFloat(Alpha));
 							t.setCharacterID(Integer.parseInt(Character));
+							t.setWidth(Integer.parseInt(w));
+							t.setHeight(Integer.parseInt(h));;
 						}
 					}
 					else if(command.equals("Init"))
