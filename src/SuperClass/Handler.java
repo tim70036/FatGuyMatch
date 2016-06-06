@@ -88,7 +88,7 @@ public class Handler {
 			}
 		}
 		//Random put Tower at first
-		for(int x=0 ; x < 8; x++){
+		for(int x=0 ; x < 6; x++){
 			int y = random.nextInt(20);
 		
 			if(Tower.isValid[y]==false){
