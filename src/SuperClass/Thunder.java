@@ -1,5 +1,6 @@
 package SuperClass;
 
+import Client.Client;
 import processing.core.PApplet;
 
 public class Thunder extends Skill {
@@ -15,12 +16,7 @@ public class Thunder extends Skill {
 	{
 		if(used == true)
 		{
-			parent.strokeWeight(5);
-			parent.stroke(255,0,0);
-			parent.fill(255);
-			parent.rect(getX(), getY(), getWidth(), getHeight());
-			parent.stroke(0);
-			parent.strokeWeight(1);
+			parent.image(Client.bossAttack[face+1], this.getX(), this.getY());
 		}
 	}
 
@@ -30,7 +26,7 @@ public class Thunder extends Skill {
 		if(used == true)
 		{
 			delay++;
-			if(delay>100){
+			if(delay > 5){
 				frame++;
 				delay=0;
 				setX(getX()+getVelX());

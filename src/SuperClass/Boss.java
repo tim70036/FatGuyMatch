@@ -72,15 +72,19 @@ public class Boss extends Entity {
 					{
 						for(Skill s : this.getHandler().getSkill())
 						{	
-							if(s.getType() == Type.LAZERSKILL && s.used == false)
+							if(s.getType() == Type.THUNDERSKILL && s.used == false)
 							{
-								LazerSkill lazer = (LazerSkill) s;
-								lazer.used = true;
-								lazer.playerID = -2;
-								lazer.setX(this.getX());
-								lazer.setY(this.getY());
-								lazer.setVelX( (e.getX() - this.getX()) / 5 );
-								lazer.setVelY( (e.getY() - this.getY()) / 5 );
+								Thunder thunder = (Thunder) s;
+								if(e.getX()>this.getX())face=1;
+								else face=0;
+								
+								thunder.used = true;
+								thunder.playerID = -2;
+								thunder.setX(this.getX());
+								thunder.setY(this.getY());
+								thunder.setVelX( (e.getX() - this.getX()) / 15 );
+								thunder.setVelY( (e.getY() - this.getY()) / 15 );
+								
 								lastTime = nowTime;
 								break;
 							}
@@ -121,8 +125,8 @@ public class Boss extends Entity {
 							dark.playerID = -2;
 							dark.setX(this.getX());
 							dark.setY(this.getY());
-							dark.setVelX( (target.getX() - this.getX()) / 5 );
-							dark.setVelY( (target.getY() - this.getY()) / 5 );
+							dark.setVelX( (target.getX() - this.getX()) / 15 );
+							dark.setVelY( (target.getY() - this.getY()) / 15 );
 							
 							break;
 						}

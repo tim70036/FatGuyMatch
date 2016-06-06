@@ -1,5 +1,6 @@
 package SuperClass;
 
+import Client.Client;
 import processing.core.PApplet;
 
 public class Darkness extends Skill {
@@ -14,13 +15,8 @@ public class Darkness extends Skill {
 	public void display(PApplet parent) 
 	{
 		if(used == true)
-		{
-			parent.strokeWeight(5);
-			parent.stroke(255,0,0);
-			parent.fill(255);
-			parent.rect(getX(), getY(), getWidth(), getHeight());
-			parent.stroke(0);
-			parent.strokeWeight(1);
+		{	
+			parent.image(Client.bossAttack[0], this.getX(), this.getY());
 		}
 	}
 
@@ -30,7 +26,7 @@ public class Darkness extends Skill {
 		if(used == true)
 		{
 			delay++;
-			if(delay>100)
+			if(delay > 50)
 			{
 				frame++;
 				delay=0;

@@ -105,7 +105,7 @@ public class Character extends Entity
 				{
 					jumping = false;
 					setVelY(0);
-					gravity = 0.0;
+					gravity = 0.2;
 					falling = true;
 				}
 			}
@@ -126,7 +126,7 @@ public class Character extends Entity
 						{
 							jumping = false;
 							setVelY(0);
-							gravity = 0.0;
+							gravity = 0.2;
 							falling = true;
 						}
 					}
@@ -222,7 +222,7 @@ public class Character extends Entity
 						{
 							this.lastAttackID = s.playerID;
 							s.die();
-							this.life = (this.life - 500 < 0) ? 0 : this.life - 500;
+							this.life = (this.life - 400 < 0) ? 0 : this.life - 400;
 						}
 					}
 					
@@ -232,7 +232,7 @@ public class Character extends Entity
 						{
 							this.lastAttackID = s.playerID;
 							s.die();
-							this.life = (this.life - 2000 < 0) ? 0 : this.life - 2000;
+							this.life = (this.life - 100 < 0) ? 0 : this.life - 100;
 						}
 					}
 					else if(s.getType() == Type.SHIT)
@@ -268,15 +268,16 @@ public class Character extends Entity
 			{
 				gravity-=0.0008;
 				setVelY((float)-gravity);
-				if(gravity<=0.90)
+				if(gravity<=1.70)
 				{
 					jumping = false;
+					gravity = 0.2;
 					falling = true;
 				}
 			}
 			if(falling)
 			{
-				gravity+=0.003;
+				gravity+=0.03;
 				setVelY((float)gravity);			
 			}
 			

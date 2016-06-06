@@ -123,7 +123,7 @@ public class Server {
 		}
 		
 		///SKILL BALL
-		fireSkillNum = 50;
+		fireSkillNum = 80;
 		for(int i=0 ; i < fireSkillNum ; i++)
 			handler.addSkill(new FireSkill(3000,3000,50,50,Type.FIRESKILL,true,handler));
 		broadCast("Init");	broadCast("FireSkill");	broadCast(Integer.toString(fireSkillNum));
@@ -140,12 +140,12 @@ public class Server {
 			handler.addSkill(new Missile(3000,3000,50,50,Type.MISSILE, true, handler));
 		broadCast("Init");	broadCast("MissileSkill"); broadCast(Integer.toString(missileNum));
 		//darkNUm
-		darkNum = 10;
+		darkNum = 20;
 		for(int i=0 ; i<darkNum ; i++)
 			handler.addSkill(new Darkness(3000,3000,50,50,Type.DARKSKILL, true, handler));
 		broadCast("Init");	broadCast("Darkness"); broadCast(Integer.toString(darkNum));
 		//thunder
-		thunderNum = 10;
+		thunderNum = 30;
 		for(int i=0 ; i<thunderNum ; i++)
 			handler.addSkill(new Thunder(3000,3000,50,50,Type.THUNDERSKILL, true, handler));
 		broadCast("Init");	broadCast("Thunder"); broadCast(Integer.toString(thunderNum));
@@ -156,7 +156,7 @@ public class Server {
 		broadCast("Init"); broadCast("Trail");	broadCast(Integer.toString(trailNum));
 		
 		// Shit
-		shitNum = 20;
+		shitNum = 30;
 		for(int i=0 ; i<shitNum ; i++)
 			handler.addSkill(new Shit(-100,0,50,50,Type.SHIT, true, handler));
 		broadCast("Init"); broadCast("Shit");	broadCast(Integer.toString(shitNum));
@@ -379,7 +379,7 @@ public class Server {
 							    {
 									ch.jumping = true;
 									ch.falling = false;
-									ch.gravity = 1;
+									ch.gravity = 2;
 								}
 							}
 							if(command.equals("A"))
