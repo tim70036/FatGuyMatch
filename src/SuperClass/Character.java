@@ -1,5 +1,6 @@
 package SuperClass;
 
+import java.awt.Rectangle;
 import java.util.Random;
 
 import Client.*;
@@ -16,14 +17,14 @@ public class Character extends Entity
 	private Random rand = new Random();
 	
 	// Shit
-	public int shitNum = 8;
+	public int shitNum = 0;
 	
 	// Trail effect
 	public boolean inTrail = false;
 	public long lastTime = 0;
 	
 	// Bigger effect
-	public boolean canAttackssBoss = true;
+	public boolean canAttackssBoss = false;
 	public int orgWidth, orgHeight;
 	
 	// Record
@@ -44,7 +45,12 @@ public class Character extends Entity
 		
 		orgWidth = width;
 		orgHeight = height;
-		this.life = 5000000;
+		this.life = 500;
+	}
+	
+	public Rectangle getBiggerBound()
+	{ 
+		return new Rectangle( ((int)getX()) - 300 , ((int)getY()) - 300 , getWidth() + 600 , getHeight() + 600); 
 	}
 
 	public void display(PApplet parent) 
@@ -72,17 +78,17 @@ public class Character extends Entity
 		if(life>0)
 		{
 			// Bigger effect
-//			if(canAttackssBoss)
-//			{
-//				this.setWidth(orgWidth * 2);
-//				this.setHeight(orgHeight * 2);
-//			}
-//			else
-//			{
-//				this.setWidth(orgWidth);
-//				this.setHeight(orgHeight);
-//			}
-			
+			if(canAttackssBoss)
+			{
+				this.setWidth(orgWidth * 2);
+				this.setHeight(orgHeight * 2);
+			}
+			else
+			{
+				this.setWidth(orgWidth);
+				this.setHeight(orgHeight);
+			}
+
 			// Trail effect
 			if(inTrail)
 			{
@@ -325,7 +331,8 @@ public class Character extends Entity
 		else
 		{
 			if(dieTime==0)dieTime = System.nanoTime();
-			else if( System.nanoTime() - dieTime  > (long)10e7*5){
+			else if( System.nanoTime() - dieTime  > (long)10e7*5)
+			{
 				// Start to die
 				if(frame<10)
 				{
@@ -360,6 +367,8 @@ public class Character extends Entity
 					// Reset Effect
 					this.inTrail = false;
 					this.canAttackssBoss = false;
+					this.jumping = false;
+					this.falling = true;
 					
 					// Revive
 					setX(rand.nextInt(3000));

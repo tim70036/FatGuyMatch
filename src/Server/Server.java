@@ -242,6 +242,9 @@ public class Server {
 			
 			
 			System.out.println("Server stops game thread. ");
+			
+			// Replay
+			ServerMain.play();
 		}
 	}
 	
@@ -435,22 +438,30 @@ public class Server {
 							{
 								if(ch.life > 0)
 								{
-									// Find an unused Missile Skill
-									Missile missile = null;
-									for(Skill s : handler.getSkill())
+									for(Character e : handler.getCharacter())
 									{
-										if(s.getType() == Type.MISSILE && s.used == false)
+										if(e.playerID != ch.playerID)
 										{
-											missile = (Missile) s;
-											missile.setX(ch.getX());
-											missile.setY(ch.getY());
-											if(playerNum==1)
-												missile.en = handler.getCharacter().get(0);
-											else
-												missile.en = handler.getCharacter().get((playerID+1)%(playerNum));
-											missile.playerID  = playerID;
-											missile.used = true;
-											break;
+											if(ch.getBiggerBound().intersects(e.getBound()))
+											{
+												// Find an unused Missile Skill
+												Missile missile = null;
+												for(Skill s : handler.getSkill())
+												{
+													if(s.getType() == Type.MISSILE && s.used == false)
+													{
+														missile = (Missile) s;
+														missile.setX(ch.getX());
+														missile.setY(ch.getY());
+														missile.en = e;
+														missile.face = ch.face;
+														missile.playerID  = playerID;
+														missile.used = true;
+														missile.uniAttack = ch.characterID;
+														break;
+													}
+												}
+											}
 										}
 									}
 								}	
@@ -472,17 +483,6 @@ public class Server {
 								ch.setVelX(0);
 								ch.move = false;
 							}
-						}
-					}
-					else if(command.equals("Replay"))
-					{
-						replayNum++;
-						if(replayNum >= playerNum)
-						{
-							replayNum = 0;
-							
-							// Restart 
-							init();
 						}
 					}
 					else if(command.equals("CharacterType"))

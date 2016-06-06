@@ -113,6 +113,9 @@ public class Client extends PApplet{
 	// Normal attack
 	public static PImage normalAttack[][];
 	
+	// Missile
+	public static PImage traceAttack[][];
+	
 	//Boss attack
 	public static PImage bossAttack [];
 	
@@ -232,6 +235,14 @@ public class Client extends PApplet{
 		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 2; j++){
 				normalAttack[i][j] = this.loadImage("normalAttack"+ i + j +".png");
+			}
+		}
+		
+		// Missile
+		traceAttack = new PImage[4][2];
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < 2; j++){
+				traceAttack[i][j] = this.loadImage("trace"+ i + j +".png");
 			}
 		}
 		
@@ -387,7 +398,7 @@ public class Client extends PApplet{
 		}
 		else if(isGameOver)
 		{
-this.popMatrix();
+			this.popMatrix();
 			
 			this.background(0);
 			this.fill(255);
@@ -400,13 +411,15 @@ this.popMatrix();
 			this.text("Winner : " + winner, Client.width/2-220 , 100);
 			
 			this.textSize(30);
-			this.text("Boss  Kills " + bossScore + " Fat Guys", Client.width/2-125 , 150);
-			this.text("Tower Kills " + towerScore + " Fat Guys", Client.width/2-125 , 200);
+			this.text("Boss  Kills  " + bossScore + "  Fat Guys", Client.width/2-150 , 150);
+			this.text("Tower Kills  " + towerScore + "  Fat Guys", Client.width/2-150 , 200);
 			
 			this.textSize(35);
 			this.text("PLAYER  P.KILL  T.KILL  DIED  KDA", Client.width/2-300, 250);
-			this.line(480, 220, 480, 510);
-			this.line(590, 220, 590, 510);
+			this.line(345, 220, 345, 510);
+			this.line(465, 220, 465, 510);
+			this.line(580, 220, 580, 510);
+			this.line(685, 220, 685, 510);
 			
 			this.textSize(30);
 			for(int i=0 ; i<playerNum ; i++)
@@ -416,11 +429,20 @@ this.popMatrix();
 				String s3 = playerTowerKill.get(i);
 				String s4 = playerDied.get(i);
 				
-				this.line(Client.width/2-210, 260+i*30, 720, 260+i*30);
-				this.text(s1, Client.width/2-190, 300+i*30);
-				this.text(s2, Client.width/2-190, 300+i*30);
-				this.text(s3, Client.width/2-190, 300+i*30);
-				this.text(s4, Client.width/2-190, 300+i*30);
+				float k = Float.parseFloat(s2);
+				float d = Float.parseFloat(s4);
+				float a = Float.parseFloat(s3);
+				float kda = (k + a) / d;
+				 
+				
+				String s5 = String.format("%.1f", kda);
+				
+				this.line(180, 260+i*30, 780, 260+i*30);
+				this.text(s1, 345-s1.length()*19  , 300+i*30);
+				this.text(s2, 395, 300+i*30);
+				this.text(s3, 520, 300+i*30);
+				this.text(s4, 620, 300+i*30);
+				this.text(s5, 705, 300+i*30);
 			}
 			
 			this.stroke(0);
@@ -841,16 +863,7 @@ this.popMatrix();
     
     public void ReplayBtn()
     {
-    	System.out.println("hi");
     	ClientMain.play();
-    	// Reset Data
-//    	isGameOver = false;
-//    	isWaiting = true;
-//    	handler = new Handler();
-//    	
-//    	sendMessage("Replay");
-//    	
-//    	this.changeBtnPos("ReplayBtn" , -500, -500);
     }
     
     public void StartBtn() {
