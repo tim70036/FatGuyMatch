@@ -767,7 +767,7 @@ public class Client extends PApplet{
 						}
 					}
 					
-				} catch (IOException e) {e.printStackTrace();}
+				} catch (Exception e) {	break;	}
 			}
 		}
 	}
