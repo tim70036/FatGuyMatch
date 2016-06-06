@@ -151,6 +151,8 @@ public class Client extends PApplet{
 	
 	public void setup() {
 		
+		// Record state
+		this.pushMatrix();
 		
 		//	Sprite
 		sheet = new PictureSheet[4];
@@ -364,25 +366,27 @@ public class Client extends PApplet{
 		}
 		else if(isGameOver)
 		{
+			this.popMatrix();
+			
 			this.background(255);
 			this.fill(0);
 			this.textSize(40);
-			for(Character ch : handler.getCharacter())
+			
+			changeBtnPos("ReplayBtn" ,350, 500);
+			
+			// Show text
+			this.text("Winner is " + winner + " !!!", 325 , 100);
+			
+			this.textSize(30);
+			this.text("Boss kills " + bossScore + " players!!!", 325 , 50 + 100);
+			this.text("Tower kills " + towerScore + " players!!!", 325 , 50 +150);
+			for(int i=0 ; i<playerNum ; i++)
 			{
-				if(ch.playerID == ID)
-				{
-					// Show text
-					this.text("Winner is " + winner + " !!!", ch.getX() - winner.length() * 7 - 150, ch.getY()- 300);
-					this.text("Boss kills " + bossScore + " players!!!", ch.getX() - bossScore.length() * 7 - 230, ch.getY()- 200);
-					this.text("Tower kills " + towerScore + " players!!!", ch.getX() - towerScore.length() * 7 - 240, ch.getY()- 100);
-					for(int i=0 ; i<playerNum ; i++)
-					{
-						String score = scoreBoard.get(i);
-						this.text(score, ch.getX() - score.length() * 7, ch.getY()+ (i * 30) - 20);
-					}
+				String score = scoreBoard.get(i);
+				this.text("Player " + score, 325 , 100 + (i * 30) + 250);
+			}
 					
-				}
-			}	
+			this.pushMatrix();	
 		}
 	}
 	
@@ -461,12 +465,6 @@ public class Client extends PApplet{
 						// Reset state
 						isRunning = false;
 						isGameOver = true;
-						
-						
-						for(Character ch : handler.getCharacter())
-							if(ch.playerID == ID)
-								changeBtnPos("ReplayBtn" ,ch.getX()-150, ch.getY() + 150);
-							
 						
 					}
 					else if(command.equals("GameData"))
