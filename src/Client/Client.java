@@ -120,7 +120,7 @@ public class Client extends PApplet{
 	public static PImage doorImage;
 	
 	// SKill
-	private long fireDelay;
+	private boolean fireValid = true;
 	private int fireSkillNum;
 	private int lazerSkillNum;
 	private int missileNum;
@@ -689,9 +689,9 @@ this.popMatrix();
         	else if(key == 'd')	sendMessage("D");
         	else if(key == 'c') 
         	{
-        		if(System.nanoTime() - fireDelay > 5 * 10e7)
+        		if(this.fireValid == true)
         		{
-        			fireDelay = System.nanoTime();
+        			this.fireValid = false;
         			sendMessage("C");
             		fire = minim.loadFile("bomb.mp3");
             		fire.setGain((float)-8.0);
@@ -716,6 +716,7 @@ this.popMatrix();
         	else if(key == 'a')	sendMessage("A");
         	else if(key == 's')	sendMessage("S");
         	else if(key == 'd')	sendMessage("D");
+        	else if(key == 'c') this.fireValid = true;
     	}
     }
     
