@@ -379,20 +379,20 @@ public class Server {
 							    {
 									ch.jumping = true;
 									ch.falling = false;
-									ch.gravity = 2;
+									ch.gravity = 3;
 								}
 							}
 							if(command.equals("A"))
 							{
 								if(ch.inTrail)	ch.setVelX(-2.7f);
-								else ch.setVelX(-1.5f);
+								else ch.setVelX(-1.8f);
 								ch.move = true;
 								ch.face = 1;
 							}
 							if(command.equals("D"))
 							{
 								if(ch.inTrail)	ch.setVelX(2.7f);
-								else ch.setVelX(1.5f);
+								else ch.setVelX(1.8f);
 								ch.move = true;
 								ch.face = 0;
 							}
