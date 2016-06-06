@@ -341,8 +341,8 @@ public class Character extends Entity
 					inTrail = false;
 					
 					// Revive
-					setX(200);
-					setY(0);
+					setX(rand.nextInt(3000));
+					setY(rand.nextInt(3000));
 				}
 				// Dying
 				else

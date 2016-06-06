@@ -28,14 +28,14 @@ public class Handler {
 	
 	public void display(PApplet parent)
 	{
+		for(Tile t : tile)
+			t.display(parent);
 		for(Character ch : character)
 			ch.display(parent);
 		for(Trail t : trail)
 			t.display(parent);
 		for(Entity en : entity)
 			en.display(parent);
-		for(Tile t : tile)
-			t.display(parent);
 		for(Skill s : skill)
 			s.display(parent);
 	}
@@ -71,7 +71,7 @@ public class Handler {
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel ) & 0xff;
 				if(red==100&&green==50&&blue==0){
-					Pipe.initPlace(x*32, y*32-300+31 , index2);
+					Pipe.initPlace(x*32, y*32-150+31 , index2);
 					index2++;
 				}
 				if(red == 0 && green == 0 && blue == 0)
