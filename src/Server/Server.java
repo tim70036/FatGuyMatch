@@ -448,8 +448,10 @@ public class Server {
 												missile.en = handler.getCharacter().get(0);
 											else
 												missile.en = handler.getCharacter().get((playerID+1)%(playerNum));
+											missile.face = ch.face;
 											missile.playerID  = playerID;
 											missile.used = true;
+											missile.uniAttack = ch.characterID;
 											break;
 										}
 									}

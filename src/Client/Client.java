@@ -113,6 +113,9 @@ public class Client extends PApplet{
 	// Normal attack
 	public static PImage normalAttack[][];
 	
+	// Missile
+	public static PImage traceAttack[][];
+	
 	//Boss attack
 	public static PImage bossAttack [];
 	
@@ -232,6 +235,14 @@ public class Client extends PApplet{
 		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 2; j++){
 				normalAttack[i][j] = this.loadImage("normalAttack"+ i + j +".png");
+			}
+		}
+		
+		// Missile
+		traceAttack = new PImage[4][2];
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < 2; j++){
+				traceAttack[i][j] = this.loadImage("trace"+ i + j +".png");
 			}
 		}
 		

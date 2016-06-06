@@ -1,5 +1,6 @@
 package SuperClass;
 
+import Client.Client;
 import processing.core.PApplet;
 
 public class Missile extends Skill{
@@ -16,8 +17,7 @@ public class Missile extends Skill{
 	public void display(PApplet parent) {
 		// TODO Auto-generated method stub
 		if(used == true){
-			parent.fill(132,63,145);
-			parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
+			parent.image(Client.traceAttack[uniAttack][face], this.getX(), this.getY());
 		}
 	}
 
