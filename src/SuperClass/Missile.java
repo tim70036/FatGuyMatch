@@ -27,12 +27,12 @@ public class Missile extends Skill{
 		if(used == true)
 		{
 			delay++;
-			if(delay>100){
+			if(delay>50){
 				frame++;
 				delay=0;
 				
-				setVelX((en.getX()-getX())/10);
-				setVelY((en.getY()-getY())/10);
+				setVelX((en.getX()-getX())/15);
+				setVelY((en.getY()-getY())/15);
 				setX(getX()+getVelX());
 				setY(getY()+getVelY());
 				if(frame>50)
