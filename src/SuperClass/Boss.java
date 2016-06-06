@@ -163,8 +163,8 @@ public class Boss extends Entity {
 		// Boss died ----> Game over
 		else 
 		{
-			System.out.println("");// God
 			Server.Server.isRunning = false;
+			System.out.println("Boss died, Game Over.");// God
 		}
 	}
 		
