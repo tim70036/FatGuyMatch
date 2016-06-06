@@ -393,7 +393,7 @@ public class Server {
 							    {
 									ch.jumping = true;
 									ch.falling = false;
-									ch.gravity = 3;
+									ch.gravity = 4;
 								}
 							}
 							if(command.equals("A"))

@@ -72,6 +72,7 @@ public class Client extends PApplet{
 	private PImage menuBg;
 	private PImage instrImg;
 	private PImage gameBg;
+	public static PImage wallImg;
 	private PImage[] menuPic = new PImage[3];
 	private PImage[] author = new PImage[5];
 	private PImage[] authorName = new PImage[5];
@@ -143,6 +144,11 @@ public class Client extends PApplet{
 	private ArrayList<ArrayList<Sound>> fireSound;
 	private int missileSoundNum;
 	private ArrayList<ArrayList<Sound>> missileSound;
+	
+	// Keyboard
+	private boolean dPressed = false;
+	private boolean aPressed = false;
+	private boolean wPressed = false;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -254,6 +260,8 @@ public class Client extends PApplet{
 		this.instrImg = this.loadImage("instruction.png");
 		this.gameBg = this.loadImage("gameBg.png");
 		this.gameBg.resize(Client.width, Client.height);
+		Client.wallImg = this.loadImage("wall.png");
+		Client.wallImg.resize(32,32);
 		
 		for (int i = 0; i < 3; i++) 
 			this.menuPic[i] = this.loadImage("menu_bg"+i+".png");
@@ -411,10 +419,27 @@ public class Client extends PApplet{
 		}
 		else if(isRunning)
 		{
-			//this.image(gameBg, 0, 0);
-			//this.background(255);
 			this.background(gameBg);
 			handler.display(this);
+			
+			if(aPressed)
+			{
+				sendMessage("PlayerInput");
+        		sendMessage("Press");
+				sendMessage("A");
+			}
+			if(dPressed)
+			{
+				sendMessage("PlayerInput");
+        		sendMessage("Press");
+				sendMessage("D");
+			}
+			if(wPressed)
+			{
+				sendMessage("PlayerInput");
+        		sendMessage("Press");
+				sendMessage("W");
+			}
 			
 			int tag=0;
 			for(Character en:	handler.getCharacter())
@@ -748,15 +773,14 @@ public class Client extends PApplet{
 	{
     	if(isRunning)
     	{
-    		if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'o' || key == 'p')
+    		if( key == 'o' || key == 'p')
         	{
         		sendMessage("PlayerInput");
         		sendMessage("Press");
         	}
-        	if(key == 'w')	sendMessage("W");
-        	else if(key == 'a')	sendMessage("A");
-        	else if(key == 's')	sendMessage("S");
-        	else if(key == 'd')	sendMessage("D");
+        	if(key == 'w')	wPressed = true;
+        	else if(key == 'a')	aPressed = true;
+        	else if(key == 'd')	dPressed = true;
         	else if(key == 'o') 
         	{
         		if(this.fireValid == true)
@@ -800,16 +824,27 @@ public class Client extends PApplet{
     {
     	if(isRunning)
     	{
-    		if(key == 'w' || key == 'a' || key == 's' || key == 'd')
+    		if(key == 'w' || key == 'a' || key == 'd')
         	{
         		sendMessage("PlayerInput");
         		sendMessage("Release");
         	}
         	
-        	if(key == 'w')	sendMessage("W");
-        	else if(key == 'a')	sendMessage("A");
-        	else if(key == 's')	sendMessage("S");
-        	else if(key == 'd')	sendMessage("D");
+        	if(key == 'w')
+        	{
+        		wPressed = false;
+        		sendMessage("W");
+        	}
+        	else if(key == 'a')
+        	{
+        		sendMessage("A");
+        		aPressed = false;
+        	}
+        	else if(key == 'd')
+        	{
+        		sendMessage("D");
+        		dPressed = false;
+        	}
         	else if(key == 'o') fireValid = true;
         	else if(key == 'p') missileValid = true;
     	}

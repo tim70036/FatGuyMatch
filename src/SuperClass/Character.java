@@ -123,17 +123,17 @@ public class Character extends Entity
 			setX(getX() + getVelX());
 			setY(getY() + getVelY());
 			
-			if(getX() <= 0)	setX(0);
-			if(getY() <= 0)	
-			{
-				if(jumping)
-				{
-					jumping = false;
-					setVelY(0);
-					gravity = 0.2;
-					falling = true;
-				}
-			}
+//			if(getX() <= 0)	setX(0);
+//			if(getY() <= 0)	
+//			{
+//				if(jumping)
+//				{
+//					jumping = false;
+//					setVelY(0);
+//					gravity = 0.2;
+//					falling = true;
+//				}
+//			}
 			
 	
 			// Collision Detection
@@ -278,8 +278,8 @@ public class Character extends Entity
 							}
 							else
 							{
-								if(this.shitNum >= 10)	this.canAttackssBoss = true;
-								else this.life = (this.life + 100) > 500 ? 500 : this.life + 500;
+								if(this.shitNum >= 5)	this.canAttackssBoss = true;
+								else this.life = (this.life + 200) > 500 ? 500 : this.life + 200;
 							}
 							
 							s.die();
@@ -291,9 +291,9 @@ public class Character extends Entity
 			// Jumping Falling
 			if(jumping)
 			{
-				gravity -= 0.015;
+				gravity -= 0.045;
 				setVelY((float)-gravity);
-				if(gravity <= 2.0)
+				if(gravity <= 0.0)
 				{
 					jumping = false;
 					gravity = 0.2;
