@@ -194,7 +194,7 @@ public class Server {
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
 			double delta = 0.0;
-			double ns = 400000000.0/60.0;
+			double ns = 600000000.0/60.0;
 			while(isRunning)
 			{
 				long nowTime = System.nanoTime();
@@ -398,20 +398,20 @@ public class Server {
 							}
 							if(command.equals("A"))
 							{
-								if(ch.inTrail)	ch.setVelX(-2.7f);
-								else ch.setVelX(-1.8f);
+								if(ch.inTrail)	ch.setVelX(-4.1f);
+								else ch.setVelX(-2.7f);
 								ch.move = true;
 								ch.face = 1;
 							}
 							if(command.equals("D"))
 							{
-								if(ch.inTrail)	ch.setVelX(2.7f);
-								else ch.setVelX(1.8f);
+								if(ch.inTrail)	ch.setVelX(4.1f);
+								else ch.setVelX(2.7f);
 								ch.move = true;
 								ch.face = 0;
 							}
 							// Fire Skill
-							if(command.equals("C"))
+							if(command.equals("O"))
 							{
 								if(ch.life > 0)
 								{
@@ -434,7 +434,7 @@ public class Server {
 								}
 							}
 							// Missile Skill
-							else if(command.equals("F"))
+							else if(command.equals("P"))
 							{
 								if(ch.life > 0)
 								{

@@ -70,6 +70,7 @@ public class Client extends PApplet{
 	// Menu Picture
 	private PImage titleImg;
 	private PImage menuBg;
+	private PImage instrImg;
 	private PImage[] menuPic = new PImage[3];
 	private PImage[] author = new PImage[5];
 	private PImage[] authorName = new PImage[5];
@@ -124,6 +125,7 @@ public class Client extends PApplet{
 	
 	// SKill
 	private boolean fireValid = true;
+	private boolean missileValid = true;
 	private int fireSkillNum;
 	private int lazerSkillNum;
 	private int missileNum;
@@ -134,8 +136,12 @@ public class Client extends PApplet{
 	// music
 	private Minim minim;
 	private AudioPlayer bgm;
-	private AudioPlayer fire;
 	private boolean isPlay;
+	
+	private int fireSoundNum;
+	private ArrayList<ArrayList<Sound>> fireSound;
+	private int missileSoundNum;
+	private ArrayList<ArrayList<Sound>> missileSound;
 	
 	public Client(String IP, int port, int width, int height)
 	{
@@ -207,9 +213,44 @@ public class Client extends PApplet{
 		bgm.setGain((float)-20.0);
 		bgm.loop();
 		
+		// Sound
+		fireSoundNum = 10;
+		missileSoundNum = 10;
+		fireSound = new ArrayList<ArrayList<Sound>>();
+		missileSound = new ArrayList<ArrayList<Sound>>();
+		for(int i=0 ; i<4 ;i++)
+		{
+			this.fireSound.add(new ArrayList<Sound>());
+			this.missileSound.add(new ArrayList<Sound>());
+		}
+		
+		// Water 
+		for(int i=0 ; i<fireSoundNum ; i++)
+			fireSound.get(0).add(new Sound("water0.wav"));
+		for(int i=0 ; i<missileNum ; i++)
+			missileSound.get(0).add(new Sound("water1.wav"));
+		// Fire
+		for(int i=0 ; i<fireSoundNum ; i++)
+			fireSound.get(1).add(new Sound("fire0.wav"));
+		for(int i=0 ; i<missileNum ; i++)
+			missileSound.get(1).add(new Sound("fire1.wav"));
+		// Dark
+		for(int i=0 ; i<fireSoundNum ; i++)
+			fireSound.get(2).add(new Sound("dark0.wav"));
+		for(int i=0 ; i<missileNum ; i++)
+			missileSound.get(2).add(new Sound("dark1.wav"));
+		// Love
+		for(int i=0 ; i<fireSoundNum ; i++)
+			fireSound.get(3).add(new Sound("love0.wav"));
+		for(int i=0 ; i<missileNum ; i++)
+			missileSound.get(3).add(new Sound("love1.wav"));
+		
+		
+		
 		// Menu picture & animation
 		this.menuBg = this.loadImage("menuBg.png");
 		this.titleImg = this.loadImage("title.png");
+		this.instrImg = this.loadImage("instruction.png");
 		for (int i = 0; i < 3; i++) 
 			this.menuPic[i] = this.loadImage("menu_bg"+i+".png");
 		for (int i = 0; i < 5; i++) {
@@ -288,6 +329,7 @@ public class Client extends PApplet{
 			else if (this.menuStatus.equals("Information1")) {
 				this.background(255);
 				this.image(this.menuBg, 0, 0, Client.width, Client.height);
+				this.image(this.instrImg, 50, 30 , Client.width-200, Client.height-200);
 			}
 			else if (this.menuStatus.equals("Information2")) {
 				this.background(255);
@@ -700,7 +742,7 @@ public class Client extends PApplet{
 	{
     	if(isRunning)
     	{
-    		if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'c' || key == 'f')
+    		if(key == 'w' || key == 'a' || key == 's' || key == 'd' || key == 'o' || key == 'p')
         	{
         		sendMessage("PlayerInput");
         		sendMessage("Press");
@@ -709,18 +751,42 @@ public class Client extends PApplet{
         	else if(key == 'a')	sendMessage("A");
         	else if(key == 's')	sendMessage("S");
         	else if(key == 'd')	sendMessage("D");
-        	else if(key == 'c') 
+        	else if(key == 'o') 
         	{
         		if(this.fireValid == true)
         		{
         			this.fireValid = false;
-        			sendMessage("C");
-            		fire = minim.loadFile("bomb.mp3");
-            		fire.setGain((float)-8.0);
-            		fire.play();
+        			sendMessage("O");
+        			
+        			ArrayList<Sound> sound = fireSound.get(characterID);
+        			for(Sound f : sound)
+        			{
+        				if(f.isPlaying() == false)
+        				{
+        					f.play();
+        					break;
+        				}
+        			}
         		}
         	}
-        	else if(key == 'f') sendMessage("F");
+        	else if(key == 'p')
+        	{
+        		if(missileValid == true)
+        		{
+        			missileValid = false;
+        			sendMessage("P");
+        			
+        			ArrayList<Sound> sound = missileSound.get(characterID);
+        			for(Sound f : sound)
+        			{
+        				if(f.isPlaying() == false)
+        				{
+        					f.play();
+        					break;
+        				}
+        			}
+        		}
+        	}
     	}
  	}
     
@@ -738,7 +804,8 @@ public class Client extends PApplet{
         	else if(key == 'a')	sendMessage("A");
         	else if(key == 's')	sendMessage("S");
         	else if(key == 'd')	sendMessage("D");
-        	else if(key == 'c') this.fireValid = true;
+        	else if(key == 'o') fireValid = true;
+        	else if(key == 'p') missileValid = true;
     	}
     }
     
@@ -885,7 +952,7 @@ public class Client extends PApplet{
     		this.menuStatus = "Information1";
     		this.changeBtnPos("StartBtn", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
-    		this.changeBtnPos("BackBtn", Client.width/2-this.btnWidth/2, 500);
+    		this.changeBtnPos("BackBtn", Client.width/2-this.btnWidth/2, 550);
     		this.changeBtnPos("NextBtn", 870, 300);
     	}
     }
