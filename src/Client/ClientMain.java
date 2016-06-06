@@ -8,6 +8,7 @@ public class ClientMain extends JFrame{
 	
 	public static Client applet;
 	public static JFrame window;
+	public static int port = 6667;
 	// Screen ----> 14 : 10
 	public final static int windowWidth = 1000, windowHeight = windowWidth/14*10; 
 	
@@ -19,7 +20,7 @@ public class ClientMain extends JFrame{
 	{
 		if(window != null)	window.dispose();
 		if(applet != null)	applet.destroy();
-		applet = new Client( "127.0.0.1", 6667, windowWidth, windowHeight);
+		applet = new Client( "127.0.0.1", port++, windowWidth, windowHeight);
 		applet.init();
 		applet.start();
 		applet.setFocusable(true);

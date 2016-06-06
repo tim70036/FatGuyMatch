@@ -3,6 +3,7 @@ package Server;
 public class ServerMain {
 	
 	public static Server server;
+	public static int port = 6667;
 	
 	public static void main(String[] args) 
 	{
@@ -31,7 +32,7 @@ public class ServerMain {
 				s.join();
 			} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		server = new Server(6667, 1);
+		server = new Server(port++, 1);
 	}
 	
 }

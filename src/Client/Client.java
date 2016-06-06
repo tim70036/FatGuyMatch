@@ -609,7 +609,6 @@ public class Client extends PApplet{
 						isRunning = false;
 						isGameOver = true;
 						
-						socket.close();
 						
 					}
 					else if(command.equals("GameData"))
