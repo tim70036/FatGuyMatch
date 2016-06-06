@@ -27,7 +27,7 @@ public class Missile extends Skill{
 		if(used == true)
 		{
 			delay++;
-			if(delay>50){
+			if(delay>20){
 				frame++;
 				delay=0;
 				

@@ -68,7 +68,7 @@ public class Character extends Entity
 		//draw name
 		parent.fill(0, 0, 0);
 		parent.textSize(16);
-		parent.text(playerName, getX() + getWidth() * 0.3f, getY()-25);
+		parent.text(playerName, getX() + getWidth() * 0.5f - playerName.length() * 5, getY()-25);
 	
 	}
 

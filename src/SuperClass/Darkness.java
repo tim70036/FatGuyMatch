@@ -16,7 +16,7 @@ public class Darkness extends Skill {
 	{
 		if(used == true)
 		{	
-			parent.image(Client.bossAttack[0], this.getX(), this.getY());
+			parent.image(Client.bossAttack[0], this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		}
 	}
 

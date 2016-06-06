@@ -71,6 +71,7 @@ public class Client extends PApplet{
 	private PImage titleImg;
 	private PImage menuBg;
 	private PImage instrImg;
+	private PImage gameBg;
 	private PImage[] menuPic = new PImage[3];
 	private PImage[] author = new PImage[5];
 	private PImage[] authorName = new PImage[5];
@@ -251,6 +252,9 @@ public class Client extends PApplet{
 		this.menuBg = this.loadImage("menuBg.png");
 		this.titleImg = this.loadImage("title.png");
 		this.instrImg = this.loadImage("instruction.png");
+		this.gameBg = this.loadImage("gameBg.png");
+		this.gameBg.resize(Client.width, Client.height);
+		
 		for (int i = 0; i < 3; i++) 
 			this.menuPic[i] = this.loadImage("menu_bg"+i+".png");
 		for (int i = 0; i < 5; i++) {
@@ -407,7 +411,9 @@ public class Client extends PApplet{
 		}
 		else if(isRunning)
 		{
-			this.background(255);
+			//this.image(gameBg, 0, 0);
+			//this.background(255);
+			this.background(gameBg);
 			handler.display(this);
 			
 			int tag=0;
@@ -711,7 +717,7 @@ public class Client extends PApplet{
 							
 							darkNum = Integer.parseInt(command);
 							for(int i=0 ; i<darkNum; i++)
-								handler.addSkill(new Darkness(3000,3000,50,50,Type.DARKSKILL, true, handler));
+								handler.addSkill(new Darkness(3000,3000,100,100,Type.DARKSKILL, true, handler));
 							
 						}
 						else if(command.equals("Trail"))

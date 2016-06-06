@@ -142,7 +142,7 @@ public class Server {
 		//darkNUm
 		darkNum = 20;
 		for(int i=0 ; i<darkNum ; i++)
-			handler.addSkill(new Darkness(3000,3000,50,50,Type.DARKSKILL, true, handler));
+			handler.addSkill(new Darkness(3000,3000,100,100,Type.DARKSKILL, true, handler));
 		broadCast("Init");	broadCast("Darkness"); broadCast(Integer.toString(darkNum));
 		//thunder
 		thunderNum = 30;
