@@ -26,6 +26,8 @@ import SuperClass.Trail;
 import SuperClass.Type;
 import controlP5.ControlFont;
 import controlP5.ControlP5;
+import controlP5.Label;
+import controlP5.Textfield;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import de.looksgood.ani.Ani;
@@ -127,7 +129,6 @@ public class Client extends PApplet{
 	
 	// SKill
 	private boolean fireValid = true;
-	private boolean missileValid = true;
 	private int fireSkillNum;
 	private int lazerSkillNum;
 	private int missileNum;
@@ -135,6 +136,8 @@ public class Client extends PApplet{
 	private int shitNum;
 	private int thunderNum;
 	private int darkNum;
+	private long missileTime;
+	
 	// music
 	private Minim minim;
 	private AudioPlayer bgm;
@@ -150,9 +153,8 @@ public class Client extends PApplet{
 	private boolean aPressed = false;
 	private boolean wPressed = false;
 	
-	public Client(String IP, int port, int width, int height)
+	public Client(int port, int width, int height)
 	{
-		this.IP = IP;
 		this.port = port;
 		Client.width = width;
 		Client.height = height;
@@ -805,9 +807,9 @@ public class Client extends PApplet{
         	}
         	else if(key == 'p')
         	{
-        		if(missileValid == true)
+        		if(System.nanoTime() - missileTime > 10e8)
         		{
-        			missileValid = false;
+        			missileTime = System.nanoTime();
         			sendMessage("P");
         			
         			ArrayList<Sound> sound = missileSound.get(characterID);
@@ -819,7 +821,7 @@ public class Client extends PApplet{
         					break;
         				}
         			}
-        		}
+        		}	
         	}
     	}
  	}
@@ -850,7 +852,7 @@ public class Client extends PApplet{
         		dPressed = false;
         	}
         	else if(key == 'o') fireValid = true;
-        	else if(key == 'p') missileValid = true;
+        	
     	}
     }
     
@@ -860,18 +862,24 @@ public class Client extends PApplet{
     public void initButton() {
 		// Button Label Font
 		PFont pfont = createFont("Arial", 25, true); 
+		PFont textFont = createFont("Arial", 20, true); 
 		ControlFont font = new ControlFont(pfont);
 				
 		// Button Controller
 		cp5 = new ControlP5(this);
 		
-		cp5.addTextfield("EnterPlayerName")
+		Textfield t = cp5.addTextfield("EnterPlayerName")
 	     .setPosition(-500,-500)
 	     .setSize(200,40)
 	     .setFont(font)
 	     .setFocus(true)
 	     .setColor(color(255,0,0))
 	     ;
+		
+		Label n = t.getCaptionLabel();
+		n.setFont(textFont);
+		n.setText("Enter Player Name");
+		
 		
 		cp5.addButton("ReplayBtn")
 			.setLabel("Replay")
@@ -883,15 +891,26 @@ public class Client extends PApplet{
 			.setFont(font)
 			.toUpperCase(false);
 		
-		cp5.addButton("StartBtn")
-			.setLabel("Let's Start Game")
-			.setSize(this.btnWidth, this.btnHeight)
-			.setPosition(Client.width/2-this.btnWidth/2, 400)
-			.setColorForeground(color(0,255,0))
-			.setColorBackground(color(30, 144, 255))
-			.getCaptionLabel()
-			.setFont(font)
-			.toUpperCase(false);
+		t = cp5.addTextfield("EnterIp")
+		.setPosition(Client.width/2-this.btnWidth/2, 400)
+	     .setSize(250,60)
+	     .setFont(font)
+	     .setFocus(true)
+	     .setColor(color(255,0,0))
+	     ;
+		Label i = t.getCaptionLabel();
+		i.setFont(textFont);
+		i.setText("             Enter  Ip");
+		
+//		cp5.addButton("StartBtn")
+//			.setLabel("Let's Start Game")
+//			.setSize(this.btnWidth, this.btnHeight)
+//			.setPosition(Client.width/2-this.btnWidth/2, 400)
+//			.setColorForeground(color(0,255,0))
+//			.setColorBackground(color(30, 144, 255))
+//			.getCaptionLabel()
+//			.setFont(font)
+//			.toUpperCase(false);
 		
 		cp5.addButton("InfoBtn")
 			.setLabel("Information")
@@ -978,14 +997,19 @@ public class Client extends PApplet{
     	ClientMain.play();
     }
     
-    public void StartBtn() {
+    public void EnterIp(String theText) {
     	if (this.menuStatus.equals("MainMenu")) {
+    		
+    		Scanner scan =  new Scanner(theText);
+    		this.IP = scan.next();
+    		scan.close();
+    		
     		this.menuStatus = "Selecting";
     		this.characterPicX = Client.width/2-370;
     		this.changeBtnPos("EnterPlayerName" ,Client.width/2-this.btnWidth/2, 580);
     		this.changeBtnPos("PrevBtn", 30, 300);
     		this.changeBtnPos("NextBtn", 870, 300);
-    		this.changeBtnPos("StartBtn", -500, -500);
+    		this.changeBtnPos("EnterIp", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
     		this.changeBtnPos("MuteBtn", -500, -500);
   
@@ -995,7 +1019,7 @@ public class Client extends PApplet{
     public void InfoBtn() {
     	if (this.menuStatus.equals("MainMenu")) {
     		this.menuStatus = "Information1";
-    		this.changeBtnPos("StartBtn", -500, -500);
+    		this.changeBtnPos("EnterIp", -500, -500);
     		this.changeBtnPos("InfoBtn", -500, -500);
     		this.changeBtnPos("BackBtn", Client.width/2-this.btnWidth/2, 550);
     		this.changeBtnPos("NextBtn", 870, 300);
@@ -1005,7 +1029,7 @@ public class Client extends PApplet{
     public void BackBtn() {
 	    if (this.menuStatus.equals("Information1") || this.menuStatus.equals("Information2") || this.menuStatus.equals("Information3")) {
 	    	this.menuStatus = "MainMenu";
-	    	this.changeBtnPos("StartBtn", Client.width/2-this.btnWidth/2, 400);
+	    	this.changeBtnPos("EnterIp", Client.width/2-this.btnWidth/2, 400);
     		this.changeBtnPos("InfoBtn", Client.width/2-this.btnWidth/2, 500);
     		this.changeBtnPos("BackBtn", -500, -500);
     		this.changeBtnPos("NextBtn", -500, -500);

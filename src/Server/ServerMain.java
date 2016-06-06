@@ -1,5 +1,10 @@
 package Server;
 
+import java.util.Scanner;
+
+import SuperClass.Boss;
+import SuperClass.Tower;
+
 public class ServerMain {
 	
 	public static Server server;
@@ -32,7 +37,15 @@ public class ServerMain {
 				s.join();
 			} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		server = new Server(port, 1);
+		Boss.characterKill = 0;
+		Tower.characterKill = 0;
+		
+		// read playerNum
+		Scanner scan = new Scanner(System.in);
+		int playerNum = scan.nextInt();
+		scan.close();
+		
+		server = new Server(port, playerNum);
 	}
 	
 }
