@@ -41,6 +41,7 @@ public class ServerMain {
 		Tower.characterKill = 0;
 		
 		// read playerNum
+		System.out.println("Please enter player number.");
 		Scanner scan = new Scanner(System.in);
 		int playerNum = scan.nextInt();
 		scan.close();
