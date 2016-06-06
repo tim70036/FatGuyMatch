@@ -32,7 +32,7 @@ public class ServerMain {
 				s.join();
 			} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		server = new Server(port++, 1);
+		server = new Server(port, 1);
 	}
 	
 }

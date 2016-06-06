@@ -95,6 +95,12 @@ public class Server {
 				
 			} catch (IOException e) {e.printStackTrace();}
 		}
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Server stops waiting for client.");
 		
 		
@@ -499,7 +505,16 @@ public class Server {
 						playerName = command;
 					}
 					
-				} catch (IOException e) {e.printStackTrace();}
+				} catch (Exception e) 
+				{
+					break;
+				}
+			}
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		

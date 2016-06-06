@@ -604,10 +604,12 @@ public class Client extends PApplet{
 						
 						bossScore = reader.readLine();
 						towerScore = reader.readLine();
+						socket.close();
 						
 						// Reset state
 						isRunning = false;
 						isGameOver = true;
+						
 						
 						
 					}

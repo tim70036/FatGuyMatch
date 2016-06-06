@@ -20,7 +20,7 @@ public class ClientMain extends JFrame{
 	{
 		if(window != null)	window.dispose();
 		if(applet != null)	applet.destroy();
-		applet = new Client( "127.0.0.1", port++, windowWidth, windowHeight);
+		applet = new Client( "127.0.0.1", port, windowWidth, windowHeight);
 		applet.init();
 		applet.start();
 		applet.setFocusable(true);
