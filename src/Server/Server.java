@@ -217,6 +217,11 @@ public class Server {
 					lastAttackPlayerID = ((Boss)e).lastAttackPlayerID;
 			
 			broadCast("Game Over");
+			
+			// Send Score
+			String winner = threadPool.get(lastAttackPlayerID).playerName;
+			broadCast(winner);
+			
 			for(int i=0 ; i<playerNum ; i++)
 			{
 				// Player Name , Data
@@ -227,8 +232,11 @@ public class Server {
 				broadCast(Integer.toString(towerKill));
 			}
 			
-			String winner = threadPool.get(lastAttackPlayerID).playerName;
-				broadCast(winner);
+			int bossScore = Boss.characterKill;
+			int towerScore = Tower.characterKill;
+			broadCast(Integer.toString(bossScore));
+			broadCast(Integer.toString(towerScore));
+			
 			
 			System.out.println("Server stops game thread. ");
 		}

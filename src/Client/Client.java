@@ -48,6 +48,8 @@ public class Client extends PApplet{
 	private boolean isInMenu;
 	
 	private String winner;
+	private String bossScore;
+	private String towerScore;
 	private ArrayList<String>	scoreBoard;
 	
 	// parameters
@@ -369,12 +371,16 @@ public class Client extends PApplet{
 			{
 				if(ch.playerID == ID)
 				{
-					this.text("Winner is " + winner + " !!!", ch.getX() - winner.length() * 7 - 150, ch.getY()- 100);
+					// Show text
+					this.text("Winner is " + winner + " !!!", ch.getX() - winner.length() * 7 - 150, ch.getY()- 300);
+					this.text("Boss kills " + bossScore + " players!!!", ch.getX() - bossScore.length() * 7 - 230, ch.getY()- 200);
+					this.text("Tower kills " + towerScore + " players!!!", ch.getX() - towerScore.length() * 7 - 240, ch.getY()- 100);
 					for(int i=0 ; i<playerNum ; i++)
 					{
 						String score = scoreBoard.get(i);
 						this.text(score, ch.getX() - score.length() * 7, ch.getY()+ (i * 30) - 20);
 					}
+					
 				}
 			}	
 		}
@@ -435,6 +441,9 @@ public class Client extends PApplet{
 					}
 					else if(command.equals("Game Over"))
 					{
+						command = reader.readLine();
+						winner = command;
+						
 						// Reset score board
 						scoreBoard = new ArrayList<String>();
 						
@@ -446,9 +455,10 @@ public class Client extends PApplet{
 							scoreBoard.add(playerName + "  :  " + characterKill + "     " + towerKill);
 						}
 						
-						command = reader.readLine();
-						winner = command;
+						bossScore = reader.readLine();
+						towerScore = reader.readLine();
 						
+						// Reset state
 						isRunning = false;
 						isGameOver = true;
 						

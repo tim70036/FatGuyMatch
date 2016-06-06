@@ -310,6 +310,20 @@ public class Character extends Entity
 				{
 					frame=10;
 					dieTime = 0;
+					
+					// Record score
+					if(this.lastAttackID > -1)
+					{
+						this.getHandler().getCharacter().get(lastAttackID).characterKill += 1;
+					}
+					else if(this.lastAttackID == -1) // Tower kill
+					{
+						Tower.characterKill++;
+					}
+					else if(this.lastAttackID == -2) // Boss kill
+					{
+						Boss.characterKill++;
+					}
 				}
 				// Died ---> put shit
 				else if(frame==14)
@@ -323,22 +337,6 @@ public class Character extends Entity
 					
 					// Reset Effect
 					inTrail = false;
-					
-					// Record
-					if(this.lastAttackID > -1)
-					{
-						this.getHandler().getCharacter().get(lastAttackID).characterKill += 1;
-					}
-					else if(this.lastAttackID == -1) // Tower kill
-					{
-						Tower.characterKill++;
-					}
-					else if(this.lastAttackID == -2) // Boss kill
-					{
-						Boss.characterKill++;
-					}
-					
-					
 					
 					// Revive
 					setX(200);
