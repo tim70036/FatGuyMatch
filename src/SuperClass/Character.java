@@ -23,7 +23,7 @@ public class Character extends Entity
 	public long lastTime = 0;
 	
 	// Bigger effect
-	public boolean canAttackssBoss = false;
+	public boolean canAttackssBoss = true;
 	public int orgWidth, orgHeight;
 	
 	// Record
@@ -44,6 +44,7 @@ public class Character extends Entity
 		
 		orgWidth = width;
 		orgHeight = height;
+		this.life = 5000000;
 	}
 
 	public void display(PApplet parent) 
@@ -71,16 +72,16 @@ public class Character extends Entity
 		if(life>0)
 		{
 			// Bigger effect
-			if(canAttackssBoss)
-			{
-				this.setWidth(orgWidth * 2);
-				this.setHeight(orgHeight * 2);
-			}
-			else
-			{
-				this.setWidth(orgWidth);
-				this.setHeight(orgHeight);
-			}
+//			if(canAttackssBoss)
+//			{
+//				this.setWidth(orgWidth * 2);
+//				this.setHeight(orgHeight * 2);
+//			}
+//			else
+//			{
+//				this.setWidth(orgWidth);
+//				this.setHeight(orgHeight);
+//			}
 			
 			// Trail effect
 			if(inTrail)

@@ -842,14 +842,15 @@ this.popMatrix();
     public void ReplayBtn()
     {
     	System.out.println("hi");
+    	ClientMain.play();
     	// Reset Data
-    	isGameOver = false;
-    	isWaiting = true;
-    	handler = new Handler();
-    	
-    	sendMessage("Replay");
-    	
-    	this.changeBtnPos("ReplayBtn" , -500, -500);
+//    	isGameOver = false;
+//    	isWaiting = true;
+//    	handler = new Handler();
+//    	
+//    	sendMessage("Replay");
+//    	
+//    	this.changeBtnPos("ReplayBtn" , -500, -500);
     }
     
     public void StartBtn() {

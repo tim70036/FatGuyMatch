@@ -32,7 +32,7 @@ public class Boss extends Entity {
 	public Boss(int x, int y, int width, int height, Type type, boolean solid, Handler handler) 
 	{
 		super(x, y, width, height, type, solid, handler);
-		life = 5000;
+		life = 50;
 		//which place it is located
 	}
 	
