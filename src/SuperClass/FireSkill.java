@@ -27,7 +27,7 @@ public class FireSkill extends Skill{
 		{
 			delay++;
 			
-			if(delay>8)
+			if(delay>5)
 			{
 				frame++;
 				delay=0;

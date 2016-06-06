@@ -82,7 +82,7 @@ public class Boss extends Entity {
 								thunder.playerID = -2;
 								thunder.setX(this.getX());
 								thunder.setY(this.getY());
-								thunder.setVelX( (e.getX() - this.getX()) / 15 );
+								thunder.setVelX( (e.getX() - this.getX() - 50) / 15 );
 								thunder.setVelY( (e.getY() - this.getY()) / 15 );
 								
 								lastTime = nowTime;
@@ -125,7 +125,7 @@ public class Boss extends Entity {
 							dark.playerID = -2;
 							dark.setX(this.getX());
 							dark.setY(this.getY());
-							dark.setVelX( (target.getX() - this.getX()) / 15 );
+							dark.setVelX( (target.getX() - this.getX() - 50) / 15 );
 							dark.setVelY( (target.getY() - this.getY()) / 15 );
 							
 							break;

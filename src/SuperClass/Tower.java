@@ -69,10 +69,10 @@ public class Tower extends Entity {
 						{
 							LazerSkill lazer = (LazerSkill) s;
 							lazer.used = true;
-							lazer.setX(this.getX());
+							lazer.setX(this.getX() + this.getWidth()/2);
 							lazer.setY(this.getY());
-							lazer.setVelX( (e.getX() - this.getX()) / 5 );
-							lazer.setVelY( (e.getY() - this.getY()) / 5 );
+							lazer.setVelX( (e.getX() - this.getX() - 50) / 20 );
+							lazer.setVelY( (e.getY() - this.getY()) / 20 );
 							lastTime = nowTime;
 							break;
 						}

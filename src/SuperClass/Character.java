@@ -44,7 +44,7 @@ public class Character extends Entity
 
 		//draw character
 		parent.fill(0);
-		parent.image(Client.player[characterID][frame].getImage(), this.getX(), this.getY());
+		parent.image(Client.player[characterID][frame].getImage(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		
 		//draw life bar
 		parent.fill(123,15,3);

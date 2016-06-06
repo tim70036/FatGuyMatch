@@ -104,6 +104,9 @@ public class Client extends PApplet{
 	// Shit
 	public static PImage shitImage;
 	
+	// Lazer
+	public static PImage lazerImage;
+	
 	// Normal attack
 	public static PImage normalAttack[][];
 	
@@ -215,6 +218,10 @@ public class Client extends PApplet{
 		// Shit
 		shitImage = this.loadImage("shit.png");
 		shitImage.resize(50, 50);
+		
+		// Lazer
+		lazerImage = this.loadImage("lazer.png");
+		lazerImage.resize(50, 50);
 		
 		// Normal attack
 		normalAttack = new PImage[4][2];

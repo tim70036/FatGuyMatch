@@ -15,12 +15,7 @@ public class LazerSkill extends Skill {
 	{
 		if(used == true)
 		{
-			parent.strokeWeight(5);
-			parent.stroke(255,127,80);
-			parent.fill(255);
-			parent.rect(getX(), getY(), getWidth(), getHeight());
-			parent.stroke(0);
-			parent.strokeWeight(1);
+			parent.image(Client.Client.lazerImage, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		}
 	}
 
@@ -30,7 +25,7 @@ public class LazerSkill extends Skill {
 		if(used == true)
 		{
 			delay++;
-			if(delay>100){
+			if(delay>5){
 				frame++;
 				delay=0;
 				setX(getX()+getVelX());
