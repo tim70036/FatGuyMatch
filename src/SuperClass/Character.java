@@ -220,7 +220,7 @@ public class Character extends Entity
 						{
 							this.lastAttackID = s.playerID;
 							s.die();
-							this.life -= 50;
+							this.life = (this.life - 50 < 0) ? 0 : this.life - 50;
 						}
 					}
 					else if(s.getType() == Type.LAZERSKILL)
@@ -229,7 +229,7 @@ public class Character extends Entity
 						{
 							this.lastAttackID = s.playerID;
 							s.die();
-							this.life -= 50;
+							this.life = (this.life - 50 < 0) ? 0 : this.life - 50;
 						}
 					}
 					else if(s.getType() == Type.MISSILE && s.playerID != this.playerID)
@@ -238,7 +238,7 @@ public class Character extends Entity
 						{
 							this.lastAttackID = s.playerID;
 							s.die();
-							this.life -= 50;
+							this.life = (this.life - 50 < 0) ? 0 : this.life - 50;
 						}
 					}
 					else if(s.getType() == Type.DARKSKILL)

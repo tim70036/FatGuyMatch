@@ -20,7 +20,7 @@ public class ServerMain {
 				{
 					try 
 					{
-						Thread.sleep((long) (5 * 10e6));
+						Thread.sleep((long) (5 * 10e3));
 					} catch (InterruptedException e) {e.printStackTrace();}
 				}
 			});
