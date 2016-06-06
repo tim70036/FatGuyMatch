@@ -123,17 +123,17 @@ public class Character extends Entity
 			setX(getX() + getVelX());
 			setY(getY() + getVelY());
 			
-//			if(getX() <= 0)	setX(0);
-//			if(getY() <= 0)	
-//			{
-//				if(jumping)
-//				{
-//					jumping = false;
-//					setVelY(0);
-//					gravity = 0.2;
-//					falling = true;
-//				}
-//			}
+			if(getX() <= 0 || getX() >= 4090)	setX(3136);
+			if(getY() <= 0 || getY() >= 4090)	
+			{
+				if(jumping)
+				{
+					jumping = false;
+					setVelY(288);
+					gravity = 0.2;
+					falling = true;
+				}
+			}
 			
 	
 			// Collision Detection
