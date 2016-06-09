@@ -10,6 +10,7 @@ import java.net.*;
 import java.util.*;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 import SuperClass.*;
 import SuperClass.Character;
@@ -48,7 +49,6 @@ public class Server {
 	
 	public Server(int port, int playerNum)
 	{
-		
 		Boss.characterKill = 0;
 		Tower.characterKill = 0;
 		
@@ -80,42 +80,50 @@ public class Server {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {e.printStackTrace();}
 		
-		// Accepting clients until every player is connected
-		System.out.println("Server starts waiting for client.");
-		while(true)
-		{
-			try 
+		// Need another thread for while loop, otherwise EDT will GG
+		Thread thread = new Thread (new Runnable(){
+			
+			public void run()
 			{
-				Socket client = serverSocket.accept();
-				System.out.println("\nAccpet player " + threadPool.size() + "\nFrom address: " + client.getInetAddress() + "\n");
+				// Accepting clients until every player is connected
+				ServerMain.addLine("Server starts waiting for client.");
+				while(true)
+				{
+					try 
+					{
+						Socket client = serverSocket.accept();
+						ServerMain.addLine("\nAccpet player " + threadPool.size() + "\nFrom address: " + client.getInetAddress() + "\n");
+						
+						ServerThread connection = new ServerThread(client, threadPool.size()); // Make a ServerThread
+						connection.start(); // Start it
+						threadPool.add(connection); // Add into threadPool
+						
+						// Everyone is connected ?
+						if(threadPool.size() >= playerNum)	break;
+						
+					} catch (IOException e) {e.printStackTrace();}
+				}
+				try {
+					serverSocket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ServerMain.addLine("Server stops waiting for client.");
 				
-				ServerThread connection = new ServerThread(client, threadPool.size()); // Make a ServerThread
-				connection.start(); // Start it
-				threadPool.add(connection); // Add into threadPool
 				
-				// Everyone is connected ?
-				if(threadPool.size() >= playerNum)	break;
+				// wait characterID
+				while(CharacterID.size() < playerNum)
+				{
+					ServerMain.addLine("");
+				}
 				
-			} catch (IOException e) {e.printStackTrace();}
+				// Init Data
+				init();
+			}
 		}
-		try {
-			serverSocket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("Server stops waiting for client.");
-		
-		
-		// wait characterID
-		while(this.CharacterID.size() < playerNum)
-		{
-			System.out.println("");
-		}
-		
-		// Init Data
-		init();
-		
+		);
+		thread.start();
 	}
 	
 	public synchronized void init() // Init all object , and tell Clients to init the same thing
@@ -200,7 +208,7 @@ public class Server {
 		
 		public void run()
 		{
-			System.out.println("Server is starting game thread.");
+			ServerMain.addLine("Server is starting game thread.");
 			
 			// Sever too overload ?? Need FPS 60 ???? ---> The best is same FPS as CLient ---> FPS 120
 			long lastTime = System.nanoTime();
@@ -219,7 +227,7 @@ public class Server {
 				}
 					
 			}
-			System.out.println("Server stops game loop.");
+			ServerMain.addLine("Server stops game loop.");
 			
 			// Who kill the boss? 
 			int lastAttackPlayerID = -1;
@@ -252,10 +260,10 @@ public class Server {
 			broadCast(Integer.toString(towerScore));
 			
 			
-			System.out.println("Server stops game thread. ");
+			ServerMain.addLine("Server stops game thread. ");
 			
 			// Replay
-			ServerMain.play();
+			ServerMain.replay();
 		}
 	}
 	
@@ -383,20 +391,20 @@ public class Server {
 				try 
 				{
 					String command = reader.readLine();
-					//System.out.println("\nFrom client " + playerID);
-					//System.out.println(command);
+					//ServerMain.addLine("\nFrom client " + playerID);
+					//ServerMain.addLine(command);
 					
 					
 					if(command.equals("PlayerInput"))
 					{
 						command = reader.readLine();
-						//System.out.println(command);
+						//ServerMain.addLine(command);
 						
 						ch = handler.getCharacter().get(playerID);
 						if(command.equals("Press"))
 						{
 							command = reader.readLine();
-							//System.out.println(command);
+							//ServerMain.addLine(command);
 							
 							if(command.equals("W"))
 							{
@@ -482,7 +490,7 @@ public class Server {
 						if(command.equals("Release"))
 						{
 							command = reader.readLine();
-							//System.out.println(command);
+							//ServerMain.addLine(command);
 							
 							if(command.equals("A"))
 							{

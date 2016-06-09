@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import Client.Client;
+import Server.ServerMain;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -164,7 +165,7 @@ public class Boss extends Entity {
 		else 
 		{
 			Server.Server.isRunning = false;
-			System.out.println("Boss died, Game Over.");// God
+			ServerMain.addLine("Boss died, Game Over.");// God
 		}
 	}
 		
