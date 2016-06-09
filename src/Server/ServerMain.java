@@ -30,15 +30,12 @@ public class ServerMain {
 					} catch (InterruptedException e) {e.printStackTrace();}
 				}
 			});
-			
 			s.start();
 			try 
 			{
 				s.join();
 			} catch (InterruptedException e) {e.printStackTrace();}
 		}
-		Boss.characterKill = 0;
-		Tower.characterKill = 0;
 		
 		// read playerNum
 		System.out.println("Please enter player number.");

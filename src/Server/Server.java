@@ -49,6 +49,9 @@ public class Server {
 	public Server(int port, int playerNum)
 	{
 		
+		Boss.characterKill = 0;
+		Tower.characterKill = 0;
+		
 		this.port = port;
 		this.playerNum = playerNum;
 		
