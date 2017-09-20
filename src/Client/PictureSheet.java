@@ -13,7 +13,7 @@ public class PictureSheet {
 		}
 	}
 	
-	public PImage getPicture(int x,int y ){
-		return img.get(x*64,y*64 , 64, 64);
+	public PImage getPicture(int x,int y ,int r){
+		return img.get(x*r,y*r , r, r);
 	}
 }

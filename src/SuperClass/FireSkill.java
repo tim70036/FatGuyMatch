@@ -4,7 +4,7 @@ import Client.Client;
 import processing.core.PApplet;
 
 public class FireSkill extends Skill{
-
+	
 	public FireSkill(int x, int y, int width, int height, Type type, boolean solid, Handler handler) {
 		super(x, y, width, height, type, solid, handler);
 		// TODO Auto-generated constructor stub
@@ -13,9 +13,10 @@ public class FireSkill extends Skill{
 	@Override
 	public void display(PApplet parent) {
 		// TODO Auto-generated method stub
-		parent.fill(12,63,45);
-		parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		
+		if(used == true)
+		{
+			parent.image(Client.normalAttack[uniAttack][face], this.getX(), this.getY());
+		}
 	}
 
 	@Override
@@ -25,25 +26,21 @@ public class FireSkill extends Skill{
 		if(used == true)
 		{
 			delay++;
-			if(delay>500){
+			
+			if(delay>5)
+			{
 				frame++;
 				delay=0;
-				setVelX(15);
+				if(face==0)	setVelX(20);
+				else setVelX(-20);
 				setX(getX()+getVelX());
-				if(frame>50){
-					frame=0;
-					setX(100);
-					setY(0);
-					used = false;
-				}
 			}
-		}
-		// Skill done, back to origin x , y
-		else
-		{
-			setVelX(0);
-			//setX();
-			//setY();
+		
+			if(frame>40)
+			{
+				frame=0;
+				this.die();
+			}
 		}
 		
 	}

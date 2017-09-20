@@ -4,7 +4,6 @@ import processing.core.PApplet;
 
 public class LazerSkill extends Skill {
 	
-	private Entity target;
 
 	public LazerSkill(int x, int y, int width, int height, Type type, boolean solid, Handler handler) 
 	{
@@ -14,17 +13,29 @@ public class LazerSkill extends Skill {
 
 	public void display(PApplet parent) 
 	{
-		parent.strokeWeight(5);
-		parent.fill(255,127,80);
-		parent.line(getX(), getY(), target.getX(), target.getY());
-		parent.strokeWeight(1);
+		if(used == true)
+		{
+			parent.image(Client.Client.lazerImage, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		}
 	}
 
 	public void update()
 	{
-		
+		//Being used, fire or not
+		if(used == true)
+		{
+			delay++;
+			if(delay>5){
+				frame++;
+				delay=0;
+				setX(getX()+getVelX());
+				setY(getY()+getVelY());
+				if(frame>50){
+					frame=0;
+					this.die();
+				}
+			}
+		}
 	}
 
-	public void setTarget(Entity t){	this.target = t;	}
-	public Entity getTarget(){	return this.target;	}
 }

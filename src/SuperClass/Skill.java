@@ -13,13 +13,19 @@ public abstract class Skill {
 	private boolean solid;
 	public boolean jumping = false;
 	public boolean falling = true;
-	private Handler handler;
+	
+	private static Handler handler;
+	
+	public int playerID = -1;
 	
 	public double gravity = 0.0;
 	
+	// normal attack 
+	public int uniAttack;
+	
 	//animate
 	public int frame,delay,frameNum;
-	public boolean used;
+	public boolean used = false;
 	public int face;
 	
 	public int life;
@@ -38,7 +44,10 @@ public abstract class Skill {
 	
 	public void die()
 	{
-		handler.removeSkill(this);
+		this.used = false;
+		this.setX(-100);
+		this.setY(0);
+		this.playerID = -1;
 	}
 	
 	// For Collision Detection
@@ -84,8 +93,8 @@ public abstract class Skill {
 	public void setType(Type type) {this.type = type;}
 	public boolean isSolid() {return solid;}
 	public void setSolid(boolean solid) {this.solid = solid;}
-	public Handler getHandler() {return handler;}
-	public void setHandler(Handler handler) {this.handler = handler;}
+	public static Handler getHandler() {return handler;}
+	public static void setHandler(Handler handler) {Skill.handler = handler;}
 	public int getFrame(){ return this.frame;}
 	public void setFrame(int frame){ this.frame = frame;}
 }

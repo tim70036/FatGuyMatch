@@ -11,9 +11,7 @@ public class Wall extends Tile {
 	@Override
 	public void display(PApplet parent) 
 	{
-		parent.fill(100,0,0);
-		parent.rect(this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		parent.fill(255);
+		parent.image(Client.Client.wallImg, this.getX(), this.getY());
 	}
 
 	@Override
